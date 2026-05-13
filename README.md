@@ -2,6 +2,13 @@
 
 本目录用于集中维护可独立调用的量子算法实现。目前共整理出 28 个算法，按主题划分为 6 个类别：密码学、基础算法、哈密顿量模拟、线性代数、量子机器学习、Schrodingerization 方程求解。
 
+## 下载
+
+使用命令行pip
+```bash
+pip install unitarylab_algorithms
+```
+
 ## 当前算法清单
 
 ### 1. cryptology
