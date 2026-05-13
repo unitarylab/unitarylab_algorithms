@@ -1,0 +1,42 @@
+{
+    "title": "QSP",
+    "description": "Quantum Signal Processing algorithm for cos(t * x) evolution. Constructs polynomial transformations using optimized phase sequences.",
+    "tags": [
+        "Signal Processing",
+        "Polynomial Approximation",
+        "Phase Optimization"
+    ],
+    "tab": "Linear Algebra",
+    "params": [
+        {
+            "max": 10.0,
+            "min": 0.1,
+            "help": "Target evolution parameter τ for the cos(t * x) evolution.",
+            "name": "t",
+            "value": "7",
+            "pattern": "^\\d+(\\.\\d+)?$",
+            "description": "Evolution parameter τ",
+            "info": "请输入浮点数，如 7.0"
+        },
+        {
+            "max": 50,
+            "min": 5,
+            "help": "Polynomial degree for QSP approximation. Higher degree gives better accuracy but more gates.",
+            "name": "d",
+            "value": "10",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Polynomial degree",
+            "info": "请输入正整数，如 10"
+        },
+        {
+            "max": 1.0,
+            "min": -1.0,
+            "help": "Test eigenvalue x for accuracy verification (must be in [-1, 1]).",
+            "name": "x",
+            "value": "0.1",
+            "pattern": "^-?0?\\.?\\d+$|^-?1(\\.0+)?$",
+            "description": "Test eigenvalue x",
+            "info": "请输入浮点数，如 0.1，范围在-1到1之间"
+        }
+    ]
+}

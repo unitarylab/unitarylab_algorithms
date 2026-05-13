@@ -1,0 +1,38 @@
+{
+    "title": "LCU",
+    "description": "Linear Combination of Unitaries (LCU) algorithm allows for the implementation of non-unitary operators M = sum_j alpha_j U_j on quantum computers.",
+    "tags": [
+        "Non-unitary Evolution",
+        "Algorithm Embedding",
+        "Hamiltonian Simulation"
+    ],
+    "tab": "Linear Algebra",
+    "params": [
+        {
+            "help": "Weight coefficients alpha_j of unitary operators (comma-separated, e.g., '0.6, 0.4').",
+            "name": "alphas",
+            "value": "0.6, 0.4",
+            "pattern": "^[0-9., ]+$",
+            "description": "Weight coefficients",
+            "info": "请输入逗号分隔的数字，如 0.6, 0.4"
+        },
+        {
+            "help": "Corresponding Pauli unitary operator list (comma-separated, e.g., 'I, X').",
+            "name": "paulis",
+            "value": "I, X",
+            "pattern": "^[IXYZ, ]+$",
+            "description": "Pauli operators",
+            "info": "请输入逗号分隔的字符串，如 I, X"
+        },
+        {
+            "max": 10,
+            "min": 1,
+            "help": "The number of qubits in the system register.",
+            "name": "n",
+            "value": "1",
+            "pattern": "^[1-9]\\d*$",
+            "description": "System qubits",
+            "info": "请输入正整数，如 1"
+        }
+    ]
+}

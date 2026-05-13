@@ -1,0 +1,39 @@
+{
+    "title": "qDrift",
+    "description": "Stochastic Hamiltonian simulation using random sampling of Hamiltonian terms. Provides provable error bounds with simple implementation.",
+    "tags": [
+        "Stochastic Sampling",
+        "Random Compiler",
+        "Provable Error Bounds"
+    ],
+    "tab": "Hamiltonian Simulation",
+    "params": [
+        {
+            "help": "Hamiltonian to be simulated, represented as a Hermitan matrix. Must be provided as a 2D array.",
+            "name": "H",
+            "value": "[[2, 1], [1, 3]]",
+            "description": "Hamiltonian matrix H",
+            "info": "请输入二维数组（矩阵），如 [[2, 1], [1, 3]]"
+        },
+        {
+            "max": 10.0,
+            "min": 0.1,
+            "help": "Total evolution time for the Hamiltonian simulation.",
+            "name": "t",
+            "value": "1.0",
+            "pattern": "^\\d+(\\.\\d+)?$",
+            "description": "Evolution time t",
+            "info": "请输入浮点数，如 1.0"
+        },
+        {
+            "max": 100000,
+            "min": 1,
+            "help": "Number of steps in the simulation.",
+            "name": "steps",
+            "value": "5000",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Number of steps",
+            "info": "请输入正整数，范围在1到100000之间（如 5000）"
+        }
+    ]
+}

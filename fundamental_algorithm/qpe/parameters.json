@@ -1,0 +1,32 @@
+{
+    "title": "QPE",
+    "description": "Quantum Phase Estimation (QPE) algorithm is used to estimate the eigenvalues (phases) of unitary operators. It is a core component of many important quantum algorithms (such as Shor's algorithm and HHL algorithm).",
+    "tags": [
+        "Phase Estimation",
+        "Eigenvalue Computation",
+        "Quantum Fourier Transform"
+    ],
+    "tab": "Linear Algebra",
+    "params": [
+        {
+            "max": 1.0,
+            "min": 0.0,
+            "help": "The phase value phi to estimate (0 <= phi < 1). We will construct a phase gate P(2*pi*phi) as the operator to be estimated.",
+            "name": "phase",
+            "value": "0.25",
+            "pattern": "^0(\\.\\d+)?$|^1(\\.0+)?$",
+            "description": "Target phase phi",
+            "info": "请输入浮点数，范围在0到1之间（如 0.25）"
+        },
+        {
+            "max": 10,
+            "min": 1,
+            "help": "The number of ancillary qubits used for phase estimation, which determines the estimation accuracy (1/2^n).",
+            "name": "n",
+            "value": "3",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Precision bits",
+            "info": "请输入正整数，范围在1到10之间（如 3）"
+        }
+    ]
+}

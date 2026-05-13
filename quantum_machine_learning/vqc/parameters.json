@@ -1,0 +1,50 @@
+{
+    "title": "VQC",
+    "description": "Variational Quantum Classifier (VQC) using data re-uploading on the Iris dataset for 3-class classification via Pauli-Z expectation values.",
+    "tags": [
+        "Quantum Machine Learning",
+        "Classification",
+        "Variational Circuit"
+    ],
+    "tab": "Quantum Machine Learning",
+    "params": [
+        {
+            "max": 10,
+            "min": 1,
+            "help": "Number of parameterized ansatz layers (4 qubits fixed for Iris 4-feature input).",
+            "name": "layers",
+            "value": "5",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Variational layer depth",
+            "info": "请输入正整数，如 5，范围在1到10之间"
+        },
+        {
+            "max": 100,
+            "min": 1,
+            "help": "Number of full-dataset optimization passes.",
+            "name": "epochs",
+            "value": "20",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Training epochs",
+            "info": "请输入正整数，如 20，范围在1到100之间"
+        },
+        {
+            "help": "Adam optimizer learning rate. Typical range: 0.01–0.2.",
+            "name": "lr",
+            "value": "0.05",
+            "pattern": "^\\d+(\\.\\d+)?[eE]?-?\\d*$",
+            "description": "Learning rate",
+            "info": "请输入浮点数，如 0.05"
+        },
+        {
+            "max": 120,
+            "min": 1,
+            "help": "Number of samples per training mini-batch. Iris dataset has 120 training samples.",
+            "name": "batch_size",
+            "value": "16",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Batch size",
+            "info": "请输入正整数，如 16，范围在1到120之间"
+        }
+    ]
+}

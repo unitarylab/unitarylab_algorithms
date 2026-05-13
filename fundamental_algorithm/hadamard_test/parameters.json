@@ -1,0 +1,36 @@
+{
+    "title": "Hadamard Test",
+    "description": "Hadamard test is used to measure the real part of the expectation value of a quantum state under a unitary operator Re(<psi|U|psi>).",
+    "tags": [
+        "Expectation Value Measurement",
+        "Basic Circuit",
+        "Interferometer"
+    ],
+    "tab": "Fundamental",
+    "params": [
+        {
+            "help": "Psi is the quantum state vector.",
+            "name": "Psi",
+            "value": "[1, 2]",
+            "pattern": "",
+            "description": "Quantum state vector Psi of the Hadamard test",
+            "info": "请输入列表（如 [1, 2]）"
+        },
+        {
+            "help": "U is the unitary operator of the Hadamard test.",
+            "name": "U",
+            "value": "[[1, 0], [0, -1]]",
+            "pattern": "",
+            "description": "Observable U",
+            "info": "请输入二维酉矩阵，如 [[1, 0], [0, 1]]"
+        },
+        {
+            "help": "Number of shots for the quantum computation. If shots=0, the algorithm will return the exact expectation value without sampling.",
+            "name": "shots",
+            "value": "0",
+            "pattern": "^(0|[1-9]\\d*)$",
+            "description": "Number of shots",
+            "info": "请输入非负整数，0表示精确计算"
+        }
+    ]
+}

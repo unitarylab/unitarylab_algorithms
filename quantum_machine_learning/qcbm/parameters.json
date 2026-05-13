@@ -1,0 +1,50 @@
+{
+    "title": "QCBM",
+    "description": "Quantum Circuit Born Machine (QCBM) learns discrete probability distributions (2×2 Bars and Stripes) by minimizing KL divergence via the Parameter Shift Rule.",
+    "tags": [
+        "Quantum Machine Learning",
+        "Generative Model",
+        "Born Machine"
+    ],
+    "tab": "Quantum Machine Learning",
+    "params": [
+        {
+            "max": 8,
+            "min": 2,
+            "help": "Number of qubits.",
+            "name": "n",
+            "value": "4",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Number of qubits",
+            "info": "请输入正整数，如 4，范围在2到8之间"
+        },
+        {
+            "max": 10,
+            "min": 1,
+            "help": "Number of parameterized layers in the variational quantum circuit.",
+            "name": "layers",
+            "value": "4",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Variational layer depth",
+            "info": "请输入正整数，如 4，范围在1到10之间"
+        },
+        {
+            "max": 200,
+            "min": 1,
+            "help": "Number of KL-divergence minimization iterations.",
+            "name": "epochs",
+            "value": "40",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Training epochs",
+            "info": "请输入正整数，如 40，范围在1到200之间"
+        },
+        {
+            "help": "Adam optimizer learning rate. Typical range: 0.01–0.3.",
+            "name": "lr",
+            "value": "0.1",
+            "pattern": "^\\d+(\\.\\d+)?[eE]?-?\\d*$",
+            "description": "Learning rate",
+            "info": "请输入浮点数，如 0.1"
+        }
+    ]
+}

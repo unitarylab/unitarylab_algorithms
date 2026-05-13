@@ -1,0 +1,171 @@
+{
+    "params": [
+        {
+            "boundary_condition": [
+                {
+                    "latex": "$u(0, y, t) = u(L, y, t) = 0, \\quad u(x, 0, t) = u(x, L, t) = 0$",
+                    "name": "Dirichlet boundary",
+                    "par_fix": [],
+                    "par_func": [],
+                    "type": "boundaryCondition_dirichlet"
+                },
+                {
+                    "latex": "$u(0, y, t) = u(L, y, t), \\quad u(x, 0, t) = u(x, L, t)$",
+                    "name": "Periodic boundary",
+                    "par_fix": [],
+                    "par_func": [],
+                    "type": "boundaryCondition_periodic"
+                }
+            ],
+            "discrete_format": [
+                {
+                    "latex": "$\\Delta u_{i} \\approx \\frac{\\Delta t}{\\Delta x^2} (u_{i+1}^{n} - 2u_{i}^{n} + u_{i-1}^{n})$",
+                    "name": "Central difference scheme",
+                    "par_fix": [
+                        {
+                            "description": "Number of spatial qubits",
+                            "help": "nx (which can take multiple values) specifies the number of spatial qubits, controlling the precision of the spatial discretization.",
+                            "name": "nx",
+                            "value": "4",
+                            "min": 1,
+                            "max": 10,
+                            "pattern": "^[1-9]\\d*$"
+                        }
+                    ],
+                    "par_func": [],
+                    "type": "discreteFormat_central"
+                }
+            ],
+            "equation": {
+                "boundary_condition": "boundaryCondition_dirichlet",
+                "discrete_format": "discreteFormat_central",
+                "hamiltonian": "hamiltonian_original",
+                "initial_condition": "initialCondition_custom",
+                "method_list": [
+                    "solutionMethod_classical",
+                    "solutionMethod_trotter"
+                ],
+                "group_index": "heat",
+                "latex": "$\\frac{\\partial u}{\\partial t} = a_1 \\frac{\\partial^2 u}{\\partial x^2} + a_2 \\frac{\\partial^2 u}{\\partial y^2}$",
+                "name": "2D Forward heat equation",
+                "par_fix": [
+                    {
+                        "description": "x-axis Diffusion coefficient",
+                        "help": "a1 is the coefficient of the heat equation, which determines the speed of heat diffusion in x dimension. It requires a1 > 0.",
+                        "name": "a1",
+                        "value": "1",
+                        "min": 0,
+                        "max": 100,
+                        "exclusiveMin": true,
+                        "pattern": "^[+]?(0|[1-9]\\d*)(\\.\\d+)?([eE][+-]?\\d+)?$"
+                    },
+                    {
+                        "description": "y-axis Diffusion coefficient",
+                        "help": "a2 is the coefficient of the heat equation, which determines the speed of heat diffusion in y dimension. It requires a2 > 0.",
+                        "name": "a2",
+                        "value": "1",
+                        "min": 0,
+                        "max": 100,
+                        "exclusiveMin": true,
+                        "pattern": "^[+]?(0|[1-9]\\d*)(\\.\\d+)?([eE][+-]?\\d+)?$"
+                    },
+                    {
+                        "description": "Computational domain length",
+                        "help": "L is the length of the computational domain, and the default computational domain is [0, L].",
+                        "name": "L",
+                        "value": "17",
+                        "min": 0,
+                        "max": 100,
+                        "exclusiveMin": true,
+                        "pattern": "^[+]?(0|[1-9]\\d*)(\\.\\d+)?([eE][+-]?\\d+)?$"
+                    },
+                    {
+                        "description": "Final time",
+                        "help": "T is the final time of the simulation.",
+                        "name": "T",
+                        "value": "1",
+                        "min": 0,
+                        "max": 100,
+                        "exclusiveMin": true,
+                        "pattern": "^[+]?(0|[1-9]\\d*)(\\.\\d+)?([eE][+-]?\\d+)?$"
+                    }
+                ],
+                "par_func": [],
+                "type": "equation_heat2d"
+            },
+            "hamiltonian": [
+                {
+                    "description": "Preprocessing",
+                    "help": "Some equations need to be transformed into a better formulation. For details, see the documentation",
+                    "latex": "$H = \\hat{\\eta} \\otimes H_1 + I \\otimes H_2, \\quad H_1 = - \\left( a_1 \\hat{p}_x^2 + a_2 \\hat{p}_y^2 \\right), \\quad H_2 = 0$",
+                    "name": "No pre-processing is required",
+                    "type": "hamiltonian_original",
+                    "derivative": [
+                        {
+                            "parameter_indicator": "xx",
+                            "parameter_coefficient": "a1"
+                        },
+                        {
+                            "parameter_indicator": "yy",
+                            "parameter_coefficient": "a2"
+                        }
+                    ]
+                }
+            ],
+            "initial_condition": [
+                {
+                    "latex": "$u(x, y, 0) = u_0(x, y)$",
+                    "name": "Customized initial function",
+                    "par_fix": [],
+                    "par_func": [
+                        {
+                            "description": "Customized initial function",
+                            "help": "u0(x, y) is the initial function. ",
+                            "latex": "$u_0(x, y) = \\sin(2\\pi x/L) * \\sin(2\\pi y/L)$",
+                            "name": "u0(x, y)",
+                            "value": "sin(2*pi*x/L) * sin(2*pi*y/L)",
+                            "par": []
+                        }
+                    ],
+                    "type": "initialCondition_custom"
+                }
+            ],
+            "type": "heat2d"
+        },
+        {
+            "help": "The hamiltonian evolution is classically implemented, i.e., use scipy.expm to compute the matrix exponential.",
+            "latex": "$\\frac{\\partial u}{\\partial t} = -i (\\eta H_1 + H_2) u$",
+            "name": "Classical implementation",
+            "par_fix": [
+                {
+                    "description": "Number of ancilla qubits",
+                    "help": "na (which can take multiple values) specifies the number of ancilla qubits, governing the discretization accuracy of the parameter p in the Schrödingerization method.",
+                    "name": "na",
+                    "value": "8",
+                    "min": 1,
+                    "max": 10,
+                    "pattern": "^[1-9]\\d*$"
+                },
+                {
+                    "description": "Length of p region",
+                    "help": "p is truncated in [-pi*R, pi*R], which is the domain of the parameter p in the Schrödingerization method.",
+                    "name": "R",
+                    "value": "4",
+                    "min": 0,
+                    "max": 100,
+                    "exclusiveMin": true,
+                    "pattern": "^[+]?(0|[1-9]\\d*)(\\.\\d+)?([eE][+-]?\\d+)?$"
+                },
+                {
+                    "description": "Recover point",
+                    "help": "After the Schrödingerization method, the solution is recovered at the point p. If p is not specified, the default value is 1.",
+                    "name": "p",
+                    "value": "1",
+                    "pattern": "^[+-]?(0|[1-9]\\d*)(\\.\\d+)?([eE][+-]?\\d+)?$"
+                }
+            ],
+            "par_func": [],
+            "type": "solutionMethod_classical"
+        }
+    ]
+}

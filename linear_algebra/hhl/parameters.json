@@ -1,0 +1,38 @@
+{
+    "title": "HHL",
+    "description": "HHL algorithm is used to solve systems of linear equations Ax = b, providing exponential speedup over classical algorithms under certain conditions.",
+    "tags": [
+        "Linear Algebra",
+        "Matrix Inversion",
+        "Exponential Speedup"
+    ],
+    "tab": "Linear Algebra",
+    "params": [
+        {
+            "help": "A is matrix in the system of linear equations Ax = b.",
+            "name": "A",
+            "value": "[[0.8, 0], [0, 0.4]]",
+            "pattern": "",
+            "description": "Matrix A",
+            "info": "请输入二维数组（矩阵），如 [[0.8, 0], [0, 0.4]]"
+        },
+        {
+            "help": "b is the right-hand side vector in the system of linear equations Ax = b.",
+            "name": "b",
+            "value": "[1, 2]",
+            "pattern": "",
+            "description": "Right-hand side vector b",
+            "info": "请输入数组，如 [1, 2]"
+        },
+        {
+            "max": 15,
+            "min": 7,
+            "help": "The number of bits in the phase register, which determines the solution accuracy.",
+            "name": "d",
+            "value": "11",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Precision bits",
+            "info": "请输入正整数，如 11"
+        }
+    ]
+}

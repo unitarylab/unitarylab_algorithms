@@ -1,0 +1,172 @@
+{
+    "request_id": "test-002",
+    "params": [
+        {
+            "boundary_condition": [
+                {
+                    "latex": "$u(0, t) = 0, u(L, t) = 0$",
+                    "name": "Dirichlet boundary",
+                    "par_fix": [],
+                    "par_func": [],
+                    "type": "boundaryCondition_dirichlet"
+                },
+                {
+                    "latex": "$u(0, t) = u(L, t)$",
+                    "name": "Periodic boundary",
+                    "par_fix": [],
+                    "par_func": [],
+                    "type": "boundaryCondition_periodic"
+                }
+            ],
+            "discrete_format": [
+                {
+                    "latex": "$\\Delta u_{i} \\approx \\frac{\\Delta t}{\\Delta x^2} (u_{i+1}^{n} - 2u_{i}^{n} + u_{i-1}^{n})$",
+                    "name": "Central difference scheme",
+                    "par_fix": [
+                        {
+                            "description": "Number of spatial qubits",
+                            "help": "nx (which can take multiple values) specifies the number of spatial qubits, controlling the precision of the spatial discretization.",
+                            "name": "nx",
+                            "value": "5",
+                            "min": 1,
+                            "max": 10,
+                            "pattern": "^[1-9]\\d*$"
+                        }
+                    ],
+                    "par_func": [],
+                    "type": "discreteFormat_central"
+                }
+            ],
+            "equation": {
+                "boundary_condition": "boundaryCondition_dirichlet",
+                "discrete_format": "discreteFormat_central",
+                "preprocessing": "preprocessing_original",
+                "initial_condition": "initialCondition_custom",
+                "method_list": [
+                    "solutionMethod_classical",
+                    "solutionMethod_trotter",
+                    "solutionMethod_block"
+                ],
+                "group_index": "heat",
+                "latex": "$\\frac{\\partial u}{\\partial t} = a \\frac{\\partial^2 u}{\\partial x^2}$",
+                "name": "1D Forward heat equation",
+                "par_fix": [
+                    {
+                        "description": "Diffusion coefficient",
+                        "help": "a is the coefficient of the heat equation, which determines the speed of heat diffusion. It requires a > 0.",
+                        "name": "a",
+                        "value": "1",
+                        "min": 0,
+                        "max": 100,
+                        "exclusiveMin": true,
+                        "pattern": "^[+]?(0|[1-9]\\d*)(\\.\\d+)?([eE][+-]?\\d+)?$"
+                    },
+                    {
+                        "description": "Computational domain length",
+                        "help": "L is the length of the computational domain, and the default computational domain is [0, L].",
+                        "name": "L",
+                        "value": "17",
+                        "min": 0,
+                        "max": 100,
+                        "exclusiveMin": true,
+                        "pattern": "^[+]?(0|[1-9]\\d*)(\\.\\d+)?([eE][+-]?\\d+)?$"
+                    },
+                    {
+                        "description": "Final time",
+                        "help": "T is the final time of the simulation.",
+                        "name": "T",
+                        "value": "1",
+                        "min": 0,
+                        "max": 100,
+                        "exclusiveMin": true,
+                        "pattern": "^[+]?(0|[1-9]\\d*)(\\.\\d+)?([eE][+-]?\\d+)?$"
+                    }
+                ],
+                "par_func": [
+                    {
+                        "description": "Source term function",
+                        "help": "f(x) is the source term function of the heat equation, which determines distribution of heat source.",
+                        "latex": "$f(x) = 0$",
+                        "name": "f(x)",
+                        "par": [],
+                        "value": "a+x"
+                    }
+                ],
+                "type": "equation_heat"
+            },
+            "preprocessing": [
+                {
+                    "description": "Preprocessing",
+                    "help": "Some equations need to be transformed into a better formulation. For details, see the documentation",
+                    "latex": "$H = \\hat{\\eta} \\otimes H_1 + I \\otimes H_2, \\quad H_1 = - a \\hat{p}^2, \\quad H_2 = 0$",
+                    "name": "No pre-processing is required",
+                    "type": "preprocessing_original",
+                    "derivative": [
+                        {
+                            "parameter_indicator": "xx",
+                            "parameter_coefficient": "a"
+                        },
+                        {
+                            "parameter_indicator": "f",
+                            "parameter_coefficient": "f(x)"
+                        }
+                    ]
+                }
+            ],
+            "initial_condition": [
+                {
+                    "latex": "$u(x, 0) = u_0(x)$",
+                    "name": "Customized initial function",
+                    "par_fix": [],
+                    "par_func": [
+                        {
+                            "description": "Customized initial function",
+                            "help": "u0(x) is the initial function. ",
+                            "latex": "$u_0(x) = \\sin(2\\pi x/L)$",
+                            "name": "u0(x)",
+                            "value": "sin(2*pi*x/L)",
+                            "par": []
+                        }
+                    ],
+                    "type": "initialCondition_custom"
+                }
+            ],
+            "type": "heat"
+        },
+        {
+            "help": "The hamiltonian evolution is classically implemented, i.e., use scipy.expm to compute the matrix exponential.",
+            "latex": "$\\frac{\\partial u}{\\partial t} = -i (\\eta H_1 + H_2) u$",
+            "name": "Classical implementation",
+            "par_fix": [
+                {
+                    "description": "Number of ancilla qubits",
+                    "help": "na (which can take multiple values) specifies the number of ancilla qubits, governing the discretization accuracy of the parameter p in the Schrödingerization method.",
+                    "name": "na",
+                    "value": "8",
+                    "min": 1,
+                    "max": 10,
+                    "pattern": "^[1-9]\\d*$"
+                },
+                {
+                    "description": "Length of p region",
+                    "help": "p is truncated in [-pi*R, pi*R], which is the domain of the parameter p in the Schrödingerization method.",
+                    "name": "R",
+                    "value": "4",
+                    "min": 0,
+                    "max": 100,
+                    "exclusiveMin": true,
+                    "pattern": "^[+]?(0|[1-9]\\d*)(\\.\\d+)?([eE][+-]?\\d+)?$"
+                },
+                {
+                    "description": "Recover point",
+                    "help": "After the Schrödingerization method, the solution is recovered at the point p. If p is not specified, the default value is 1.",
+                    "name": "p",
+                    "value": "1",
+                    "pattern": "^[+-]?(0|[1-9]\\d*)(\\.\\d+)?([eE][+-]?\\d+)?$"
+                }
+            ],
+            "par_func": [],
+            "type": "solutionMethod_classical"
+        }
+    ]
+}

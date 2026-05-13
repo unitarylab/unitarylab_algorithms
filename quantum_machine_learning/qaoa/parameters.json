@@ -1,0 +1,50 @@
+{
+    "title": "QAOA",
+    "description": "Quantum Approximate Optimization Algorithm (QAOA) for solving the Max-Cut combinatorial optimization problem on a user-defined graph.",
+    "tags": [
+        "Quantum Optimization",
+        "Max-Cut",
+        "Combinatorial Optimization"
+    ],
+    "tab": "Quantum Machine Learning",
+    "params": [
+        {
+            "max": 12,
+            "min": 2,
+            "help": "Number of qubits, corresponding to the number of vertices in the graph.",
+            "name": "n",
+            "value": "6",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Number of qubits",
+            "info": "请输入正整数，范围在2到12之间（如 6）"
+        },
+        {
+            "max": 10,
+            "min": 1,
+            "help": "Number of QAOA evolution layers (p). Higher p yields a better approximation ratio.",
+            "name": "layers",
+            "value": "4",
+            "pattern": "^[1-9]\\d*$",
+            "description": "QAOA layers (p)",
+            "info": "请输入正整数，范围在1到10之间（如 4）"
+        },
+        {
+            "max": 500,
+            "min": 10,
+            "help": "Maximum number of COBYLA classical optimizer iterations.",
+            "name": "max_iter",
+            "value": "100",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Max optimizer iterations",
+            "info": "请输入正整数，如 100"
+        },
+        {
+            "help": "Edge list defining the graph topology, e.g. [[0,1],[1,2],[2,3],[3,0],[0,4],[1,5]].",
+            "name": "edges",
+            "value": "[[0,1],[1,2],[2,3],[3,0],[0,4],[1,5]]",
+            "pattern": "",
+            "description": "Graph edges",
+            "info": "请输入二维数组，如 [[0,1],[1,2],[2,3],[3,0],[0,4],[1,5]]"
+        }
+    ]
+}

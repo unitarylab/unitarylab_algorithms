@@ -1,0 +1,22 @@
+{
+    "title": "Hadamard Transform",
+    "description": "Hadamard transform is one of the most fundamental transformations in quantum computing, used for preparing superposition states or performing basis transformations.",
+    "tags": [
+        "Superposition State Preparation",
+        "Basis Transformation",
+        "Basic Circuit"
+    ],
+    "tab": "Fundamental",
+    "params": [
+        {
+            "max": 10,
+            "min": 1,
+            "help": "The number of qubits.",
+            "name": "n",
+            "value": "3",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Number of qubits",
+            "info": "请输入正整数，范围在1到10之间（如 3）"
+        }
+    ]
+}

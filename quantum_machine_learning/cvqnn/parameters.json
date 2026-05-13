@@ -1,0 +1,50 @@
+{
+    "title": "CVQNN",
+    "description": "Continuous Variable Quantum Neural Network (CVQNN) for binary classification using phase-space quantum operations on the make_moons dataset.",
+    "tags": [
+        "Quantum Machine Learning",
+        "Continuous Variable",
+        "Classification"
+    ],
+    "tab": "Quantum Machine Learning",
+    "params": [
+        {
+            "max": 8,
+            "min": 1,
+            "help": "Number of variational layers in the CV quantum circuit.",
+            "name": "layers",
+            "value": "2",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Variational layer depth",
+            "info": "请输入正整数，如 2，范围在1到8之间"
+        },
+        {
+            "max": 12,
+            "min": 3,
+            "help": "Truncation dimension of the Fock space for CV simulation. Higher values improve accuracy but increase cost.",
+            "name": "cutoff",
+            "value": "6",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Fock truncation dimension",
+            "info": "请输入正整数，如 6，范围在3到12之间"
+        },
+        {
+            "max": 200,
+            "min": 1,
+            "help": "Number of gradient-descent optimization iterations.",
+            "name": "epochs",
+            "value": "40",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Training epochs",
+            "info": "请输入正整数，如 40，范围在1到200之间"
+        },
+        {
+            "help": "Learning rate for the Adam optimizer. Typical range: 0.001–0.1.",
+            "name": "lr",
+            "value": "0.05",
+            "pattern": "^\\d+(\\.\\d+)?[eE]?-?\\d*$",
+            "description": "Learning rate",
+            "info": "请输入数字，如 0.05"
+        }
+    ]
+}

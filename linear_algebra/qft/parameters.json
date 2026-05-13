@@ -1,0 +1,36 @@
+{
+    "title": "QFT",
+    "description": "Quantum Fourier Transform (QFT) algorithm is used to perform the quantum Fourier transform on a quantum state. It is a fundamental building block in many quantum algorithms.",
+    "tags": [
+        "Quantum Fourier Transform"
+    ],
+    "tab": "Linear Algebra",
+    "params": [
+        {
+            "max": 10,
+            "min": 1,
+            "help": "The number of qubits for the QFT.",
+            "name": "n",
+            "value": "3",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Number of qubits (positive integer)",
+            "info": "请输入正整数，如 3"
+        },
+        {
+            "name": "state",
+            "help": "The input state for the QFT, represented as a list of complex numbers.",
+            "value": "[1, 0, 0, 0, 0, 0, 0, 0]",
+            "type": "list",
+            "description": "Input state (list of complex numbers)",
+            "info": "请输入数组，如 [1, 0, 0, 0, 0, 0, 0, 0]"
+        },
+        {
+            "name": "inverse",
+            "help": "Whether to perform the inverse QFT.",
+            "value": "False",
+            "type": "boolean",
+            "description": "Perform inverse QFT (True/False)",
+            "info": "请输入布尔值（True/False）"
+        }
+    ]
+}

@@ -1,0 +1,31 @@
+{
+    "title": "Amplitude Amplification",
+    "description": "Quantum Amplitude Amplification (QAA) algorithm is used to amplify the probability amplitude of target components in a quantum state.",
+    "tags": [
+        "Amplitude Amplification",
+        "Grover Iteration"
+    ],
+    "tab": "Fundamental",
+    "params": [
+        {
+            "max": 1.0,
+            "min": 0.0,
+            "help": "The initial probability p to amplify (0 <= p <= 1). We will construct a rotation gate to prepare the initial state with this success rate.",
+            "name": "p",
+            "value": "0.1",
+            "pattern": "^0(\\.\\d+)?$|^1(\\.0+)?$",
+            "description": "Initial probability",
+            "info": "请输入浮点数，范围在0到1之间（如 0.1）"
+        },
+        {
+            "max": 10,
+            "min": 1,
+            "help": "The number of repetitions for the amplitude amplification process.",
+            "name": "reps",
+            "value": "2",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Iteration count",
+            "info": "请输入正整数，范围在1到10之间（如 2）"
+        }
+    ]
+}

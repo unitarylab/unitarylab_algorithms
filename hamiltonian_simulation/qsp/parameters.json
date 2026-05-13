@@ -1,0 +1,39 @@
+{
+    "title": "QSP-based Hamiltonian Simulation",
+    "description": "Hamiltonian simulation using the Quantum Signal Processing (QSP) approach.",
+    "tags": [
+        "Quantum Signal Processing",
+        "Linear Combination of Unitaries",
+        "Chebyshev Polynomials"
+    ],
+    "tab": "Hamiltonian Simulation",
+    "params": [
+        {
+            "help": "Hamiltonian to be simulated, represented as a Hermitan matrix. Must be provided as a 2D array.",
+            "name": "H",
+            "value": "[[2, 1], [1, 3]]",
+            "description": "Hamiltonian matrix H",
+            "info": "请输入二维数组（矩阵），如 [[2, 1], [1, 3]]"
+        },
+        {
+            "max": 10.0,
+            "min": 0.1,
+            "help": "Total evolution time for the Hamiltonian simulation.",
+            "name": "t",
+            "value": "1.0",
+            "pattern": "^\\d+(\\.\\d+)?$",
+            "description": "Evolution time t",
+            "info": "请输入浮点数，如 1.0"
+        },
+        {
+            "max": 50,
+            "min": 1,
+            "help": "Degree of the approximating polynomial.",
+            "name": "degree",
+            "value": "15",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Approximation degree d",
+            "info": "请输入正整数，范围在1到50之间（如 15）"
+        }
+    ]
+}

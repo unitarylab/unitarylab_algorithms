@@ -1,0 +1,40 @@
+{
+    "title": "VQLS",
+    "description": "Variational Quantum Linear Solver for solving linear systems Ax = b using variational optimization. Works with A = c₀A₀ + c₁A₁ + c₂A₂.",
+    "tags": [
+        "Variational Algorithm",
+        "Linear Systems",
+        "Optimization"
+    ],
+    "tab": "Linear Algebra",
+    "params": [
+        {
+            "help": "Coefficients for linear combination of unitaries (c₀, c₁, c₂).",
+            "name": "coefficients",
+            "value": "[1.0, 0.2, 0.2]",
+            "pattern": "^\\[\\s*(0(\\.\\d+)?|1(\\.0+)?)(\\s*,\\s*(0(\\.\\d+)?|1(\\.0+)?))*\\s*\\]$",
+            "description": "Linear combination coefficients",
+            "info": "请输入列表（如 [1.0, 0.2, 0.2]）"
+        },
+        {
+            "max": 1000,
+            "min": 10,
+            "help": "Maximum number of classical optimization iterations for parameter tuning.",
+            "name": "max_iterations",
+            "value": "200",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Max iterations",
+            "info": "请输入正整数，如 200"
+        },
+        {
+            "max": 0.01,
+            "min": 1e-8,
+            "help": "Optimization convergence tolerance. Stops when cost function change is below this threshold.",
+            "name": "tolerance",
+            "value": "1e-6",
+            "pattern": "^\\d+(\\.\\d+)?[eE]?-?\\d*$",
+            "description": "Convergence tolerance",
+            "info": "请输入浮点数，如 1e-6"
+        }
+    ]
+}

@@ -1,0 +1,32 @@
+{
+    "title": "Amplitude Estimation",
+    "description": "Quantum Amplitude Estimation (QAE) algorithm is used to estimate the probability amplitude of target components in a quantum state. It is a core component of quantum finance, quantum Monte Carlo simulation, and other applications.",
+    "tags": [
+        "Amplitude Estimation",
+        "Quantum Monte Carlo",
+        "Grover Iteration"
+    ],
+    "tab": "Fundamental",
+    "params": [
+        {
+            "max": 1.0,
+            "min": 0.0,
+            "help": "The target probability p to estimate (0 <= p <= 1). We will construct a rotation gate to prepare the initial state with this success rate.",
+            "name": "p",
+            "value": "0.36",
+            "pattern": "^0(\\.\\d+)?$|^1(\\.0+)?$",
+            "description": "Target probability p",
+            "info": "请输入浮点数，范围在0到1之间（如 0.36）"
+        },
+        {
+            "max": 10,
+            "min": 1,
+            "help": "The number of ancillary qubits used for estimation, which determines the estimation accuracy.",
+            "name": "d",
+            "value": "6",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Precision bits",
+            "info": "请输入正整数，范围在1到10之间（如 6）"
+        }
+    ]
+}

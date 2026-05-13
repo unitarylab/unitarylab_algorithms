@@ -1,0 +1,42 @@
+{
+    "title": "Discrete Logarithm",
+    "description": "Quantum algorithm for solving discrete logarithm problems: finds x such that g^x ≡ y (mod P). Uses quantum phase estimation and classical post-processing.",
+    "tags": [
+        "Number Theory",
+        "Discrete Logarithm",
+        "Quantum Phase Estimation"
+    ],
+    "tab": "Cryptology",
+    "params": [
+        {
+            "max": 30,
+            "min": 2,
+            "help": "Base g for the discrete logarithm problem. Must be coprime with modulus P.",
+            "name": "g",
+            "value": "3",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Base g",
+            "info": "请输入正整数，与P互质"
+        },
+        {
+            "max": 100,
+            "min": 1,
+            "help": "Target value y in the equation g^x ≡ y (mod P). Must be coprime with P.",
+            "name": "y",
+            "value": "13",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Target value y",
+            "info": "请输入正整数，与P互质"
+        },
+        {
+            "max": 100,
+            "min": 3,
+            "help": "Modulus P (typically a prime number). Must be coprime with both g and y.",
+            "name": "P",
+            "value": "17",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Modulus P",
+            "info": "请输入质数"
+        }
+    ]
+}

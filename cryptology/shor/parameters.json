@@ -1,0 +1,30 @@
+{
+    "title": "Shor",
+    "description": "This is Shor's algorithm for integer factorization, which can efficiently factor large integers. It uses quantum Fourier transform and classical post-processing to find the prime factors of a composite number N.",
+    "tags": [
+        "RSA Key Algorithm",
+        "Quantum Fourier Transform",
+        "Integer Factorization"
+    ],
+    "tab": "Cryptology",
+    "params": [
+        {
+            "max": 300,
+            "min": 1,
+            "help": "N is the number to factorize.",
+            "name": "N",
+            "value": "15",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Number to factorize",
+            "info": "请输入正整数"
+        },
+        {
+            "help": "Methods can only be 'matrix' or 'operator'.",
+            "name": "method",
+            "value": "matrix",
+            "pattern": "^(matrix|operator)$",
+            "description": "Method to use",
+            "info": "请输入字符串：matrix 或 operator"
+        }
+    ]
+}

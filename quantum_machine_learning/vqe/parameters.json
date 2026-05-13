@@ -1,0 +1,42 @@
+{
+    "title": "VQE",
+    "description": "Variational Quantum Eigensolver (VQE) for finding the ground-state energy of a 2-qubit Ising Hamiltonian H = Z0Z1 - 0.5*X0 - 0.5*X1.",
+    "tags": [
+        "Quantum Chemistry",
+        "Variational Algorithm",
+        "Ground State"
+    ],
+    "tab": "Quantum Machine Learning",
+    "params": [
+        {
+            "max": 6,
+            "min": 2,
+            "help": "Number of qubits for the Ising Hamiltonian (currently fixed at 2 for the built-in model).",
+            "name": "n",
+            "value": "2",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Number of qubits",
+            "info": "请输入正整数，如 2，范围在2到6之间"
+        },
+        {
+            "max": 10,
+            "min": 1,
+            "help": "Number of Ry+CNOT ansatz layers. More layers increase circuit expressibility.",
+            "name": "layers",
+            "value": "3",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Variational layer depth",
+            "info": "请输入正整数，如 3，范围在1到10之间"
+        },
+        {
+            "max": 1000,
+            "min": 10,
+            "help": "Maximum number of COBYLA iterations for energy minimization.",
+            "name": "max_iter",
+            "value": "150",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Max optimizer iterations",
+            "info": "请输入正整数，如 150，范围在10到1000之间"
+        }
+    ]
+}

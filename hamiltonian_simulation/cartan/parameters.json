@@ -1,0 +1,39 @@
+{
+    "title": "Cartan Decomposition",
+    "description": "Cartan decomposition is a structural decomposition of Lie algebras, dividing Hamiltonian terms into symmetric subalgebra k and antisymmetric space m based on commutation relations.",
+    "tags": [
+        "Cartan Decomposition",
+        "Commutation Relations",
+        "Structural Decomposition"
+    ],
+    "tab": "Hamiltonian Simulation",
+    "params": [
+        {
+            "help": "Hamiltonian to be simulated, represented as a Hermitan matrix. Must be provided as a 2D array.",
+            "name": "H",
+            "value": "[[2, 1], [1, 3]]",
+            "description": "Hamiltonian matrix H",
+            "info": "请输入二维数组（矩阵），如 [[2, 1], [1, 3]]"
+        },
+        {
+            "max": 10.0,
+            "min": 0.1,
+            "help": "Total evolution time for the Hamiltonian simulation.",
+            "name": "t",
+            "value": "1.0",
+            "pattern": "^\\d+(\\.\\d+)?$",
+            "description": "Evolution time t",
+            "info": "请输入浮点数，如 1.0"
+        },
+        {
+            "max": 1e-2,
+            "min": 1e-10,
+            "help": "Error tolerance for the decomposition. Smaller values yield more accurate results but may require more computational resources.",
+            "name": "error",
+            "value": "1e-3",
+            "pattern": "(^1e-\\d+$)|(^[0-9]*\\.?[0-9]+$)",
+            "description": "Error tolerance",
+            "info": "请输入科学计数法正数（如 1e-6）或浮点数（如 0.001）"
+        }
+    ]
+}

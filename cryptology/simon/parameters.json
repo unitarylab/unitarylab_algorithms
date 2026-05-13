@@ -1,0 +1,20 @@
+{
+    "title": "Simon",
+    "description": "Simon algorithm solves black-box problems by finding hidden masks s, demonstrating the advantages of quantum computing in handling specific periodic problems.",
+    "tags": [
+        "Black-box Algorithm",
+        "Periodicity Search",
+        "Simon Problem"
+    ],
+    "tab": "Cryptology",
+    "params": [
+        {
+            "help": "The hidden mask string s (binary string, e.g., '1010').",
+            "name": "s",
+            "value": "1101",
+            "pattern": "^(?=.*1)[01]+$",
+            "description": "Hidden mask",
+            "info": "请输入01字符串，且至少包含一个1"
+        }
+    ]
+}
