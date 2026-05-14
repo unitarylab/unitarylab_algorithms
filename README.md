@@ -4,9 +4,14 @@
 
 ## 下载
 
-使用命令行pip
+本算法库运行依赖于unitarylab量子模拟器软件包，可通过pip下载
 ```bash
-pip install unitarylab_algorithms
+pip install unitarylab
+```
+
+通过pip下载算法库
+```bash
+pip install unitarylab-algorithms
 ```
 
 ## 当前算法清单
