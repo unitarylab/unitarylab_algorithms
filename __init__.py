@@ -39,6 +39,7 @@ from .fundamental_algorithm import *
 from .linear_algebra import *
 from .hamiltonian_simulation import *
 from .quantum_machine_learning import *
+from .schrodingerization import *
 
 __all__ = [
     "DiscreteLogAlgorithm",
@@ -70,5 +71,9 @@ __all__ = [
     "CVQNNAlgorithm",
     "QCBMAlgorithm",
     "VQCAlgorithm",
+
+    "HeatEquationAlgorithm",
+    "AdvectionEquationAlgorithm",
+    "Heat2dEquationAlgorithm",
 ]
 

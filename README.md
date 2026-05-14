@@ -1,17 +1,17 @@
-# algorithms 目录说明
+# unitarylab_algorithms
 
-本目录用于集中维护可独立调用的量子算法实现。目前共整理出 28 个算法，按主题划分为 6 个类别：密码学、基础算法、哈密顿量模拟、线性代数、量子机器学习、Schrodingerization 方程求解。
+本 [算法库](https://github.com/unitarylab/unitarylab_algorithms) 由 [UntiaryLab](https://unitarylab.com/) 整理开发实现，包含可独立调用的量子算法实现。目前共整理出 28 个算法，按主题划分为 6 个类别：密码学、基础算法、哈密顿量模拟、线性代数、量子机器学习、Schrodingerization 方程求解。
 
 ## 下载
 
-本算法库运行依赖于unitarylab量子模拟器软件包，可通过pip下载
+本算法库运行依赖于 UnitaryLab 量子模拟器软件包，可通过pip下载
 ```bash
 pip install unitarylab
 ```
 
-通过pip下载算法库
+通过pip下载本算法库
 ```bash
-pip install unitarylab_algorithms
+pip install unitarylab-algorithms
 ```
 
 ## 当前算法清单
@@ -61,3 +61,4 @@ pip install unitarylab_algorithms
 - `equation_heat`: Heat Equation Algorithm
 - `equation_heat2d`: Heat2D Equation Algorithm
 - `equation_advection`: Advection Equation Algorithm
+
