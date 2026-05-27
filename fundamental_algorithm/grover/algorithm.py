@@ -33,7 +33,7 @@ class GroverAlgorithm(BaseAlgorithm):
         super().__init__(name="Grover Algorithm", prefix="GROVER", text_mode=text_mode, algo_dir=algo_dir)
 
 
-    def run(self, n:int, target:str) -> Dict[str, Any]:
+    def run(self, n:int, target:str, backend='torch', device='cpu', dtype=np.complex128) -> Dict[str, Any]:
         """
         Modifiable input parameters:
              - n: Number of qubits in the data register (integer)
@@ -92,7 +92,7 @@ class GroverAlgorithm(BaseAlgorithm):
         self.log(f"Stage 3/5: Running quantum simulation...")
         
         start_time = time.time()
-        re_state = gs.execute().state
+        re_state = gs.execute(backend=backend, device=device, dtype=dtype).state
         end_time = time.time()
         comp_time = end_time - start_time
 

@@ -32,12 +32,16 @@ class VQCAlgorithm(BaseAlgorithm):
 
         super().__init__(name="VQC Algorithm", prefix="VQC", text_mode=text_mode, algo_dir=algo_dir)
 
+        self.backend = None
+        self.device = None
+        self.dtype = None
+
         torch.manual_seed(42)
         np.random.seed(42)
         torch.set_default_dtype(torch.float64)
 
     def run(self, layers: int = 3, epochs: int = 20, lr: float = 0.05, 
-            batch_size: int = 16) -> Dict[str, Any]:
+            batch_size: int = 16, backend='torch', device='cpu', dtype=np.complex128) -> Dict[str, Any]:
         """Execute the VQC training and evaluation workflow.
 
         Parameters:
@@ -52,6 +56,9 @@ class VQCAlgorithm(BaseAlgorithm):
             - circuit_path: Local path to saved quantum circuit diagram (SVG)
             - file_path: Local path to saved text file with results
         """
+        self.backend = backend
+        self.device = device
+        self.dtype = dtype
         
         input = {"Variational Layers": layers, "Epochs": epochs, "Learning Rate": lr, "Batch Size": batch_size}
         self.update_input(input)
@@ -161,7 +168,7 @@ class VQCAlgorithm(BaseAlgorithm):
         for x in x_batch:
             qc = self._build_circuit(x, theta)
             state0 = np.zeros((16, 1), dtype=np.complex128); state0[0,0] = 1.0
-            psi_out = qc.execute(initial_state=state0).state
+            psi_out = qc.execute(initial_state=state0, backend=self.backend, device=self.device, dtype=self.dtype).state
             psi = torch.as_tensor(psi_out).to(torch.complex128)
             bra = psi.conj().t()
             logits = [ (bra @ op @ psi).real.squeeze() for op in observables ]

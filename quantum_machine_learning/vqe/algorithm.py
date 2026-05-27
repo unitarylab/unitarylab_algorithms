@@ -29,7 +29,10 @@ class VQEAlgorithm(BaseAlgorithm):
         os.makedirs(algo_dir, exist_ok=True)
 
         super().__init__(name="VQE Algorithm", prefix="VQE", text_mode=text_mode, algo_dir=algo_dir)
-
+        self.backend = None
+        self.device = None
+        self.dtype = None
+        
     def _validate_hamiltonian(self, hamiltonian: np.ndarray) -> tuple[np.ndarray, int]:
         h = np.asarray(hamiltonian, dtype=np.complex128)
         if h.ndim != 2 or h.shape[0] != h.shape[1]:
@@ -90,7 +93,7 @@ class VQEAlgorithm(BaseAlgorithm):
         layers: int,
         history: Optional[list[float]] = None,
     ) -> float:
-        state = self._build_circuit(parameters_flat, num_qubits, layers).execute().state
+        state = self._build_circuit(parameters_flat, num_qubits, layers).execute(backend=self.backend, device=self.device, dtype=self.dtype).state
         energy = (state.conj().T @ hamiltonian @ state).item()
         energy_real = float(np.real(energy))
 
@@ -109,9 +112,12 @@ class VQEAlgorithm(BaseAlgorithm):
         max_iter: int = 150,
         seed: int = 7,
         hamiltonian: Optional[np.ndarray] = None,
-        normalize: bool = True,
+        normalize: bool = True, backend='torch', device='cpu', dtype=np.complex128
     ) -> Dict[str, Any]:
         """Run VQE on a user-provided Hermitian Hamiltonian or a random Hermitian example."""
+        self.backend = backend
+        self.device = device
+        self.dtype = dtype
 
         if hamiltonian is None:
             hamiltonian = self._random_hermitian(n, seed=seed, normalize=normalize)

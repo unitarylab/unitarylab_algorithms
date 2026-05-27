@@ -33,7 +33,7 @@ class AmplitudeEstimationAlgorithm(BaseAlgorithm):
         super().__init__(name="Amplitude Estimation Algorithm", prefix="QAE", text_mode=text_mode, algo_dir=algo_dir)
 
 
-    def run(self, U: Circuit, good_zero_qubits: List[int], d: int = 6) -> Dict[str, Any]:
+    def run(self, U: Circuit, good_zero_qubits: List[int], d: int = 6, backend='torch', device='cpu', dtype=np.complex128) -> Dict[str, Any]:
         """Execute amplitude estimation algorithm.
 
         Parameters:
@@ -81,7 +81,7 @@ class AmplitudeEstimationAlgorithm(BaseAlgorithm):
         self.log(f"Stage 3: Executing quantum simulation")
         
         sim_start = time.time()
-        state = qpe_circ.execute().state
+        state = qpe_circ.execute(backend=backend, device=device, dtype=dtype).state
         statevector = np.asarray(state, dtype=complex).reshape(-1)
         sim_time = time.time() - sim_start
         

@@ -31,7 +31,7 @@ class LCUAlgorithm(BaseAlgorithm):
         super().__init__(name="LCU Algorithm", prefix="LCU", text_mode=text_mode, algo_dir=algo_dir)
 
     def run(self, alphas: List[float], unitaries: List[Circuit], 
-            n_sys: int, initial_state: Circuit = None) -> Dict[str, Any]:
+            n_sys: int, initial_state: Circuit = None, backend='torch', device='cpu', dtype=np.complex128) -> Dict[str, Any]:
         """Execute the LCU algorithm.
 
         Args:
@@ -102,7 +102,7 @@ class LCUAlgorithm(BaseAlgorithm):
         self.log(f"Stage 3/5: Executing quantum simulation...")
         
         sim_start = time.time()
-        raw_result = qc.execute()
+        raw_result = qc.execute(backend=backend, device=device, dtype=dtype)
         sim_time = time.time() - sim_start
         
         self.log(f"  Low-level simulation time: {sim_time:.4f} seconds")

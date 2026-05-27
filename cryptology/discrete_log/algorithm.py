@@ -36,7 +36,7 @@ class DiscreteLogAlgorithm(BaseAlgorithm):
 
         super().__init__(name="Discrete Logarithm Algorithm", prefix="DLG", text_mode=text_mode, algo_dir=algo_dir)
 
-    def run(self, g: int, y: int, P: int) -> Dict[str, Any]:
+    def run(self, g: int, y: int, P: int, backend='torch', device='cpu', dtype=np.complex128) -> Dict[str, Any]:
         """
         Run the discrete logarithm algorithm to solve g^x ≡ y (mod P).
 
@@ -104,7 +104,7 @@ class DiscreteLogAlgorithm(BaseAlgorithm):
         self.log(f"Stage 3: Running quantum simulation")
         
         start_time = time.time()
-        res_vec = gs.execute()
+        res_vec = gs.execute(backend=backend, device=device, dtype=dtype)
         probs_dict = res_vec.calculate_state(range(2 * n_count))
         end_time = time.time()
         comp_time = end_time - start_time

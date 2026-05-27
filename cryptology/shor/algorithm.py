@@ -36,7 +36,7 @@ class ShorAlgorithm(BaseAlgorithm):
 
         super().__init__(name="Shor Algorithm", prefix="SHOR", text_mode=text_mode, algo_dir=algo_dir)
 
-    def run(self, N: int, method: str = "matrix", max_retries: int = 15) -> Dict[str, Any]:
+    def run(self, N: int, method: str = "matrix", max_retries: int = 15, backend='torch', device='cpu', dtype=np.complex128) -> Dict[str, Any]:
         """
         Run Shor's algorithm for prime factorization.
 
@@ -129,7 +129,7 @@ class ShorAlgorithm(BaseAlgorithm):
             self.log(f"Sub-stage 2.3: Running quantum simulation")
             
             start_time = time.time()
-            result = gs.execute()
+            result = gs.execute(backend=backend, device=device, dtype=dtype)
             measure_bin = result.measure(range(n_count), endian='little')
             measure_int = int(measure_bin, 2)
             end_time = time.time()

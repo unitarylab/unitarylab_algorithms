@@ -40,7 +40,7 @@ class QDriftAlgorithm(BaseAlgorithm):
 
         super().__init__(name="QDrift Algorithm", prefix="QDRIFT", text_mode=text_mode, algo_dir=algo_dir)
 
-    def run(self, H: np.ndarray, t: float, error: float, steps: int = 5000):
+    def run(self, H: np.ndarray, t: float, error: float, steps: int = 5000, backend='torch', device='cpu', dtype=np.complex128):
         """
         Initialize the QDrift simulator.
 
@@ -92,7 +92,7 @@ class QDriftAlgorithm(BaseAlgorithm):
 
         # Stage 4: Compute exact and approximate evolution matrices for error estimation.
         self.log("Stage 4: Compute exact and approximate evolution matrices for error estimation.")
-        U_approx = qc.get_matrix()
+        U_approx = qc.get_matrix(backend=backend, device=device, dtype=dtype)
         U_exact = expm(-1j * H * t)  # Exact evolution for comparison
         U_error = norm(U_approx - U_exact, ord='fro')  # Frobenius norm of the difference
         output = {"Approximate evolution matrix": U_approx, "Exact evolution matrix": U_exact, "Frobenius norm of error": U_error}

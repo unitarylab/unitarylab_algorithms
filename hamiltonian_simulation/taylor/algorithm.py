@@ -39,7 +39,7 @@ class TaylorAlgorithm(BaseAlgorithm):
 
         super().__init__(name="Taylor Hamiltonian Simulation Algorithm", prefix="TAYLOR_HS", text_mode=text_mode, algo_dir=algo_dir)
 
-    def run(self, H: np.ndarray, t: float, error: float, degree: int = 15):
+    def run(self, H: np.ndarray, t: float, error: float, degree: int = 15, backend='torch', device='cpu', dtype=np.complex128):
         """
         Initialize the Taylor simulator.
 
@@ -130,7 +130,7 @@ class TaylorAlgorithm(BaseAlgorithm):
         # Optional: verify that the weighted sum of unitaries matches the target matrix
         # equ_H2 = np.zeros_like(H, dtype = complex)
         # for key, val in LCU_terms:
-        #     equ_H2 += key.get_matrix() * val
+        #     equ_H2 += key.get_matrix(backend=backend, device=device, dtype=dtype) * val
         self.log(f"    Constructed LCU terms with {len(LCU_terms)} components.")
 
         self.log(f"Stage 5: Building the LCU circuit and extracting the approximate evolution operator.")
@@ -139,7 +139,7 @@ class TaylorAlgorithm(BaseAlgorithm):
         
         # Extract the system block from the full LCU matrix
         m = len(LCU_terms)                             # number of ancilla states
-        lcu_matrix = circuit.get_matrix()              # full (N*m) × (N*m) matrix
+        lcu_matrix = circuit.get_matrix(backend=backend, device=device, dtype=dtype)              # full (N*m) × (N*m) matrix
         U_approx = np.zeros_like(H, dtype=complex)
         for i in range(len(U_approx)):
             for j in range(len(U_approx)):

@@ -31,7 +31,7 @@ class QFTAlgorithm(BaseAlgorithm):
 
         super().__init__(name="Quantum Fourier Transform Algorithm", prefix="QFT", text_mode=text_mode, algo_dir=algo_dir)
 
-    def run(self, n: int, state: np.ndarray = None, inverse: bool = False) -> Dict[str, Any]:
+    def run(self, n: int, state: np.ndarray = None, inverse: bool = False, backend='torch', device='cpu', dtype=np.complex128) -> Dict[str, Any]:
         """Execute quantum Fourier transform algorithm.
 
         Parameters:
@@ -76,7 +76,7 @@ class QFTAlgorithm(BaseAlgorithm):
         gs.append(qft, range(n))
 
         sim_start = time.time()
-        final_state = gs.execute().state
+        final_state = gs.execute(backend=backend, device=device, dtype=dtype).state
         
         sim_time = time.time() - sim_start
         

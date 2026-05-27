@@ -37,7 +37,7 @@ class HadamardTestAlgorithm(BaseAlgorithm):
             prepare_psi: Optional[Circuit] = None, 
             prepare_phi: Optional[Circuit] = None,
             imag: bool = False, 
-            shots: int = 20000
+            shots: int = 20000, backend='torch', device='cpu', dtype=np.complex128
             ) -> Dict[str, Any]:
         """
         Execute the Hadamard Test main workflow, supporting expectation value estimation, state overlap test, and single-qubit phase estimation.
@@ -118,7 +118,7 @@ class HadamardTestAlgorithm(BaseAlgorithm):
         
         measurements = {}
         for name, circ in circuits.items():
-            state = circ.execute()
+            state = circ.execute(backend=backend, device=device, dtype=dtype)
             
             # Read ancilla qubit (qubit 0) measurement probabilities
             anc_probs = state._phase_probabilities_from_state([0], endian="little", threshold=0.0)

@@ -35,7 +35,7 @@ class AmplitudeAmplificationAlgorithm(BaseAlgorithm):
         super().__init__(name="Amplitude Amplification Algorithm", prefix="AA", text_mode=text_mode, algo_dir=algo_dir)
 
     def run(self, U: Circuit, good_zero_qubits: List[int], p: float, 
-            reps: Optional[int] = None) -> Dict[str, Any]:
+            reps: Optional[int] = None, backend='torch', device='cpu', dtype=np.complex128) -> Dict[str, Any]:
         """
         Run the amplitude amplification algorithm.
 
@@ -93,7 +93,7 @@ class AmplitudeAmplificationAlgorithm(BaseAlgorithm):
         self.log(f"Stage 3: Executing quantum simulation")
         
         start_time = time.time()
-        re_state = gs.execute()
+        re_state = gs.execute(backend=backend, device=device, dtype=dtype)
         state_basis_dict = re_state.calculate_state(data_qubits)
         end_time = time.time()
         comp_time = end_time - start_time

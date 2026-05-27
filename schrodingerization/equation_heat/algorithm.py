@@ -73,7 +73,7 @@ class HeatEquationAlgorithm(BaseAlgorithm):
         - Block: Block coding method
     """
 
-    def run(self, params = None, algo_dir: str = None) -> Dict[str, Any]:
+    def run(self, params = None, algo_dir: str = None, backend='torch', device='cpu', dtype=np.complex128) -> Dict[str, Any]:
         """
         Execute the algorithm to solve the heat equation
 
@@ -117,7 +117,7 @@ class HeatEquationAlgorithm(BaseAlgorithm):
         if method == "classical":
             return self._solve_classical(eq)
         elif method == "trotter":
-            return self._solve_trotter(eq)
+            return self._solve_trotter(eq, backend=backend, device=device, dtype=dtype)
         elif method == "block":
             return self._solve_block(eq)
         else:
@@ -211,7 +211,7 @@ class HeatEquationAlgorithm(BaseAlgorithm):
             },
         }
 
-    def _solve_trotter(self, eq):
+    def _solve_trotter(self, eq, backend='torch', device='cpu', dtype=np.complex128):
         from unitarylab.library.equation.schrodingerization import schro_trotter as schro
         from unitarylab.library.equation.differential_operator import TDiff
 

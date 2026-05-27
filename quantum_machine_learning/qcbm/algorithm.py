@@ -31,12 +31,16 @@ class QCBMAlgorithm(BaseAlgorithm):
 
         super().__init__(name="QCBM Algorithm", prefix="QCBM", text_mode=text_mode, algo_dir=algo_dir)
 
+        self.backend = None
+        self.device = None
+        self.dtype = None
+
         torch.manual_seed(42)
         np.random.seed(42)
         torch.set_default_dtype(torch.float64)
 
     def run(self, n: int = 4, layers: int = 4, epochs: int = 40, 
-            lr: float = 0.1) -> Dict[str, Any]:
+            lr: float = 0.1, backend='torch', device='cpu', dtype=np.complex128) -> Dict[str, Any]:
         """Execute the QCBM training workflow.
 
         Parameters:
@@ -51,6 +55,9 @@ class QCBMAlgorithm(BaseAlgorithm):
             - circuit_path: Local path to saved quantum circuit diagram (SVG)
             - file_path: Local path to saved text file with results
         """
+        self.backend = backend
+        self.device = device
+        self.dtype = dtype
 
         input = {"Number of qubits": n, "Variational layer depth": layers, "Training epochs": epochs, "Learning rate": lr}
         self.update_input(input)
@@ -162,7 +169,7 @@ class QCBMAlgorithm(BaseAlgorithm):
     def _get_probs(self, theta, n):
         qc = self._build_circuit(theta, n)
         state0 = np.zeros((2**n, 1), dtype=np.complex128); state0[0,0] = 1.0
-        final_state = qc.execute(initial_state=state0).state
+        final_state = qc.execute(initial_state=state0, backend=self.backend, device=self.device, dtype=self.dtype).state
         return torch.as_tensor(np.abs(np.asarray(final_state).flatten())**2)
 
 def test(n=4, layers=4, epochs=40, lr=0.1):

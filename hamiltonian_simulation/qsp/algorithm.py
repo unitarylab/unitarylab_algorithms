@@ -38,7 +38,7 @@ class QSPHSAlgorithm(BaseAlgorithm):
 
         super().__init__(name="QSP Hamiltonian Simulation Algorithm", prefix="QSP_HS", text_mode=text_mode, algo_dir=algo_dir)
 
-    def run(self, H: np.ndarray, t: float, error: float, degree: int = 15, beta: float = 0.7):
+    def run(self, H: np.ndarray, t: float, error: float, degree: int = 15, beta: float = 0.7, backend='torch', device='cpu', dtype=np.complex128) -> Dict[str, Any]:
         """
         Initialize the QSP simulator.
 
@@ -127,7 +127,7 @@ class QSPHSAlgorithm(BaseAlgorithm):
         qc.h(n + m + 1)                        # final Hadamard to complete LCU
 
         self.log(f"Stage 4: Computing exact and approximate evolution matrices for error estimation.")
-        u_slice = qc.get_matrix(n) * factor
+        u_slice = qc.get_matrix(n, backend=backend, device=device, dtype=dtype) * factor
 
         if time_slices > 1:
             U_approx = np.linalg.matrix_power(u_slice, time_slices)

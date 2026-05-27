@@ -1,7 +1,7 @@
 import os
 import time
 from typing import Any, Dict, List
-
+import numpy as np
 from unitarylab import Circuit, Register, ClassicalRegister
 
 try:
@@ -28,7 +28,7 @@ class SimonAlgorithm(BaseAlgorithm):
 
         super().__init__(name="Simon Algorithm", prefix="SIMON", text_mode=text_mode, algo_dir=algo_dir)
 
-    def run(self, s: str = "1010") -> Dict[str, Any]:
+    def run(self, s: str = "1010", backend='torch', device='cpu', dtype=np.complex128) -> Dict[str, Any]:
         """
         Run Simon algorithm to find hidden mask s in f(x)=f(x xor s).
         
@@ -70,7 +70,7 @@ class SimonAlgorithm(BaseAlgorithm):
         self.log(f"Stage 3: Executing quantum simulation")
         
         start_time = time.time()
-        re_state = gs.execute()
+        re_state = gs.execute(backend=backend, device=device, dtype=dtype)
         state_basis_dict = re_state.calculate_state(range(n))
         end_time = time.time()
         comp_time = end_time - start_time

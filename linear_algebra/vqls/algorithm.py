@@ -60,6 +60,9 @@ class VQLSAlgorithm(BaseAlgorithm):
         
         # Optimization history
         self.optimization_history = []
+        self.backend = None
+        self.device = None
+        self.dtype = None
 
     def run(
         self,
@@ -67,7 +70,7 @@ class VQLSAlgorithm(BaseAlgorithm):
         coefficients: Optional[List[float]] = None,
         max_iterations: int = 200,
         tolerance: float = 1e-6,
-        initial_spread: float = 0.5,
+        initial_spread: float = 0.5, backend='torch', device='cpu', dtype=np.complex128
     ) -> Dict[str, Any]:
         """
         Execute VQLS algorithm main process
@@ -87,6 +90,9 @@ class VQLSAlgorithm(BaseAlgorithm):
             - circuit_path: Local path to saved quantum circuit diagram (SVG)
             - file_path: Local path to saved text file with results
         """
+        self.backend = backend
+        self.device = device
+        self.dtype = dtype
         
         input = {"System qubits": n_qubits, "Linear combination coefficients": coefficients, "Max Iterations": max_iterations, "Tolerance": tolerance, "Initial Spread": initial_spread}
         self.update_input(input)
@@ -130,14 +136,14 @@ class VQLSAlgorithm(BaseAlgorithm):
         
         # Construct |b> state
         Ub_circuit = self._build_b_circuit()
-        self.Ub_matrix = Ub_circuit.get_matrix()
+        self.Ub_matrix = Ub_circuit.get_matrix(backend=self.backend, device=self.device, dtype=self.dtype)
         
         Ub_dag_circuit = Ub_circuit.dagger()
-        self.Ub_dag_matrix = Ub_dag_circuit.get_matrix()
+        self.Ub_dag_matrix = Ub_dag_circuit.get_matrix(backend=self.backend, device=self.device, dtype=self.dtype)
         
         init_state = np.zeros(dim, dtype=complex)
         init_state[0] = 1.0 + 0.0j
-        self.b_state = Ub_circuit.execute(initial_state=init_state).state
+        self.b_state = Ub_circuit.execute(initial_state=init_state, backend=self.backend, device=self.device, dtype=self.dtype).state
         
         self.log(f"  - Number of system qubits: {n_qubits}")
         self.log(f"  - Total qubits: {self.tot_qubits} (including 1 ancilla qubit)")
@@ -298,7 +304,7 @@ class VQLSAlgorithm(BaseAlgorithm):
         init_state = np.zeros(2 ** self.tot_qubits, dtype=complex)
         init_state[0] = 1.0 + 0.0j
         
-        final_state = qc.execute(initial_state=init_state).state
+        final_state = qc.execute(initial_state=init_state, backend=self.backend, device=self.device, dtype=self.dtype).state
         
         exp_val = 0.0
         for i, amp in enumerate(final_state):
@@ -348,7 +354,7 @@ class VQLSAlgorithm(BaseAlgorithm):
         ansatz_circuit = self._build_ansatz(weights)
         init_state = np.zeros(2 ** self.n_qubits, dtype=complex)
         init_state[0] = 1.0 + 0.0j
-        return ansatz_circuit.execute(initial_state=init_state).state
+        return ansatz_circuit.execute(initial_state=init_state, backend=self.backend, device=self.device, dtype=self.dtype).state
 
     def _build_full_circuit_for_visualization(self, weights: np.ndarray) -> Circuit:
         """Construct example circuit for visualization (local Hadamard test)"""

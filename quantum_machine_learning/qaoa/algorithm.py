@@ -68,7 +68,7 @@ class QAOAAlgorithm(BaseAlgorithm):
         return qc
 
     def run(self, edges: List = None, n: int = 6, layers: int = 4, 
-            max_iter: int = 100) -> Dict[str, Any]:
+            max_iter: int = 100, backend='torch', device='cpu', dtype=np.complex128) -> Dict[str, Any]:
         """Execute the QAOA training workflow.
 
         Parameters:
@@ -106,7 +106,7 @@ class QAOAAlgorithm(BaseAlgorithm):
         
         def obj_func(p_flat):
             qc = self._build_circuit(p_flat, n, edges)
-            psi_out = qc.execute(initial_state=np.eye(2**n, 1, dtype=np.complex128)).state
+            psi_out = qc.execute(initial_state=np.eye(2**n, 1, dtype=np.complex128), backend=backend, device=device, dtype=dtype).state
             
             # Compatibility handling: convert backend output to numpy array for energy calculation
             psi = np.asarray(psi_out)
@@ -122,7 +122,7 @@ class QAOAAlgorithm(BaseAlgorithm):
 
         self.log(f"Stage 4: Optimal state measurement and bitstring decoding")
         qc_final = self._build_circuit(opt_res.x, n, edges)
-        final_psi_out = qc_final.execute(initial_state=np.eye(2**n, 1, dtype=np.complex128)).state
+        final_psi_out = qc_final.execute(initial_state=np.eye(2**n, 1, dtype=np.complex128), backend=backend, device=device, dtype=dtype).state
         final_psi = np.asarray(final_psi_out)
         
         best_idx = int(np.argmax(np.abs(final_psi.flatten())**2))

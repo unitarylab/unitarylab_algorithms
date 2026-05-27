@@ -31,7 +31,7 @@ class QSPAlgorithm(BaseAlgorithm):
 
         super().__init__(name="QSP Algorithm", prefix="QSP", text_mode=text_mode, algo_dir=algo_dir)
 
-    def run(self, t: float, d: int, x: float = 0.5) -> Dict[str, Any]:
+    def run(self, t: float, d: int, x: float = 0.5, backend='torch', device='cpu', dtype=np.complex128) -> Dict[str, Any]:
         """Execute QSP algorithm for simulating $cos(t * x)$ evolution.
 
         Parameters:
@@ -74,7 +74,7 @@ class QSPAlgorithm(BaseAlgorithm):
         self.log(f"Stage 3: Execute quantum simulation calculation")
         
         sim_start = time.time()
-        final_state = gs.execute().state
+        final_state = gs.execute(backend=backend, device=device, dtype=dtype).state
         sim_time = time.time() - sim_start
         
         self.log(f"  Underlying simulation computation time: {sim_time:.6f} seconds")

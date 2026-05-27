@@ -31,7 +31,7 @@ class HHLAlgorithm(BaseAlgorithm):
 
         super().__init__(name="HHL Algorithm", prefix="HHL", text_mode=text_mode, algo_dir=algo_dir)
     
-    def run(self, A: np.ndarray, b: np.ndarray, d: int) -> Dict[str, Any]:
+    def run(self, A: np.ndarray, b: np.ndarray, d: int, backend='torch', device='cpu', dtype=np.complex128) -> Dict[str, Any]:
         """Execute the HHL algorithm.
 
         Args:
@@ -136,7 +136,7 @@ class HHLAlgorithm(BaseAlgorithm):
         self.log(f"Stage 3: Executing quantum simulation")
         
         sim_start = time.time()
-        final_state = gs.execute().state
+        final_state = gs.execute(backend=backend, device=device, dtype=dtype).state
         state_arr = np.asarray(final_state, dtype=complex).reshape(-1)
         sim_time = time.time() - sim_start
         

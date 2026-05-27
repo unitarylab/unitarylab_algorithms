@@ -31,7 +31,7 @@ class HadamardTransformAlgorithm(BaseAlgorithm):
 
         super().__init__(name="Hadamard Transform Algorithm", prefix="HA", text_mode=text_mode, algo_dir=algo_dir)
 
-    def run(self, n: int = 3, mode: str = "superposition") -> Dict[str, Any]:
+    def run(self, n: int = 3, mode: str = "superposition", backend='torch', device='cpu', dtype=np.complex128) -> Dict[str, Any]:
         """Execute Hadamard transform algorithm.
 
         Parameters:
@@ -84,7 +84,7 @@ class HadamardTransformAlgorithm(BaseAlgorithm):
         self.log(f"Stage 3: Executing quantum simulation")
         
         start_time = time.time()
-        raw_result = gs.execute()
+        raw_result = gs.execute(backend=backend, device=device, dtype=dtype)
         
         if mode == "superposition":
             prob_dict = raw_result.probabilities

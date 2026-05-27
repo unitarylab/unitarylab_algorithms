@@ -37,7 +37,7 @@ class TrotterAlgorithm(BaseAlgorithm):
 
         super().__init__(name="Trotter Hamiltonian Simulation Algorithm", prefix="TROTTER_HS", text_mode=text_mode, algo_dir=algo_dir)
 
-    def run(self, H: np.ndarray, t: float, error: float, order: int = 1, steps: int = 1000):
+    def run(self, H: np.ndarray, t: float, error: float, order: int = 1, steps: int = 1000, backend='torch', device='cpu', dtype=np.complex128):
         """
         Initialize the Trotterization for Hamiltonian simulation.
 
@@ -92,7 +92,7 @@ class TrotterAlgorithm(BaseAlgorithm):
         
         qc = Circuit(reg, name='Trotter Decomposition')
         qc.append(trotter.repeat(steps), range(n))
-        U_approx = qc.get_matrix()
+        U_approx = qc.get_matrix(backend=backend, device=device, dtype=dtype)
 
         U_exact = expm(-1j * H * t)  # Exact evolution for comparison
         U_error = norm(U_approx - U_exact, ord='fro')  # Frobenius norm of the difference

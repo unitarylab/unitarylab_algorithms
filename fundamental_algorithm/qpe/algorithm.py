@@ -33,7 +33,7 @@ class QPEAlgorithm(BaseAlgorithm):
         super().__init__(name="Quantum Phase Estimation Algorithm", prefix="QPE", text_mode=text_mode, algo_dir=algo_dir)
 
     def run(self, U: Circuit, d: int, 
-            prepare_target: Optional[Circuit] = None) -> Dict[str, Any]:
+            prepare_target: Optional[Circuit] = None, backend='torch', device='cpu', dtype=np.complex128) -> Dict[str, Any]:
         """Execute quantum phase estimation algorithm.
 
         Parameters:
@@ -71,7 +71,7 @@ class QPEAlgorithm(BaseAlgorithm):
         self.log(f"Stage 3: Executing quantum simulation")
         
         sim_start = time.time()
-        final_state = gs.execute()
+        final_state = gs.execute(backend=backend, device=device, dtype=dtype)
         
         sim_time = time.time() - sim_start
         
