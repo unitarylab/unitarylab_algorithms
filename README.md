@@ -1,6 +1,6 @@
 # unitarylab_algorithms
 
-本 [算法库](https://github.com/unitarylab/unitarylab_algorithms) 由 [UntiaryLab](https://unitarylab.com/) 整理开发实现，包含可独立调用的量子算法实现。目前共整理出 28 个算法，按主题划分为 6 个类别：密码学、基础算法、哈密顿量模拟、线性代数、量子机器学习、Schrodingerization 方程求解。
+本 [算法库](https://github.com/unitarylab/unitarylab_algorithms) 由 [Unitarylab](https://unitarylab.com/) 整理开发实现，包含可独立调用的量子算法实现。目前共整理出 28 个算法，按主题划分为 6 个类别：密码学、基础算法、哈密顿量模拟、线性代数、量子机器学习、Schrodingerization 方程求解。
 
 ## 下载
 

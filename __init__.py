@@ -32,6 +32,10 @@ This module provides quantum algorithms including:
     - QCBM Algorithm
     - VQC Algorithm
     - CVQNN Algorithm
+- Schrödingerization algorithms
+    - Heat Equation Algorithm
+    - Advection Equation Algorithm
+    - Heat 2D Equation Algorithm
 """
 
 from .cryptology import *
