@@ -151,8 +151,7 @@ class LCUAlgorithm(BaseAlgorithm):
         
         for j, U in enumerate(unitaries):
             ctrl_state = format(j, f"0{n_anc}b")
-            if U.order == 'little':
-                ctrl_state = ctrl_state[::-1]
+            ctrl_state = ctrl_state[::-1]
             qc.append(U, target=sys_qubits, control=anc_qubits, control_state=ctrl_state)
             
         return qc

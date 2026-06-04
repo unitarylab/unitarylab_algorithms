@@ -42,7 +42,7 @@ class AdvectionEquationAlgorithm(BaseAlgorithm):
     # 主入口
     # ==========================================================
 
-    def run(self, params = None, algo_dir: str = None) -> Dict[str, Any]:
+    def run(self, params = None, algo_dir: str = None, backend='torch', device='cpu', dtype=np.complex128) -> Dict[str, Any]:
 
         
         """
@@ -80,7 +80,7 @@ class AdvectionEquationAlgorithm(BaseAlgorithm):
         if method == 'classical':
             return self._solve_classical(eq)
         elif method == 'trotter':
-            return self._solve_trotter(eq)
+            return self._solve_trotter(eq, backend=backend, device=device, dtype=dtype)
         else:
             raise ValueError(f'method {method} is not supported!')
 
@@ -178,7 +178,7 @@ class AdvectionEquationAlgorithm(BaseAlgorithm):
     # Trotter 求解
     # ==========================================================
 
-    def _solve_trotter(self, eq: Equation):
+    def _solve_trotter(self, eq: Equation, backend='torch', device='cpu', dtype=np.complex128):
 
         from unitarylab.library.equation.schrodingerization import schro_trotter as schro
         from unitarylab.library.equation.differential_operator import TDiff
@@ -238,7 +238,7 @@ class AdvectionEquationAlgorithm(BaseAlgorithm):
         self.logger.info(f"- Total time steps: {Nt}")
 
         start_time = time.time()
-        u, qc = schro(u0=u0, H1=H1, H2=H2, Nt=Nt, na=na, R=R, order=order, point=point, b=b, theta=theta * dt)
+        u, qc = schro(u0=u0, H1=H1, H2=H2, Nt=Nt, na=na, R=R, order=order, point=point, b=b, theta=theta * dt, backend=backend, device=device, dtype=dtype)
         end_time = time.time()
         self.logger.info(f"- Actual computation time: {end_time - start_time:.4f} seconds")
         # self.logger.info(f": {end_time - start_time:.4f} seconds")

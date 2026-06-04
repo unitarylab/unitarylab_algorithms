@@ -34,7 +34,7 @@ class QSVTLinearSolverAlgorithm(BaseAlgorithm):
 
         super().__init__(name="QSVT Linear Solver", prefix="QSVT_QLSA", text_mode=text_mode, algo_dir=algo_dir)
 
-    def run(self, A, b, epsilon) -> Dict[str, Any]:
+    def run(self, A, b, epsilon, backend='torch', device='cpu', dtype=np.complex128) -> Dict[str, Any]:
         """
         Execute the main flow of the QSVT-based linear solver.
 
@@ -56,7 +56,7 @@ class QSVTLinearSolverAlgorithm(BaseAlgorithm):
         self.log(f"Calling the QSVT linear solver from unitarylab...")
         
         start_time = time.time()
-        circuit, solution, scaling_factor = QSVTSolver(A, b, epsilon)
+        circuit, solution, scaling_factor = QSVTSolver(A, b, epsilon, backend=backend, device=device, dtype=dtype)
         comp_time = time.time() - start_time
 
         self.log(f"  - QSVT linear solver completed in {comp_time:.4f} seconds")
