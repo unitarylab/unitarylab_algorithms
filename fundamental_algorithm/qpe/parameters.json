@@ -12,7 +12,7 @@
             "max": 1.0,
             "min": 0.0,
             "help": "The phase value phi to estimate (0 <= phi < 1). We will construct a phase gate P(2*pi*phi) as the operator to be estimated.",
-            "name": "phase",
+            "name": "p",
             "value": "0.25",
             "pattern": "^0(\\.\\d+)?$|^1(\\.0+)?$",
             "description": "Target phase phi",

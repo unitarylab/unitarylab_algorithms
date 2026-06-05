@@ -1,4 +1,4 @@
-﻿"""
+"""
 2D Heat Equation Algorithm Module
 
 Solve the two-dimensional heat equation based on the Schrödingerization method:

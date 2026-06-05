@@ -1,4 +1,4 @@
-﻿# Discrete Logarithm Algorithm Explained
+# Discrete Logarithm Algorithm Explained
 
 ## Parameter Settings
 

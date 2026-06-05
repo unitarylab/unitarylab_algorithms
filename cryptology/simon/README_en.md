@@ -1,4 +1,4 @@
-﻿# Simon Algorithm Explained
+# Simon Algorithm Explained
 
 ## Parameter Settings
 

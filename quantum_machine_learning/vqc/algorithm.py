@@ -167,7 +167,8 @@ class VQCAlgorithm(BaseAlgorithm):
         all_logits = []
         for x in x_batch:
             qc = self._build_circuit(x, theta)
-            state0 = np.zeros((16, 1), dtype=np.complex128); state0[0,0] = 1.0
+            state0 = np.zeros(16, dtype=np.complex128)
+            state0[0] = 1.0
             psi_out = qc.execute(initial_state=state0, backend=self.backend, device=self.device, dtype=self.dtype).state
             psi = torch.as_tensor(psi_out).to(torch.complex128)
             bra = psi.conj().t()

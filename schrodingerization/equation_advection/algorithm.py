@@ -1,4 +1,4 @@
-﻿"""
+"""
 Advection Equation Algorithm Module
 
 Solve the one-dimensional advection equation based on the Schrödingerization method:

@@ -83,15 +83,14 @@ class QAOAAlgorithm(BaseAlgorithm):
             - circuit_path: Local path to saved quantum circuit diagram (SVG)
             - file_path: Local path to saved text file with results
         """
+        if edges is None:
+            edges = [(0, 1), (1, 2), (2, 3), (3, 0), (0, 4), (1, 5)]
 
         input = {"Max-Cut Edges": len(edges), "Number of qubits": n, "Number of layers": layers, "Max Iterations": max_iter}
         self.update_input(input)
 
         total_start = time.time()
         
-        if edges is None:
-            edges = [(0, 1), (1, 2), (2, 3), (3, 0), (0, 4), (1, 5)]
-
         self.log(f"Stage 1: Initializing Hamiltonian matrix and parameter space")
         h_cost = self._get_h_cost(edges, n)
         exact_energy = float(np.linalg.eigvalsh(h_cost)[0])
@@ -106,7 +105,7 @@ class QAOAAlgorithm(BaseAlgorithm):
         
         def obj_func(p_flat):
             qc = self._build_circuit(p_flat, n, edges)
-            psi_out = qc.execute(initial_state=np.eye(2**n, 1, dtype=np.complex128), backend=backend, device=device, dtype=dtype).state
+            psi_out = qc.execute(backend=backend, device=device, dtype=dtype).state
             
             # Compatibility handling: convert backend output to numpy array for energy calculation
             psi = np.asarray(psi_out)
@@ -122,7 +121,7 @@ class QAOAAlgorithm(BaseAlgorithm):
 
         self.log(f"Stage 4: Optimal state measurement and bitstring decoding")
         qc_final = self._build_circuit(opt_res.x, n, edges)
-        final_psi_out = qc_final.execute(initial_state=np.eye(2**n, 1, dtype=np.complex128), backend=backend, device=device, dtype=dtype).state
+        final_psi_out = qc_final.execute(backend=backend, device=device, dtype=dtype).state
         final_psi = np.asarray(final_psi_out)
         
         best_idx = int(np.argmax(np.abs(final_psi.flatten())**2))

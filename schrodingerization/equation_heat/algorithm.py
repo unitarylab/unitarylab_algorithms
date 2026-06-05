@@ -1,4 +1,4 @@
-﻿"""
+"""
 Heat Equation Algorithm Module
 
 Solve the one-dimensional heat equation based on the Schrödingerization method:

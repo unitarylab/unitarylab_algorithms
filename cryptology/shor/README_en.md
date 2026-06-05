@@ -1,4 +1,4 @@
-﻿# Shor Algorithm Explained
+# Shor Algorithm Explained
 
 ## Parameter Settings
 

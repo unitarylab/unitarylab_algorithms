@@ -55,6 +55,7 @@ class QCBMAlgorithm(BaseAlgorithm):
             - circuit_path: Local path to saved quantum circuit diagram (SVG)
             - file_path: Local path to saved text file with results
         """
+        self._validate_run_params(n, layers, epochs, lr)
         self.backend = backend
         self.device = device
         self.dtype = dtype
@@ -123,6 +124,7 @@ class QCBMAlgorithm(BaseAlgorithm):
     def _generate_all_outputs(self, n, target, final, history, algo_dir):
         """Generate and save convergence, distribution, and sampling plots."""
         paths = []
+        rows, cols = self._bas_grid_shape(n)
         # 1. Loss curve
         p_loss = os.path.abspath(os.path.join(algo_dir, "QCBM_Loss.svg"))
         plt.figure(figsize=(6, 4)); plt.plot(history, color='#e67e22', lw=2)
@@ -143,17 +145,48 @@ class QCBMAlgorithm(BaseAlgorithm):
         fig = plt.figure(figsize=(15, 5))
         for i, s in enumerate(samples):
             ax = fig.add_subplot(3, 4, i+1)
-            grid = np.array([int(b) for b in f"{int(s):0{n}b}"]).reshape(int(np.sqrt(n)), -1)
+            grid = np.array([int(b) for b in f"{int(s):0{n}b}"]).reshape(rows, cols)
             ax.imshow(grid, cmap='binary', vmin=0, vmax=1, interpolation='nearest')
-            ax.set_xticks(np.arange(-.5, 2, 1), minor=True); ax.set_yticks(np.arange(-.5, 2, 1), minor=True)
+            ax.set_xticks(np.arange(-.5, cols, 1), minor=True); ax.set_yticks(np.arange(-.5, rows, 1), minor=True)
             ax.grid(which='minor', color='gray', linestyle='-', linewidth=0.5)
             ax.set_xticks([]); ax.set_yticks([]); ax.set_title(f"State: {s}")
         plt.tight_layout(); plt.savefig(p_samples); plt.close()
         paths.append(p_samples)
         return paths
 
+    def _validate_run_params(self, n, layers, epochs, lr):
+        if not isinstance(n, int) or n <= 0:
+            raise ValueError("n must be a positive integer.")
+        if not isinstance(layers, int) or layers <= 0:
+            raise ValueError("layers must be a positive integer.")
+        if not isinstance(epochs, int) or epochs <= 0:
+            raise ValueError("epochs must be a positive integer.")
+        if lr <= 0:
+            raise ValueError("lr must be positive.")
+
+    def _bas_grid_shape(self, n):
+        rows = int(np.sqrt(n))
+        while rows > 1 and n % rows != 0:
+            rows -= 1
+        cols = n // rows
+        return rows, cols
+
     def _get_bas_dist(self, n):
-        valid = [0, 3, 5, 10, 12, 15]
+        rows, cols = self._bas_grid_shape(n)
+        valid = set()
+
+        for row_bits in range(2**rows):
+            bits = f"{row_bits:0{rows}b}"
+            state = "".join(bit * cols for bit in bits)
+            valid.add(int(state, 2))
+
+        for col_bits in range(2**cols):
+            bits = f"{col_bits:0{cols}b}"
+            state = bits * rows
+            valid.add(int(state, 2))
+
+        valid = sorted(valid)
+        # valid = [0, 3, 5, 10, 12, 15]
         probs = np.zeros(2**n)
         probs[valid] = 1.0 / len(valid)
         return torch.from_numpy(probs), valid
@@ -168,8 +201,7 @@ class QCBMAlgorithm(BaseAlgorithm):
 
     def _get_probs(self, theta, n):
         qc = self._build_circuit(theta, n)
-        state0 = np.zeros((2**n, 1), dtype=np.complex128); state0[0,0] = 1.0
-        final_state = qc.execute(initial_state=state0, backend=self.backend, device=self.device, dtype=self.dtype).state
+        final_state = qc.execute(backend=self.backend, device=self.device, dtype=self.dtype).state
         return torch.as_tensor(np.abs(np.asarray(final_state).flatten())**2)
 
 def test(n=4, layers=4, epochs=40, lr=0.1):
