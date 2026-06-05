@@ -26,6 +26,7 @@ This module provides quantum algorithms including:
     - QDRIFT Algorithm
     - Taylor Series Algorithm
     - QSP Algorithm
+    - Cartan Algorithm
 - Quantum Machine Learning algorithms
     - VQE Algorithm
     - QAOA Algorithm
