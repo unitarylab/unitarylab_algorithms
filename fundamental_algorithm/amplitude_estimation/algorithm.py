@@ -123,71 +123,71 @@ class AmplitudeEstimationAlgorithm(BaseAlgorithm):
 
     def _iqft_circuit(self, n: int, do_swaps: bool = True) -> Circuit:
         """Build inverse quantum Fourier transform (iQFT) circuit."""
-        gs = Circuit(n, name=f"iQFT_{n}")
+        qc = Circuit(n, name=f"iQFT_{n}")
         if do_swaps:
             for i in range(n // 2):
-                gs.swap(i, n - 1 - i)
+                qc.swap(i, n - 1 - i)
         for j in range(n):
             for k in range(0, j):
                 angle = -np.pi / (2 ** (j - k))
-                gs.mcp(angle, k, j)
-            gs.h(j)
-        return gs
+                qc.mcp(angle, k, j)
+            qc.h(j)
+        return qc
 
     def _qpe_circuit(self, U: Circuit, d: int, prepare_target: Optional[Circuit] = None) -> Circuit:
         """Build quantum phase estimation (QPE) core circuit."""
         n_target = U.get_num_qubits()
-        gs = Circuit(d + n_target, name=f"QPE_d{d}")
+        qc = Circuit(d + n_target, name=f"QPE_d{d}")
         
         phase = list(range(d))
         target = list(range(d, d + n_target))
 
         if prepare_target is not None:
-            gs.append(prepare_target, target)
+            qc.append(prepare_target, target)
 
         for q in phase:
-            gs.h(q)
+            qc.h(q)
 
         for k in range(d):
-            gs.append(U.repeat(2 ** k), target=target, control=phase[k], control_state='1')
+            qc.append(U.repeat(2 ** k), target=target, control=phase[k], control_state='1')
 
         iqft = self._iqft_circuit(d, do_swaps=True)
-        gs.append(iqft, phase)
-        return gs
+        qc.append(iqft, phase)
+        return qc
 
-    def _prepare_kickback_ancilla_minus(self, gs: Circuit, ancilla: int) -> None:
+    def _prepare_kickback_ancilla_minus(self, qc: Circuit, ancilla: int) -> None:
         """Prepare ancilla qubit in |-> = H X |0> state."""
-        gs.x(ancilla)
-        gs.h(ancilla)
+        qc.x(ancilla)
+        qc.h(ancilla)
 
-    def _unprepare_kickback_ancilla_minus(self, gs: Circuit, ancilla: int) -> None:
+    def _unprepare_kickback_ancilla_minus(self, qc: Circuit, ancilla: int) -> None:
         """Restore ancilla qubit to |0> state."""
-        gs.h(ancilla)
-        gs.x(ancilla)
+        qc.h(ancilla)
+        qc.x(ancilla)
 
-    def _phase_oracle_all_zeros(self, gs: Circuit, zero_qubits: list[int], ancilla: int) -> None:
+    def _phase_oracle_all_zeros(self, qc: Circuit, zero_qubits: list[int], ancilla: int) -> None:
         """Apply phase flip to states where all specified qubits are |0>."""
-        self._prepare_kickback_ancilla_minus(gs, ancilla)
+        self._prepare_kickback_ancilla_minus(qc, ancilla)
         for q in zero_qubits:
-            gs.x(q)
+            qc.x(q)
 
         controls = list(zero_qubits)
         if len(controls) == 0:
-            gs.x(ancilla)
+            qc.x(ancilla)
         elif len(controls) == 1:
-            gs.cx(controls[0], ancilla)
+            qc.cx(controls[0], ancilla)
         else:
-            gs.mcx(controls, ancilla)
+            qc.mcx(controls, ancilla)
 
         for q in zero_qubits:
-            gs.x(q)
-        self._unprepare_kickback_ancilla_minus(gs, ancilla)
+            qc.x(q)
+        self._unprepare_kickback_ancilla_minus(qc, ancilla)
 
-    def _diffusion_about_prepared_state(self, gs: Circuit, U: Circuit, data_qubits: list[int], ancilla: int) -> None:
+    def _diffusion_about_prepared_state(self, qc: Circuit, U: Circuit, data_qubits: list[int], ancilla: int) -> None:
         """Perform diffusion operation on prepared state."""
-        gs.append(U.dagger(), data_qubits)
-        self._phase_oracle_all_zeros(gs, zero_qubits=list(data_qubits), ancilla=ancilla)
-        gs.append(U, data_qubits)
+        qc.append(U.dagger(), data_qubits)
+        self._phase_oracle_all_zeros(qc, zero_qubits=list(data_qubits), ancilla=ancilla)
+        qc.append(U, data_qubits)
 
     def _grover_operator_from_zero_oracle(self, U: Circuit, good_zero_qubits: list[int]) -> Circuit:
         """Build single Grover iteration (including global phase correction)."""
@@ -195,15 +195,15 @@ class AmplitudeEstimationAlgorithm(BaseAlgorithm):
         data = list(range(n_data))
         ancilla = n_data
 
-        gs = Circuit(n_data + 1, name="G")
-        self._phase_oracle_all_zeros(gs, zero_qubits=good_zero_qubits, ancilla=ancilla)
-        self._diffusion_about_prepared_state(gs, U=U, data_qubits=data, ancilla=ancilla)
+        qc = Circuit(n_data + 1, name="G")
+        self._phase_oracle_all_zeros(qc, zero_qubits=good_zero_qubits, ancilla=ancilla)
+        self._diffusion_about_prepared_state(qc, U=U, data_qubits=data, ancilla=ancilla)
 
-        self._prepare_kickback_ancilla_minus(gs, ancilla)
-        gs.x(ancilla)
-        self._unprepare_kickback_ancilla_minus(gs, ancilla)
+        self._prepare_kickback_ancilla_minus(qc, ancilla)
+        qc.x(ancilla)
+        self._unprepare_kickback_ancilla_minus(qc, ancilla)
 
-        return gs
+        return qc
 
     def _phase_histogram(self, statevector: np.ndarray, d: int) -> dict[str, float]:
         """Extract phase register histogram from quantum state vector."""

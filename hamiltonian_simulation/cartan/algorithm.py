@@ -91,10 +91,10 @@ class CartanDecompositionAlgorithm(BaseAlgorithm):
         self.status = "success"
         self.summary = f"Cartan Decomposition completed with total error {runable.total_error:.2e} in {comp_time:.2f} seconds."
 
-        gs = runable.circuit
-        circuit_path = self.save_circuit(gs)
+        qc = runable.circuit
+        circuit_path = self.save_circuit(qc)
         filename = self.save_txt()
-        return self._build_return_dict(True, circuit_path, filename, gs)
+        return self._build_return_dict(True, circuit_path, filename, qc)
 
 def test(H=np.array([[2, 1], [1, 2]]), t=1.0, error=1e-3):
     """

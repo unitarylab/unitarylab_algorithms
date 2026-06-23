@@ -74,7 +74,7 @@ class DiscreteLogAlgorithm(BaseAlgorithm):
         ra = Register("reg_a", n_count)
         rb = Register("reg_b", n_count)
         rw = Register("reg_work", n_work)
-        gs = Circuit(ra, rb, rw, name=f'DLP_{g}^{{x}}_{y}')
+        qc = Circuit(ra, rb, rw, name=f'DLP_{g}^{{x}}_{y}')
 
         def get_p(reg_slice):
             reg, idxs = reg_slice[0]
@@ -83,28 +83,28 @@ class DiscreteLogAlgorithm(BaseAlgorithm):
             else: offset = 2 * n_count
             return [i + offset for i in idxs]
 
-        gs.h(get_p(ra[:]))
-        gs.h(get_p(rb[:]))
-        gs.x(get_p(rw[0]))
+        qc.h(get_p(ra[:]))
+        qc.h(get_p(rb[:]))
+        qc.x(get_p(rw[0]))
         for i in range(n_count):
             mult = pow(g, 2**i, P)
             matrix = self._get_modular_matrix(mult, P, n_work)
-            gs.unitary(matrix, get_p(rw[:]), get_p(ra[i])[0], '1')
+            qc.unitary(matrix, get_p(rw[:]), get_p(ra[i])[0], '1')
 
         y_inv = pow(y, -1, P)
         for j in range(n_count):
             mult = pow(y_inv, 2**j, P)
             matrix = self._get_modular_matrix(mult, P, n_work)
-            gs.unitary(matrix, get_p(rw[:]), get_p(rb[j])[0], '1')
+            qc.unitary(matrix, get_p(rw[:]), get_p(rb[j])[0], '1')
 
-        gs.append(IQFT(n_count), get_p(ra[:]))
-        gs.append(IQFT(n_count), get_p(rb[:]))
+        qc.append(IQFT(n_count), get_p(ra[:]))
+        qc.append(IQFT(n_count), get_p(rb[:]))
 
         # Stage 3: Quantum simulation
         self.log(f"Stage 3: Running quantum simulation")
         
         start_time = time.time()
-        res_vec = gs.execute(backend=backend, device=device, dtype=dtype)
+        res_vec = qc.execute(backend=backend, device=device, dtype=dtype)
         probs_dict = res_vec.calculate_state(range(2 * n_count))
         end_time = time.time()
         comp_time = end_time - start_time
@@ -130,10 +130,10 @@ class DiscreteLogAlgorithm(BaseAlgorithm):
         self.summary = f"Discrete logarithm x found with x={found_x}" if is_success else "Solution failed"
 
         # Save results
-        circuit_path = self.save_circuit(gs)
+        circuit_path = self.save_circuit(qc)
         filename = self.save_txt()
 
-        return self._build_return_dict(is_success, circuit_path, filename, gs)
+        return self._build_return_dict(is_success, circuit_path, filename, qc)
 
     def _get_modular_matrix(self, a, N, n_qubits):
         """Build modular multiplication unitary: z -> (a * z) mod N."""

@@ -80,20 +80,20 @@ class AmplitudeAmplificationAlgorithm(BaseAlgorithm):
         # Stage 2: Quantum circuit construction
         self.log(f"Stage 2: Building quantum circuit")
         
-        gs = Circuit(n_data + 1, name='Amplitude_Amplification')
+        qc = Circuit(n_data + 1, name='Amplitude_Amplification')
         data_qubits = list(range(n_data))
 
-        gs.append(U, data_qubits)
+        qc.append(U, data_qubits)
 
         for _ in range(reps):
-            self._build_oracle(gs, zero_qubits=good_zero_qubits, ancilla=ancilla)
-            self._build_diffuser(gs, U=U, data_qubits=data_qubits, ancilla=ancilla)
+            self._build_oracle(qc, zero_qubits=good_zero_qubits, ancilla=ancilla)
+            self._build_diffuser(qc, U=U, data_qubits=data_qubits, ancilla=ancilla)
 
         # Stage 3: Quantum simulation
         self.log(f"Stage 3: Executing quantum simulation")
         
         start_time = time.time()
-        re_state = gs.execute(backend=backend, device=device, dtype=dtype)
+        re_state = qc.execute(backend=backend, device=device, dtype=dtype)
         state_basis_dict = re_state.calculate_state(data_qubits)
         end_time = time.time()
         comp_time = end_time - start_time
@@ -142,45 +142,45 @@ class AmplitudeAmplificationAlgorithm(BaseAlgorithm):
         self.summary = f"Algorithm execution successful with amplified probability {target_prob:.4f}" if is_success else "Algorithm execution failed"
 
         # Save results
-        circuit_path = self.save_circuit(gs)
+        circuit_path = self.save_circuit(qc)
         filename = self.save_txt()
-        return self._build_return_dict(is_success, circuit_path, filename, gs)
+        return self._build_return_dict(is_success, circuit_path, filename, qc)
 
-    def _prepare_kickback_ancilla_minus(self, gs: Circuit, ancilla: int) -> None:
+    def _prepare_kickback_ancilla_minus(self, qc: Circuit, ancilla: int) -> None:
         """Prepare ancilla qubit in |-> = H X |0> state."""
-        gs.x(ancilla)
-        gs.h(ancilla)
+        qc.x(ancilla)
+        qc.h(ancilla)
 
-    def _unprepare_kickback_ancilla_minus(self, gs: Circuit, ancilla: int) -> None:
+    def _unprepare_kickback_ancilla_minus(self, qc: Circuit, ancilla: int) -> None:
         """Restore ancilla qubit to |0> state."""
-        gs.h(ancilla)
-        gs.x(ancilla)
+        qc.h(ancilla)
+        qc.x(ancilla)
 
-    def _build_oracle(self, gs: Circuit, zero_qubits: List[int], ancilla: int) -> None:
+    def _build_oracle(self, qc: Circuit, zero_qubits: List[int], ancilla: int) -> None:
         """Build Oracle, apply phase flip to computational basis states where zero_qubits are all |0>."""
-        self._prepare_kickback_ancilla_minus(gs, ancilla)
+        self._prepare_kickback_ancilla_minus(qc, ancilla)
 
         for q in zero_qubits:
-            gs.x(q)
+            qc.x(q)
 
         controls = list(zero_qubits)
         if len(controls) == 0:
-            gs.z(ancilla)
+            qc.z(ancilla)
         elif len(controls) == 1:
-            gs.cx(controls[0], ancilla)
+            qc.cx(controls[0], ancilla)
         else:
-            gs.mcx(controls, ancilla)
+            qc.mcx(controls, ancilla)
 
         for q in zero_qubits:
-            gs.x(q)
+            qc.x(q)
 
-        self._unprepare_kickback_ancilla_minus(gs, ancilla)
+        self._unprepare_kickback_ancilla_minus(qc, ancilla)
 
-    def _build_diffuser(self, gs: Circuit, U: Circuit, data_qubits: List[int], ancilla: int) -> None:
+    def _build_diffuser(self, qc: Circuit, U: Circuit, data_qubits: List[int], ancilla: int) -> None:
         """Build diffusion operator, implementing reflection about |psi> = U|0..0> state."""
-        gs.append(U.dagger(), data_qubits)
-        self._build_oracle(gs, zero_qubits=list(data_qubits), ancilla=ancilla)
-        gs.append(U, data_qubits)
+        qc.append(U.dagger(), data_qubits)
+        self._build_oracle(qc, zero_qubits=list(data_qubits), ancilla=ancilla)
+        qc.append(U, data_qubits)
 
     def _get_optimal_iterations(self, p: float) -> int:
         """Calculate optimal iteration count based on initial probability p."""

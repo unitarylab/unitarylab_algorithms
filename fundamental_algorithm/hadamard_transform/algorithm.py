@@ -60,13 +60,13 @@ class HadamardTransformAlgorithm(BaseAlgorithm):
 
         self.log(f"Stage 2: Building quantum circuit")
         
-        gs = Circuit(n, name=f'Hadamard_{mode}')
+        qc = Circuit(n, name=f'Hadamard_{mode}')
         target_qubits = list(range(n))
 
         original_state = None
 
         if mode == "superposition":
-            self._apply_hadamard_layer(gs, target_qubits)
+            self._apply_hadamard_layer(qc, target_qubits)
             self.log(f"  Added Hadamard gates to all {n} qubits")
             
         elif mode == "reflexive_test":
@@ -74,17 +74,17 @@ class HadamardTransformAlgorithm(BaseAlgorithm):
             psi = rng.normal(size=2**n) + 1j * rng.normal(size=2**n)
             original_state = psi / np.linalg.norm(psi)
             
-            gs.initialize(original_state, target=target_qubits)
+            qc.initialize(original_state, target=target_qubits)
             self.log(f"  Initialized random quantum state")
             
             for i in range(2):
-                self._apply_hadamard_layer(gs, target_qubits)
+                self._apply_hadamard_layer(qc, target_qubits)
             self.log(f"  Applied Hadamard transform 2 consecutive times")
 
         self.log(f"Stage 3: Executing quantum simulation")
         
         start_time = time.time()
-        raw_result = gs.execute(backend=backend, device=device, dtype=dtype)
+        raw_result = qc.execute(backend=backend, device=device, dtype=dtype)
         
         if mode == "superposition":
             prob_dict = raw_result.probabilities
@@ -129,14 +129,14 @@ class HadamardTransformAlgorithm(BaseAlgorithm):
         self.summary = msg
         
         # Save results
-        circuit_path = self.save_circuit(gs)
+        circuit_path = self.save_circuit(qc)
         filename = self.save_txt()
-        return self._build_return_dict(True, circuit_path, filename, gs)
+        return self._build_return_dict(True, circuit_path, filename, qc)
 
-    def _apply_hadamard_layer(self, gs: Circuit, target_qubits: List[int]) -> None:
+    def _apply_hadamard_layer(self, qc: Circuit, target_qubits: List[int]) -> None:
         """Apply Hadamard gate to specified list of qubits."""
         for q in target_qubits:
-            gs.h(q)
+            qc.h(q)
 
     def _as_statevector(self, res) -> np.ndarray:
         """Convert execution result to NumPy vector."""

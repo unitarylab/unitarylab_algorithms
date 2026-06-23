@@ -59,22 +59,22 @@ class QSPAlgorithm(BaseAlgorithm):
         self.log(f"Stage 2: Construct QSP quantum circuit building blocks")
         
         reg = Register('q', 1)
-        gs = Circuit(reg, name=f"QSP_Evolution")
+        qc = Circuit(reg, name=f"QSP_Evolution")
         
         theta = np.arccos(np.clip(x, -1, 1))
         
         self.log(f"  Mount initial phase rotation: Rz({2*phases[0]:.4f})")
-        gs.rz(2 * phases[0], 0) 
+        qc.rz(2 * phases[0], 0) 
         
         self.log(f"  Loop mount {d} groups [signal operator W(x) + phase rotation Rz]")
         for k in range(1, d + 1):
-            gs.rx(2 * theta, 0)
-            gs.rz(2 * phases[k], 0)
+            qc.rx(2 * theta, 0)
+            qc.rz(2 * phases[k], 0)
 
         self.log(f"Stage 3: Execute quantum simulation calculation")
         
         sim_start = time.time()
-        final_state = gs.execute(backend=backend, device=device, dtype=dtype).state
+        final_state = qc.execute(backend=backend, device=device, dtype=dtype).state
         sim_time = time.time() - sim_start
         
         self.log(f"  Underlying simulation computation time: {sim_time:.6f} seconds")
@@ -96,9 +96,9 @@ class QSPAlgorithm(BaseAlgorithm):
         self.status = "success"
         self.summary = f"QSP simulation completed with absolute error {abs_error:.6e} for test eigenvalue x={x} at evolution time t={t} using polynomial degree d={d}."
 
-        circuit_path = self.save_circuit(gs)
+        circuit_path = self.save_circuit(qc)
         filename = self.save_txt()
-        return self._build_return_dict(True, circuit_path, filename, gs)
+        return self._build_return_dict(True, circuit_path, filename, qc)
 
     def _find_phases(self, t, d):
         """Find target phase sequence."""

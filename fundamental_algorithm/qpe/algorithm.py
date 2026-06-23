@@ -63,7 +63,7 @@ class QPEAlgorithm(BaseAlgorithm):
 
         self.log(f"Stage 2: Building QPE core circuit")
         
-        gs = self.build_qpe_circuit(U, d, prepare_target)
+        qc = self.build_qpe_circuit(U, d, prepare_target)
         
         self.log(f"  Built controlled U operator sequence")
         self.log(f"  Connected IQFT module")
@@ -71,7 +71,7 @@ class QPEAlgorithm(BaseAlgorithm):
         self.log(f"Stage 3: Executing quantum simulation")
         
         sim_start = time.time()
-        final_state = gs.execute(backend=backend, device=device, dtype=dtype)
+        final_state = qc.execute(backend=backend, device=device, dtype=dtype)
         
         sim_time = time.time() - sim_start
         
@@ -99,33 +99,33 @@ class QPEAlgorithm(BaseAlgorithm):
         self.summary = f"Execution successful. Estimated phase: {phi_est:.6f} (bits: {best_bits_str}, prob: {best_prob:.4f})"
                 
         # Save results
-        circuit_path = self.save_circuit(gs)
+        circuit_path = self.save_circuit(qc)
         filename = self.save_txt()
-        return self._build_return_dict(True, circuit_path, filename, gs)
+        return self._build_return_dict(True, circuit_path, filename, qc)
 
     def build_qpe_circuit(self, U: Circuit, d: int, prepare_target: Optional[Circuit] = None) -> Circuit:
         """Build pure QPE circuit and return as independent Circuit, convenient for embedding in other algorithms."""
         n_target = U.get_num_qubits()
-        gs = Circuit(d + n_target, name=f"QPE_d{d}")
+        qc = Circuit(d + n_target, name=f"QPE_d{d}")
         phase_qubits = list(range(d))
         target_qubits = list(range(d, d + n_target))
 
         if prepare_target is not None:
             if prepare_target.get_num_qubits() != n_target:
                 raise ValueError("prepare_target qubit count must match U.")
-            gs.append(prepare_target, target_qubits)
+            qc.append(prepare_target, target_qubits)
 
         for q in phase_qubits:
-            gs.h(q)
+            qc.h(q)
 
         for k in range(d):
             power = 2 ** k
-            gs.append(U.repeat(power), target=target_qubits, control=phase_qubits[k], control_state='1')
+            qc.append(U.repeat(power), target=target_qubits, control=phase_qubits[k], control_state='1')
 
         iqft_circ = IQFT(d)
-        gs.append(iqft_circ, phase_qubits)
+        qc.append(iqft_circ, phase_qubits)
 
-        return gs
+        return qc
 
 
 def test(p = 0.25, n = 3):

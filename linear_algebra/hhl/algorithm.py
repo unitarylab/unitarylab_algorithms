@@ -112,31 +112,31 @@ class HHLAlgorithm(BaseAlgorithm):
         phase_qubits = list(range(1, d + 1))
         system_qubits = list(range(d + 1, total_qubits))
         
-        gs = Circuit(total_qubits, name="HHL_Algorithm")
+        qc = Circuit(total_qubits, name="HHL_Algorithm")
         
-        gs.initialize(b_state, system_qubits)
+        qc.initialize(b_state, system_qubits)
         self.log("  State preparation module mounted: Initialize |b>")
         
         U_mat, _ = self._expi_hermitian(A, t)
         U_circ = self._unitary_circuit_from_matrix(U_mat)
         
         qpe_circ = QPE(U_circ, d, return_circuit=True)
-        gs.append(qpe_circ, phase_qubits + system_qubits)
+        qc.append(qpe_circ, phase_qubits + system_qubits)
         self.log("  QPE module mounted: Extract eigenphases")
         
         rot_circ = self._controlled_reciprocal_rotation(
             d, t, k_start, signed_phase=signed_phase_mode
         )
-        gs.append(rot_circ, [anc] + phase_qubits)
+        qc.append(rot_circ, [anc] + phase_qubits)
         self.log("  Controlled reciprocal rotation module mounted: Nonlinear mapping 1/lambda")
         
-        gs.append(qpe_circ.dagger(), phase_qubits + system_qubits)
+        qc.append(qpe_circ.dagger(), phase_qubits + system_qubits)
         self.log("  Inverse QPE (iQPE) module mounted: System disentanglement")
 
         self.log(f"Stage 3: Executing quantum simulation")
         
         sim_start = time.time()
-        final_state = gs.execute(backend=backend, device=device, dtype=dtype).state
+        final_state = qc.execute(backend=backend, device=device, dtype=dtype).state
         state_arr = np.asarray(final_state, dtype=complex).reshape(-1)
         sim_time = time.time() - sim_start
         
@@ -159,9 +159,9 @@ class HHLAlgorithm(BaseAlgorithm):
         self.status = "success"
         self.summary = f"Execution successful. L2 error: {diff_norm:.6e}, Post-selection probability: {p_succ:.6f}"
 
-        circuit_path = self.save_circuit(gs)
+        circuit_path = self.save_circuit(qc)
         filename = self.save_txt()
-        return self._build_return_dict(True, circuit_path, filename, gs)
+        return self._build_return_dict(True, circuit_path, filename, qc)
 
     def _decode_signed_phase_index(self, k: int, d: int) -> int:
         """Convert QPE phase index to signed index."""
@@ -173,7 +173,7 @@ class HHLAlgorithm(BaseAlgorithm):
                                         signed_phase: bool = False) -> Circuit:
         """Controlled rotation for eigenvalue reciprocal."""
         grid = 2 ** d
-        gs = Circuit(d + 1, name=f"cond_Recip_Rot")
+        qc = Circuit(d + 1, name=f"cond_Recip_Rot")
         controls = list(range(1, d + 1))
         target = 0 
         C = k_start
@@ -196,16 +196,16 @@ class HHLAlgorithm(BaseAlgorithm):
             flipped = []
             for i in range(d):
                 if ((k >> i) & 1) == 0:
-                    gs.x(i + 1)
+                    qc.x(i + 1)
                     flipped.append(i + 1)
 
             theta = 2.0 * np.arcsin(val)
-            gs.mcry(theta, controls, target)
+            qc.mcry(theta, controls, target)
 
             for q in flipped:
-                gs.x(q)
+                qc.x(q)
 
-        return gs
+        return qc
 
     def _expi_hermitian(self, A: np.ndarray, t: float) -> Tuple[np.ndarray, np.ndarray]:
         """Compute U = exp(i A t)."""
@@ -217,9 +217,9 @@ class HHLAlgorithm(BaseAlgorithm):
     def _unitary_circuit_from_matrix(self, U: np.ndarray) -> Circuit:
         """Package unitary matrix as a circuit."""
         n = int(np.log2(U.shape[0]))
-        gs = Circuit(n, name="U")
-        gs.unitary(U, list(range(n)))
-        return gs
+        qc = Circuit(n, name="U")
+        qc.unitary(U, list(range(n)))
+        return qc
 
     def _postselect_solution_state(self, state: np.ndarray, scale: float, d: int, n: int) -> Tuple[np.ndarray, float, np.ndarray]:
         """Post-select ancilla=1 and phase=|0...0> and extract solution vector."""

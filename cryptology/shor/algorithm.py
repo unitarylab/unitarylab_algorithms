@@ -114,22 +114,22 @@ class ShorAlgorithm(BaseAlgorithm):
             # Sub-stage 2.2: Quantum circuit construction
             self.log(f"Sub-stage 2.2: Building quantum circuit")
             
-            gs = Circuit(total_qubits, name=f'Shor_N{N}_a{a}_{method}')
-            gs.h(range(n_count))
-            gs.x(n_count) 
+            qc = Circuit(total_qubits, name=f'Shor_N{N}_a{a}_{method}')
+            qc.h(range(n_count))
+            qc.x(n_count) 
 
             if method == 'matrix':
-                self._build_modular_matrix_circuit(gs, n_count, n_work, a, N)
+                self._build_modular_matrix_circuit(qc, n_count, n_work, a, N)
             else:
-                self._build_modular_operator_circuit(gs, n_count, n_work, n_work_actual, a, N)
+                self._build_modular_operator_circuit(qc, n_count, n_work, n_work_actual, a, N)
 
-            gs.append(IQFT(n_count), range(n_count))
+            qc.append(IQFT(n_count), range(n_count))
             
             # Sub-stage 2.3: Quantum simulation
             self.log(f"Sub-stage 2.3: Running quantum simulation")
             
             start_time = time.time()
-            result = gs.execute(backend=backend, device=device, dtype=dtype)
+            result = qc.execute(backend=backend, device=device, dtype=dtype)
             measure_bin = result.measure(range(n_count), endian='little')
             measure_int = int(measure_bin, 2)
             end_time = time.time()
@@ -167,7 +167,7 @@ class ShorAlgorithm(BaseAlgorithm):
                         self.summary = msg
                         
                         # Save results
-                        circuit_path = self.save_circuit(gs)                        
+                        circuit_path = self.save_circuit(qc)                        
                         filename = self.save_txt()
                         return self._build_return_dict(True, circuit_path, filename)
                     else:
@@ -187,9 +187,9 @@ class ShorAlgorithm(BaseAlgorithm):
         self.summary = msg
 
         # Save results
-        circuit_path = self.save_circuit(gs)
+        circuit_path = self.save_circuit(qc)
         filename = self.save_txt()
-        return self._build_return_dict(False, circuit_path, filename, gs)
+        return self._build_return_dict(False, circuit_path, filename, qc)
     
 
     # Matrix method components
@@ -203,54 +203,54 @@ class ShorAlgorithm(BaseAlgorithm):
             matrix[target, y] = 1.0
         return matrix
 
-    def _build_modular_matrix_circuit(self, gs, n_count, n_work, a, N):
+    def _build_modular_matrix_circuit(self, qc, n_count, n_work, a, N):
         """Build controlled modular multiplication circuit for phase estimation."""
         total_qubits = n_count + n_work
         for q in range(n_count):
             power_factor = pow(a, 2**q, N)
             matrix = self._get_modular_matrix(power_factor, N, n_work)
-            gs.unitary(matrix, range(n_count, total_qubits), q, '1')
+            qc.unitary(matrix, range(n_count, total_qubits), q, '1')
 
     # Operator method components
-    def _Ph(self, n, a, gs):
+    def _Ph(self, n, a, qc):
         """Phase rotation gate."""
         for i in range(n):
             theta = 2 * np.pi * a / (2 ** (n-i))
-            gs.p(theta, i)
+            qc.p(theta, i)
 
-    def _Controlled_Ph(self, n, a, gs, control_qubit, data_qubits):
+    def _Controlled_Ph(self, n, a, qc, control_qubit, data_qubits):
         """Controlled phase rotation gate."""
         for i in range(n):
             theta = 2 * np.pi * a / (2 ** (n-i))
-            gs.cp(theta, control_qubit, data_qubits[i])
+            qc.cp(theta, control_qubit, data_qubits[i])
 
     def _Add_constant_mod_opt(self, n_qubits: int, a: int, N: int):
         """Quantum modular adder."""
         n_padding = n_qubits + 1      
         n_total = n_qubits + 2        
         
-        gs = Circuit(n_total, name=f"+({a})%({N})")
+        qc = Circuit(n_total, name=f"+({a})%({N})")
         all_qubits = list(range(n_total))           
         work_qubits = list(range(n_padding))        
         ancilla = n_total - 1                       
 
-        gs.append(QFT(n_total), all_qubits)
-        self._Ph(n_total, a - N, gs)
-        gs.append(IQFT(n_total), all_qubits)
+        qc.append(QFT(n_total), all_qubits)
+        self._Ph(n_total, a - N, qc)
+        qc.append(IQFT(n_total), all_qubits)
         
-        gs.append(QFT(n_padding), work_qubits)    
-        self._Controlled_Ph(n_padding, N, gs, ancilla, work_qubits)
+        qc.append(QFT(n_padding), work_qubits)    
+        self._Controlled_Ph(n_padding, N, qc, ancilla, work_qubits)
         
-        self._Ph(n_padding, -a, gs)
-        gs.append(IQFT(n_padding), work_qubits)    
+        self._Ph(n_padding, -a, qc)
+        qc.append(IQFT(n_padding), work_qubits)    
         msb_padding = n_qubits 
-        gs.x(ancilla)
-        gs.cnot(msb_padding, ancilla)
-        gs.append(QFT(n_padding), work_qubits)
-        self._Ph(n_padding, a, gs)
-        gs.append(IQFT(n_padding), work_qubits)
+        qc.x(ancilla)
+        qc.cnot(msb_padding, ancilla)
+        qc.append(QFT(n_padding), work_qubits)
+        self._Ph(n_padding, a, qc)
+        qc.append(IQFT(n_padding), work_qubits)
 
-        return gs
+        return qc
 
     def _multiple_mod(self, n_qubits, a, N):
         """Quantum modular multiplier."""
@@ -262,14 +262,14 @@ class ShorAlgorithm(BaseAlgorithm):
         list_n_data = list(range(n_data))
         list_n_work = list(range(n_data, n_total))
         
-        gs = Circuit(n_total, name=f'M')
+        qc = Circuit(n_total, name=f'M')
 
         for i in list_n_data:
             gs_add_mod = self._Add_constant_mod_opt(n_qubits, (2**i * a) % N, N)
-            gs.append(gs_add_mod, list_n_work, list_n_data[i])
+            qc.append(gs_add_mod, list_n_work, list_n_data[i])
         
         for i in range(len(list_n_data)):
-            gs.swap(list_n_data[i], list_n_work[i])
+            qc.swap(list_n_data[i], list_n_work[i])
 
         try:
             a_inv = pow(a, -1, N) 
@@ -280,17 +280,17 @@ class ShorAlgorithm(BaseAlgorithm):
             term = (a_inv * (2**i)) % N
             sub_val = (N - term) % N
             gs_sub_mod = self._Add_constant_mod_opt(n_qubits, sub_val, N)
-            gs.append(gs_sub_mod, list_n_work, list_n_data[i])
+            qc.append(gs_sub_mod, list_n_work, list_n_data[i])
             
-        return gs
+        return qc
 
-    def _build_modular_operator_circuit(self, gs, n_count, n_work, n_work_actual, a, N):
+    def _build_modular_operator_circuit(self, qc, n_count, n_work, n_work_actual, a, N):
         """Connect modular multipliers to the main circuit."""
         total_qubits = n_count + n_work_actual
         for q in range(n_count):
             b = pow(a, 2**q, N)
             gs_tem = self._multiple_mod(n_work, b, N)
-            gs.append(gs_tem, range(n_count, total_qubits), q)
+            qc.append(gs_tem, range(n_count, total_qubits), q)
 
 def test(N=15, method='matrix', max_retries=15):
     """

@@ -66,17 +66,17 @@ class QFTAlgorithm(BaseAlgorithm):
 
         self.log(f"Stage 2: Performing quantum simulation")
         
-        gs = Circuit(n, name="QFT Example")
+        qc = Circuit(n, name="QFT Example")
         if state is not None:
             state = np.asarray(state, dtype=complex) / np.linalg.norm(state)
-            gs.initialize(state, range(n))
+            qc.initialize(state, range(n))
             self.log(f"  Set initial state vector (normalized): {state}")
         else:
             self.log(f"  Using default initial state |0...0>")
-        gs.append(qft, range(n))
+        qc.append(qft, range(n))
 
         sim_start = time.time()
-        final_state = gs.execute(backend=backend, device=device, dtype=dtype).state
+        final_state = qc.execute(backend=backend, device=device, dtype=dtype).state
         
         sim_time = time.time() - sim_start
         
@@ -102,9 +102,9 @@ class QFTAlgorithm(BaseAlgorithm):
         self.summary = f"Execution successful. Verification error: {error:.4f}"
                 
         # Save results
-        circuit_path = self.save_circuit(gs.decompose())
+        circuit_path = self.save_circuit(qc.decompose())
         filename = self.save_txt()
-        return self._build_return_dict(True, circuit_path, filename, gs)
+        return self._build_return_dict(True, circuit_path, filename, qc)
 
 
 def test(n=4, state=None, inverse=False):

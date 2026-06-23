@@ -59,18 +59,18 @@ class SimonAlgorithm(BaseAlgorithm):
         rx = Register('x', n)
         ry = Register('y', n)
         cqr= ClassicalRegister('cr',n)
-        gs = Circuit(rx, ry, cqr, name=f'Simon_{s}')
+        qc = Circuit(rx, ry, cqr, name=f'Simon_{s}')
 
-        gs.h(rx[:]) 
-        self._build_simon_oracle(gs, s)
-        gs.measure(ry[:], cqr[:])
-        gs.h(rx[:])
+        qc.h(rx[:]) 
+        self._build_simon_oracle(qc, s)
+        qc.measure(ry[:], cqr[:])
+        qc.h(rx[:])
 
         # Stage 3: Quantum simulation
         self.log(f"Stage 3: Executing quantum simulation")
         
         start_time = time.time()
-        re_state = gs.execute(backend=backend, device=device, dtype=dtype)
+        re_state = qc.execute(backend=backend, device=device, dtype=dtype)
         state_basis_dict = re_state.calculate_state(range(n))
         end_time = time.time()
         comp_time = end_time - start_time
@@ -98,21 +98,21 @@ class SimonAlgorithm(BaseAlgorithm):
         self.summary = f"Algorithm executed successfully with result s={found_s}" if is_success else "Algorithm failed to solve"
 
         # Save results
-        circuit_path = self.save_circuit(gs)
+        circuit_path = self.save_circuit(qc)
         filename = self.save_txt()
         
-        return self._build_return_dict(is_success, circuit_path, filename, gs)
+        return self._build_return_dict(is_success, circuit_path, filename, qc)
 
-    def _build_simon_oracle(self, gs: Circuit, s: str) -> None:
+    def _build_simon_oracle(self, qc: Circuit, s: str) -> None:
         """Build U_f oracle for Simon problem."""
         n = len(s)
         for i in range(n - 1, -1, -1):
-            gs.cx(i, i + n)
+            qc.cx(i, i + n)
 
         pivot_idx = s.find("1")
         for i in range(n):
             if s[i] == "1":
-                gs.cx(n - 1 - pivot_idx, n - 1 - i + n)
+                qc.cx(n - 1 - pivot_idx, n - 1 - i + n)
 
     def _get_basis_simple(self, state_list: List[str], n_qubits: int) -> List[str]:
         """Select linearly independent vectors from measured states."""

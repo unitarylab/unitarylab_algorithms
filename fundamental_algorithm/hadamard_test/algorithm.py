@@ -107,8 +107,8 @@ class HadamardTestAlgorithm(BaseAlgorithm):
             
         else:
             # Basic Expectation mode
-            gs = self._build_hadamard_test_circuit(U, prepare_psi, imag=imag)
-            circuits["main"] = gs
+            qc = self._build_hadamard_test_circuit(U, prepare_psi, imag=imag)
+            circuits["main"] = qc
             self.log(f"  - Base Hadamard Test circuit built (Imag={imag})")
 
         self.log(f"Stage 2/5 complete ✓")
