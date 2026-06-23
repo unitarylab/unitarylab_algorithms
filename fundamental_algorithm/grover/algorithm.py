@@ -75,16 +75,16 @@ class GroverAlgorithm(BaseAlgorithm):
         # Stage 2 
         self.log(f"Stage 2/5: Building quantum circuit...")
         
-        gs = Circuit(n_data + 1, name='Grover')
+        qc = Circuit(n_data + 1, name='Grover')
         data_qubits = list(range(n_data))
 
         # 1) Prepare initial state |psi>
-        gs.append(U, data_qubits)
+        qc.append(U, data_qubits)
 
         # 2) Expand Grover/AA iterations
         for _ in range(reps):
-            self._build_oracle(gs, target_qubits_index, target_qubits_value, ancilla=ancilla)
-            self._build_diffuser(gs, U=U, data_qubits=data_qubits, ancilla=ancilla)
+            self._build_oracle(qc, target_qubits_index, target_qubits_value, ancilla=ancilla)
+            self._build_diffuser(qc, U=U, data_qubits=data_qubits, ancilla=ancilla)
         
         self.log(f"Stage 2/5 complete ✓")
 
@@ -92,7 +92,7 @@ class GroverAlgorithm(BaseAlgorithm):
         self.log(f"Stage 3/5: Running quantum simulation...")
         
         start_time = time.time()
-        re_state = gs.execute(backend=backend, device=device, dtype=dtype).state
+        re_state = qc.execute(backend=backend, device=device, dtype=dtype).state
         end_time = time.time()
         comp_time = end_time - start_time
 
@@ -123,51 +123,51 @@ class GroverAlgorithm(BaseAlgorithm):
         self.status = 'success' if is_success else 'partial_success'
         self.summary = f"Execution successful. Find state {find_state} with probability {target_prob:.4f}."
         
-        circuit_path = self.save_circuit(gs)
+        circuit_path = self.save_circuit(qc)
         filename = self.save_txt()
         
-        return self._build_return_dict(True, circuit_path, filename, gs)
+        return self._build_return_dict(True, circuit_path, filename, qc)
     
-    def _prepare_kickback_ancilla_minus(self, gs: Circuit, ancilla: int) -> None:
+    def _prepare_kickback_ancilla_minus(self, qc: Circuit, ancilla: int) -> None:
         """Prepare ancilla in |-> = H X |0>"""
-        gs.x(ancilla)
-        gs.h(ancilla)
+        qc.x(ancilla)
+        qc.h(ancilla)
 
-    def _unprepare_kickback_ancilla_minus(self, gs: Circuit, ancilla: int) -> None:
+    def _unprepare_kickback_ancilla_minus(self, qc: Circuit, ancilla: int) -> None:
         """Unprepare ancilla back to |0>"""
-        gs.h(ancilla)
-        gs.x(ancilla)
+        qc.h(ancilla)
+        qc.x(ancilla)
 
-    def _build_oracle(self, gs: Circuit, target_qubits_index: list[int], target_qubits_value: list[int] | None, ancilla: int) -> None:
+    def _build_oracle(self, qc: Circuit, target_qubits_index: list[int], target_qubits_value: list[int] | None, ancilla: int) -> None:
         """Phase flip (-1) on computational basis states where `zero_qubits` are |0>"""
-        self._prepare_kickback_ancilla_minus(gs, ancilla)
+        self._prepare_kickback_ancilla_minus(qc, ancilla)
 
         if target_qubits_value is None:
             target_qubits_value = [0 for _ in target_qubits_index]
 
-        gs.mcx(target_qubits_index, ancilla, target_qubits_value)
+        qc.mcx(target_qubits_index, ancilla, target_qubits_value)
         
         # for q in zero_qubits:
-        #     gs.x(q)
+        #     qc.x(q)
 
         # controls = list(zero_qubits)
         # if len(controls) == 0:
-        #     gs.z(ancilla)
+        #     qc.z(ancilla)
         # elif len(controls) == 1:
-        #     gs.cx(controls[0], ancilla)
+        #     qc.cx(controls[0], ancilla)
         # else:
-        #     gs.mcx(controls, ancilla)
+        #     qc.mcx(controls, ancilla)
 
         # for q in zero_qubits:
-        #     gs.x(q)
+        #     qc.x(q)
 
-        self._unprepare_kickback_ancilla_minus(gs, ancilla)
+        self._unprepare_kickback_ancilla_minus(qc, ancilla)
 
-    def _build_diffuser(self, gs: Circuit, U: Circuit, data_qubits: List[int], ancilla: int) -> None:
+    def _build_diffuser(self, qc: Circuit, U: Circuit, data_qubits: List[int], ancilla: int) -> None:
         """Reflection about |psi> = U|0..0>"""
-        gs.append(U.dagger(), data_qubits)
-        self._build_oracle(gs,target_qubits_index=list(data_qubits), target_qubits_value = None, ancilla=ancilla)
-        gs.append(U, data_qubits)
+        qc.append(U.dagger(), data_qubits)
+        self._build_oracle(qc,target_qubits_index=list(data_qubits), target_qubits_value = None, ancilla=ancilla)
+        qc.append(U, data_qubits)
 
     def _get_optimal_iterations(self, p: float) -> int:
         """Calculate optimal Grover iteration count based on initial probability p"""
