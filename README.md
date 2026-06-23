@@ -88,7 +88,7 @@ Standard algorithm folders usually contain:
 
 ```text
 algorithm.py       # Main implementation
-parameters.json    # Web-side parameter schema
+parameters.json    # parameter schema
 README_en.md       # English algorithm notes
 README_zh.md       # Chinese algorithm notes
 __init__.py
@@ -237,7 +237,7 @@ unitarylab_algorithms/
 
 ```text
 algorithm.py       # 算法主实现
-parameters.json    # 网页端参数配置
+parameters.json    # 参数配置
 README_en.md       # 英文算法说明
 README_zh.md       # 中文算法说明
 __init__.py
