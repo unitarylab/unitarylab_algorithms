@@ -39,6 +39,14 @@ This module provides quantum algorithms including:
     - Heat 2D Equation Algorithm
 """
 
+from importlib.metadata import version, PackageNotFoundError
+
+try:
+    __version__ = version("unitarylab")
+except PackageNotFoundError:
+    __version__ = "1.1.3"
+
+
 from .cryptology import *
 from .fundamental_algorithm import *
 from .linear_algebra import *
@@ -81,4 +89,3 @@ __all__ = [
     "AdvectionEquationAlgorithm",
     "Heat2dEquationAlgorithm",
 ]
-
