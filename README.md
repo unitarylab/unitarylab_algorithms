@@ -30,7 +30,7 @@
 
 ### What is this?
 
-**UnitaryLab Algorithms** is a collection of standalone quantum algorithm implementations maintained by [UnitaryLab](https://unitarylab.com/). It provides runnable algorithm modules, parameter schemas for web execution, and bilingual algorithm notes for learning, demos, and integration with the UnitaryLab quantum simulator.
+**UnitaryLab Algorithms** is a collection of independent quantum algorithm implementations maintained by [UnitaryLab](https://unitarylab.com/). It provides ready-to-run algorithm modules, parameter configurations for execution, and algorithm descriptions in both Chinese and English, making it suitable for learning, demonstrating, and integrating with the UnitaryLab quantum simulator.
 
 The library currently contains **28 algorithms / equation-solving modules** across **6 categories**:
 
@@ -169,7 +169,7 @@ Use `template.py` and existing folders as references:
 
 ### License
 
-No standalone license file is present in this folder. Please refer to the license information distributed with the published package or the parent repository.
+This project is licensed under the MIT license. For details, please refer to the `LICENSE` file in the repository root directory or the license description included in the distribution package.
 
 ---
 
@@ -179,7 +179,7 @@ No standalone license file is present in this folder. Please refer to the licens
 
 ### 这是什么？
 
-**UnitaryLab Algorithms** 是由 [UnitaryLab](https://unitarylab.com/) 维护的独立量子算法实现集合。它提供可直接运行的算法模块、用于网页端执行的参数配置，以及中英文算法说明，适合量子算法学习、演示和与 UnitaryLab 量子模拟器集成。
+**UnitaryLab Algorithms** 是由 [UnitaryLab](https://unitarylab.com/) 维护的独立量子算法实现集合。它提供可直接运行的算法模块、用于执行的参数配置，以及中英文算法说明，适合量子算法学习、演示和与 UnitaryLab 量子模拟器集成。
 
 当前库包含 **28 个算法/方程求解模块**，覆盖 **6 个方向**：
 
