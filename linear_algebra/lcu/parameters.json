@@ -9,20 +9,20 @@
     "tab": "Linear Algebra",
     "params": [
         {
-            "help": "Weight coefficients alpha_j of unitary operators (comma-separated, e.g., '0.6, 0.4').",
+            "help": "Weight coefficients alpha_j of the Pauli unitary operators. Provide a Python/JSON-style numeric list; its length must match paulis.",
             "name": "alphas",
-            "value": "0.6, 0.4",
-            "pattern": "^[0-9., ]+$",
+            "value": "[0.6, 0.4]",
+            "pattern": "^\\[\\s*-?\\d+(\\.\\d+)?(\\s*,\\s*-?\\d+(\\.\\d+)?)*\\s*\\]$",
             "description": "Weight coefficients",
-            "info": "请输入逗号分隔的数字，如 0.6, 0.4"
+            "info": "请输入数字列表，长度必须与paulis一致（如 [0.6, 0.4]）"
         },
         {
-            "help": "Corresponding Pauli unitary operator list (comma-separated, e.g., 'I, X').",
+            "help": "Corresponding Pauli unitary operator list. Provide a Python/JSON-style string list using only I, X, Y, Z; each Pauli string length must equal n.",
             "name": "paulis",
-            "value": "I, X",
-            "pattern": "^[IXYZ, ]+$",
+            "value": "[\"I\", \"X\"]",
+            "pattern": "^\\[\\s*['\\\"][IXYZ]+['\\\"](\\s*,\\s*['\\\"][IXYZ]+['\\\"])*\\s*\\]$",
             "description": "Pauli operators",
-            "info": "请输入逗号分隔的字符串，如 I, X"
+            "info": "请输入Pauli字符串列表，长度必须与alphas一致，且每个字符串长度等于n（如 [\"I\", \"X\"]）"
         },
         {
             "max": 10,

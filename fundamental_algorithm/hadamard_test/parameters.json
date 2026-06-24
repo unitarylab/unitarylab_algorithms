@@ -9,20 +9,20 @@
     "tab": "Fundamental",
     "params": [
         {
-            "help": "Psi is the quantum state vector.",
+            "help": "Psi is the input quantum state vector. It must be a non-zero 1D vector whose length equals the dimension of U and is a power of 2.",
             "name": "Psi",
             "value": "[1, 2]",
             "pattern": "",
             "description": "Quantum state vector Psi of the Hadamard test",
-            "info": "请输入列表（如 [1, 2]）"
+            "info": "请输入非零一维数组，长度必须等于U的维度且为2的幂（如 [1, 2]）"
         },
         {
-            "help": "U is the unitary operator of the Hadamard test.",
+            "help": "U is the unitary operator of the Hadamard test. It must be a square real unitary matrix with dimension 2^k, and its dimension must match len(Psi).",
             "name": "U",
             "value": "[[1, 0], [0, -1]]",
             "pattern": "",
             "description": "Observable U",
-            "info": "请输入二维酉矩阵，如 [[1, 0], [0, 1]]"
+            "info": "请输入维度为2的幂的实酉方阵，维度需与Psi长度一致（如 [[1, 0], [0, -1]]）"
         },
         {
             "help": "Number of shots for the quantum computation. If shots=0, the algorithm will return the exact expectation value without sampling.",

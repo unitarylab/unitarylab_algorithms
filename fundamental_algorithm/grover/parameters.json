@@ -19,12 +19,12 @@
             "info": "请输入正整数，范围在1到10之间（如 3）"
         },
         {
-            "help": "The target state to search for (binary string, e.g., '101'). Length should equal the number of qubits.",
+            "help": "The target state to search for (binary string, e.g., '101'). Its length must be exactly n; otherwise the oracle controls do not match the data register.",
             "name": "target",
             "value": "101",
             "pattern": "^[01]+$",
             "description": "Target state",
-            "info": "请输入01字符串，长度应等于n（示例：101）"
+            "info": "请输入01字符串，长度必须等于n（示例：n=3时输入101）"
         }
     ]
 }

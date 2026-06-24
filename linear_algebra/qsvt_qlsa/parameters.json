@@ -9,20 +9,20 @@
     "tab": "Linear Algebra",
     "params": [
         {
-            "help": "A is the Matrix in linear system Ax = b.",
+            "help": "A is the coefficient matrix in Ax = b. It should be a square matrix compatible with QSVTSolver, and its dimension must match len(b).",
             "name": "A",
             "value": "[[0.8, 0], [0, 0.4]]",
             "pattern": "",
             "description": "Matrix",
-            "info": "请输入二维数组（矩阵），如 [[0.8, 0], [0, 0.4]]"
+            "info": "请输入方阵二维数组，维度必须与b长度一致（如 [[0.8, 0], [0, 0.4]]）"
         },
         {
-            "help": "b is the Source Term in linear system Ax = b.",
+            "help": "b is the source vector in Ax = b. It must be a 1D vector whose length equals the dimension of A.",
             "name": "b",
             "value": "[1, 2]",
             "pattern": "",
             "description": "Source Term b",
-            "info": "请输入数组，如 [1, 2]"
+            "info": "请输入一维数组，长度必须等于A的维度（如 [1, 2]）"
         },
         {
             "max": 1.0,

@@ -31,12 +31,12 @@
         {
             "max": 100,
             "min": 3,
-            "help": "Modulus P (typically a prime number). Must be coprime with both g and y.",
+            "help": "Modulus P for the discrete logarithm problem. Use a prime modulus; g and y must both be coprime with P.",
             "name": "P",
             "value": "17",
             "pattern": "^[1-9]\\d*$",
             "description": "Modulus P",
-            "info": "请输入质数"
+            "info": "请输入质数，且g和y都必须与P互质"
         }
     ]
 }

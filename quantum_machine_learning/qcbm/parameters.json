@@ -39,12 +39,14 @@
             "info": "请输入正整数，如 40，范围在1到200之间"
         },
         {
-            "help": "Adam optimizer learning rate. Typical range: 0.01–0.3.",
+            "min": 0,
+            "exclusiveMin": true,
+            "help": "Positive Adam optimizer learning rate. Typical range: 0.01 to 0.3.",
             "name": "lr",
             "value": "0.1",
             "pattern": "^\\d+(\\.\\d+)?[eE]?-?\\d*$",
             "description": "Learning rate",
-            "info": "请输入浮点数，如 0.1"
+            "info": "请输入正数学习率，典型范围0.01到0.3（如 0.1）"
         }
     ]
 }

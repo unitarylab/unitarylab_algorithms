@@ -18,11 +18,11 @@
         },
         {
             "name": "state",
-            "help": "The input state for the QFT, represented as a list of complex numbers.",
+            "help": "The input state for the QFT, represented as a 1D list of complex numbers. If provided, its length must be exactly 2^n.",
             "value": "[1, 0, 0, 0, 0, 0, 0, 0]",
             "type": "list",
             "description": "Input state (list of complex numbers)",
-            "info": "请输入数组，如 [1, 0, 0, 0, 0, 0, 0, 0]"
+            "info": "请输入一维数组，长度必须等于2^n（如 n=3 时为 [1, 0, 0, 0, 0, 0, 0, 0]）"
         },
         {
             "name": "inverse",

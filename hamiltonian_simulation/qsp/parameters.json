@@ -9,11 +9,11 @@
     "tab": "Hamiltonian Simulation",
     "params": [
         {
-            "help": "Hamiltonian to be simulated, represented as a Hermitan matrix. Must be provided as a 2D array.",
+            "help": "Hamiltonian to be simulated. It must be a non-empty Hermitian square matrix provided as a 2D array; non-power-of-2 dimensions are padded internally.",
             "name": "H",
             "value": "[[2, 1], [1, 3]]",
             "description": "Hamiltonian matrix H",
-            "info": "请输入二维数组（矩阵），如 [[2, 1], [1, 3]]"
+            "info": "请输入非空厄米方阵二维数组；非2的幂维度会在算法内部补零（如 [[2, 1], [1, 3]]）"
         },
         {
             "max": 10.0,
@@ -29,7 +29,7 @@
             "max": 50,
             "min": 1,
             "help": "Degree of the approximating polynomial.",
-            "name": "degree",
+            "name": "d",
             "value": "15",
             "pattern": "^[1-9]\\d*$",
             "description": "Approximation degree d",
