@@ -11,7 +11,7 @@
         {
             "max": 6,
             "min": 2,
-            "help": "Number of qubits for the internally generated random Hermitian Hamiltonian. If a custom Hamiltonian is provided in code, n is inferred from that matrix.",
+            "help": "Number of qubits for the internally generated random Hermitian Hamiltonian.",
             "name": "n",
             "value": "2",
             "pattern": "^[1-9]\\d*$",
