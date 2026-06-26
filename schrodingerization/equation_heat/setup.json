@@ -121,7 +121,7 @@
                     "par_func": [
                         {
                             "description": "Customized initial function",
-                            "help": "u0(x) is the initial function. It is parsed by unitarylab.library.equation.parse_equation; use the variable x and available constants such as pi and L.",
+                            "help": "u0(x) is the initial function. It is parsed by sympy; use the variable x and available constants such as pi and L.",
                             "latex": "$u_0(x) = \\sin(2\\pi x/L)$",
                             "name": "u0(x)",
                             "value": "sin(2*pi*x/L)",
