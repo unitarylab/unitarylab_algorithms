@@ -9,12 +9,12 @@
     "tab": "Linear Algebra",
     "params": [
         {
-            "help": "Coefficients for linear combination of unitaries (c₀, c₁, c₂).",
+            "help": "Coefficients for the built-in three-term linear combination of unitaries (c0, c1, c2). Provide exactly three values in [0, 1].",
             "name": "coefficients",
             "value": "[1.0, 0.2, 0.2]",
-            "pattern": "^\\[\\s*(0(\\.\\d+)?|1(\\.0+)?)(\\s*,\\s*(0(\\.\\d+)?|1(\\.0+)?))*\\s*\\]$",
+            "pattern": "^\\[\\s*(0(\\.\\d+)?|1(\\.0+)?)\\s*,\\s*(0(\\.\\d+)?|1(\\.0+)?)\\s*,\\s*(0(\\.\\d+)?|1(\\.0+)?)\\s*\\]$",
             "description": "Linear combination coefficients",
-            "info": "请输入列表（如 [1.0, 0.2, 0.2]）"
+            "info": "请输入恰好3个[0,1]范围内的系数（如 [1.0, 0.2, 0.2]）"
         },
         {
             "max": 1000,

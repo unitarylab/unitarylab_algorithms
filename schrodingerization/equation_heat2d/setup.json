@@ -120,7 +120,7 @@
                     "par_func": [
                         {
                             "description": "Customized initial function",
-                            "help": "u0(x, y) is the initial function. ",
+                            "help": "u0(x, y) is the initial function. It is parsed by sympy,use the variables x and y and available constants such as pi and L.",
                             "latex": "$u_0(x, y) = \\sin(2\\pi x/L) * \\sin(2\\pi y/L)$",
                             "name": "u0(x, y)",
                             "value": "sin(2*pi*x/L) * sin(2*pi*y/L)",

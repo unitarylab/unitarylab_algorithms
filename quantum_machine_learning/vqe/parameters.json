@@ -11,7 +11,7 @@
         {
             "max": 6,
             "min": 2,
-            "help": "Number of qubits for the Ising Hamiltonian (currently fixed at 2 for the built-in model).",
+            "help": "Number of qubits for the internally generated random Hermitian Hamiltonian.",
             "name": "n",
             "value": "2",
             "pattern": "^[1-9]\\d*$",

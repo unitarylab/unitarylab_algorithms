@@ -39,12 +39,12 @@
             "info": "请输入正整数，如 100"
         },
         {
-            "help": "Edge list defining the graph topology, e.g. [[0,1],[1,2],[2,3],[3,0],[0,4],[1,5]].",
+            "help": "Edge list defining the graph topology. Each edge must be a pair [u, v], and every vertex index must be an integer in [0, n-1].",
             "name": "edges",
             "value": "[[0,1],[1,2],[2,3],[3,0],[0,4],[1,5]]",
             "pattern": "",
             "description": "Graph edges",
-            "info": "请输入二维数组，如 [[0,1],[1,2],[2,3],[3,0],[0,4],[1,5]]"
+            "info": "请输入边列表，每条边为[u,v]，顶点编号必须在0到n-1之间（如 [[0,1],[1,2]]）"
         }
     ]
 }

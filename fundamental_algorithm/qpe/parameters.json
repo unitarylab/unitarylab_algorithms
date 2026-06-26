@@ -14,9 +14,10 @@
             "help": "The phase value phi to estimate (0 <= phi < 1). We will construct a phase gate P(2*pi*phi) as the operator to be estimated.",
             "name": "p",
             "value": "0.25",
-            "pattern": "^0(\\.\\d+)?$|^1(\\.0+)?$",
+            "exclusiveMax": true,
+            "pattern": "^0(\\.\\d+)?$",
             "description": "Target phase phi",
-            "info": "请输入浮点数，范围在0到1之间（如 0.25）"
+            "info": "请输入浮点数，范围为0到1之间且不包含1（如 0.25）"
         },
         {
             "max": 10,

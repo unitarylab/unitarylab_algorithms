@@ -85,7 +85,7 @@
                 "par_func": [
                     {
                         "description": "Source term function",
-                        "help": "f(x) is the source term function of the heat equation, which determines distribution of heat source.",
+                        "help": "f(x) is the source term function of the heat equation. It is parsed by sympy, use the variable x and available constants such as a and L.",
                         "latex": "$f(x) = 0$",
                         "name": "f(x)",
                         "par": [],
@@ -121,7 +121,7 @@
                     "par_func": [
                         {
                             "description": "Customized initial function",
-                            "help": "u0(x) is the initial function. ",
+                            "help": "u0(x) is the initial function. It is parsed by sympy; use the variable x and available constants such as pi and L.",
                             "latex": "$u_0(x) = \\sin(2\\pi x/L)$",
                             "name": "u0(x)",
                             "value": "sin(2*pi*x/L)",

@@ -10,12 +10,14 @@
         {
             "max": 1.0,
             "min": 0.0,
-            "help": "The initial probability p to amplify (0 <= p <= 1). We will construct a rotation gate to prepare the initial state with this success rate.",
+            "help": "The initial probability p to amplify. It must satisfy 0 < p < 1 because the implementation computes the Grover iteration angle from p.",
             "name": "p",
             "value": "0.1",
-            "pattern": "^0(\\.\\d+)?$|^1(\\.0+)?$",
+            "exclusiveMin": true,
+            "exclusiveMax": true,
+            "pattern": "^0\\.(?=.*[1-9])\\d+$",
             "description": "Initial probability",
-            "info": "请输入浮点数，范围在0到1之间（如 0.1）"
+            "info": "请输入浮点数，范围为0到1之间且不包含0和1（如 0.1）"
         },
         {
             "max": 10,
