@@ -29,9 +29,9 @@ class VQEAlgorithm(BaseAlgorithm):
         os.makedirs(algo_dir, exist_ok=True)
 
         super().__init__(name="VQE Algorithm", prefix="VQE", text_mode=text_mode, algo_dir=algo_dir)
-        self.backend = None
-        self.device = None
-        self.dtype = None
+        self.backend = 'torch'
+        self.device = 'cpu'
+        self.dtype = np.complex128
         
     def _validate_hamiltonian(self, hamiltonian: np.ndarray) -> tuple[np.ndarray, int]:
         h = np.asarray(hamiltonian, dtype=np.complex128)

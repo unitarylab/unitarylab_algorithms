@@ -1,0 +1,82 @@
+{
+    "title": "Fermi-Hubbard VQE",
+    "description": "Variational Quantum Eigensolver workflow for the open one-dimensional Fermi-Hubbard model.",
+    "tags": [
+        "VQE",
+        "Fermi-Hubbard",
+        "Ground State"
+    ],
+    "tab": "Quantum Machine Learning",
+    "params": [
+        {
+            "max": 6,
+            "min": 1,
+            "help": "Number of lattice sites in the open one-dimensional chain.",
+            "name": "L",
+            "value": "2",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Lattice sites",
+            "info": "请输入正整数，如 2"
+        },
+        {
+            "help": "Nearest-neighbor hopping coefficient.",
+            "name": "t",
+            "value": "1.0",
+            "pattern": "^-?\\d+(\\.\\d+)?$",
+            "description": "Hopping t",
+            "info": "请输入实数，如 1.0"
+        },
+        {
+            "help": "On-site interaction strength.",
+            "name": "U",
+            "value": "4.0",
+            "pattern": "^-?\\d+(\\.\\d+)?$",
+            "description": "Interaction U",
+            "info": "请输入实数，如 4.0"
+        },
+        {
+            "help": "Zeeman magnetic-field coefficient.",
+            "name": "B",
+            "value": "1.5",
+            "pattern": "^-?\\d+(\\.\\d+)?$",
+            "description": "Magnetic field B",
+            "info": "请输入实数，如 1.5"
+        },
+        {
+            "max": 10,
+            "min": 1,
+            "help": "Number of Ry-Rz ring-entangling ansatz layers.",
+            "name": "layers",
+            "value": "5",
+            "pattern": "^[1-9]\\d*$",
+            "description": "VQE layers",
+            "info": "请输入正整数，如 5"
+        },
+        {
+            "max": 20000,
+            "min": 10,
+            "help": "Maximum number of COBYLA iterations.",
+            "name": "max_iter",
+            "value": "1000",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Max optimizer iterations",
+            "info": "请输入正整数，如 1000"
+        },
+        {
+            "help": "Random seed for initial VQE parameters.",
+            "name": "seed",
+            "value": "7",
+            "pattern": "^-?\\d+$",
+            "description": "Random seed",
+            "info": "请输入整数，如 7"
+        },
+        {
+            "help": "Optional shots for total-spin magnetic-moment measurement. Use 0 to skip measurement.",
+            "name": "measure_shots",
+            "value": "10000",
+            "pattern": "^\\d+$",
+            "description": "Measurement shots",
+            "info": "请输入非负整数；0 表示跳过测量"
+        }
+    ]
+}

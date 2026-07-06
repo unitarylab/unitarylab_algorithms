@@ -60,9 +60,9 @@ class VQLSAlgorithm(BaseAlgorithm):
         
         # Optimization history
         self.optimization_history = []
-        self.backend = None
-        self.device = None
-        self.dtype = None
+        self.backend = 'torch'
+        self.device = 'cpu'
+        self.dtype = np.complex128
 
     def run(
         self,
