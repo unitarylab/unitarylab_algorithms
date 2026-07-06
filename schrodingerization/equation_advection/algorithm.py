@@ -70,13 +70,18 @@ class AdvectionEquationAlgorithm(BaseAlgorithm):
                 _setup = os.path.join(os.path.dirname(os.path.abspath(__file__)), "setup.json")
                 with open(_setup, "r", encoding="utf-8") as _f:
                     params = _json.load(_f)
+            elif isinstance(params, str) and os.path.isfile(params):
+                import json as _json
+                with open(params, "r", encoding="utf-8") as _f:
+                    params = _json.load(_f)
+
             eq = parse_equation(params)
         except Exception as e:
             self.logger.error(f"Parameter parsing failed: {e}")
             raise e
         # Parse solving method and dispatch to method-specific functions
         method = eq.solver.type
-
+        print(f"Selected solving method: {method}")
         if method == 'classical':
             return self._solve_classical(eq)
         elif method == 'trotter':

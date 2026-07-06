@@ -32,9 +32,9 @@ class VQCAlgorithm(BaseAlgorithm):
 
         super().__init__(name="VQC Algorithm", prefix="VQC", text_mode=text_mode, algo_dir=algo_dir)
 
-        self.backend = None
-        self.device = None
-        self.dtype = None
+        self.backend = 'torch'
+        self.device = 'cpu'
+        self.dtype = np.complex128
 
         torch.manual_seed(42)
         np.random.seed(42)
