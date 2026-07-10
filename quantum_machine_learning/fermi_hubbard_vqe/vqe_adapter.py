@@ -14,7 +14,7 @@ from unitarylab import Circuit
 try:
     from ..vqe.algorithm import VQEAlgorithm
 except ImportError:  # pragma: no cover - supports direct script execution
-    from algorithms.quantum_machine_learning.vqe.algorithm import VQEAlgorithm
+    from unitarylab_algorithms.quantum_machine_learning.vqe.algorithm import VQEAlgorithm
 
 from unitarylab.library.fermi_hubbard.pauli_ground_state import (
     parse_pauli_expression,
