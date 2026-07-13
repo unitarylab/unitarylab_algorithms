@@ -52,7 +52,7 @@ from importlib.metadata import version, PackageNotFoundError
 try:
     __version__ = version("unitarylab_algorithms")
 except PackageNotFoundError:
-    __version__ = "1.1.4"
+    __version__ = "1.1.5"
 
 
 from .cryptology import *
