@@ -29,7 +29,7 @@ class CartanDecompositionAlgorithm(BaseAlgorithm):
 
         super().__init__(name="Cartan Algorithm", prefix="CARTAN", text_mode=text_mode, algo_dir=algo_dir)
 
-    def run(self, H: Union[np.ndarray, list], t: float, error: float, **kwargs: Any):
+    def run(self, H: Union[np.ndarray, list], t: float, error: float, backend: str = "torch", device: str = "cpu", dtype=np.complex128, **kwargs: Any):
         """
         Initialize a Cartan-Lax simulator.
 
@@ -80,6 +80,9 @@ class CartanDecompositionAlgorithm(BaseAlgorithm):
             lr=lr,
             max_steps=max_steps,
             reps=reps,
+            backend=backend,
+            device=device,
+            dtype=dtype
         )
         comp_time = time.time() - start_time
 
