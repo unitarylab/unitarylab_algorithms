@@ -11,6 +11,7 @@ from .qft import QFTAlgorithm
 from .qsp import QSPAlgorithm
 from .qsvt_qlsa import QSVTLinearSolverAlgorithm
 from .vqls import VQLSAlgorithm
+from .aqc import AQCAlgorithm
 
 __all__ = [
     "HHLAlgorithm",
@@ -19,4 +20,5 @@ __all__ = [
     "QSPAlgorithm",
     "QSVTLinearSolverAlgorithm",
     "VQLSAlgorithm",
+    "AQCAlgorithm",
 ]

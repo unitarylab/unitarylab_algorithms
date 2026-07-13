@@ -1,40 +1,51 @@
 {
     "title": "VQLS",
-    "description": "Variational Quantum Linear Solver for solving linear systems Ax = b using variational optimization. Works with A = c₀A₀ + c₁A₁ + c₂A₂.",
+    "description": "Variational Quantum Linear Solver — solves Ax = b using a hardware-efficient ansatz and three selectable cost-function methods (Hadamard-test with circuit output, classical-matrix, or global). Pauli decomposition uses the library's pauli_string_decomposition. Supported for arbitrary 2^n x 2^n matrices.",
     "tags": [
         "Variational Algorithm",
         "Linear Systems",
-        "Optimization"
+        "Hybrid Quantum-Classical",
+        "NISQ"
     ],
     "tab": "Linear Algebra",
     "params": [
         {
-            "help": "Coefficients for the built-in three-term linear combination of unitaries (c0, c1, c2). Provide exactly three values in [0, 1].",
-            "name": "coefficients",
-            "value": "[1.0, 0.2, 0.2]",
-            "pattern": "^\\[\\s*(0(\\.\\d+)?|1(\\.0+)?)\\s*,\\s*(0(\\.\\d+)?|1(\\.0+)?)\\s*,\\s*(0(\\.\\d+)?|1(\\.0+)?)\\s*\\]$",
-            "description": "Linear combination coefficients",
-            "info": "请输入恰好3个[0,1]范围内的系数（如 [1.0, 0.2, 0.2]）"
+            "help": "Cost function method. local_ht = Hadamard test circuits (outputs circuit diagrams, slow), local_classical = classical matrix evaluation (fast), global = 1 - |b.Ax|^2 (fastest).",
+            "name": "cost_function",
+            "value": "local_ht",
+            "pattern": "^(local_ht|local_classical|global)$",
+            "description": "Cost function method",
+            "info": "local_ht / local_classical / global"
         },
         {
-            "max": 1000,
+            "max": 10,
+            "min": 1,
+            "help": "Number of ansatz layers. Each layer adds RY, RZ rotations on every qubit plus a CNOT ring. More layers = more expressive circuit.",
+            "name": "n_layers",
+            "value": "2",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Ansatz layers",
+            "info": "Please enter a positive integer (1–10)"
+        },
+        {
+            "max": 2000,
             "min": 10,
-            "help": "Maximum number of classical optimization iterations for parameter tuning.",
+            "help": "Maximum number of COBYLA optimization iterations. Larger values allow more precise convergence but take longer.",
             "name": "max_iterations",
             "value": "200",
             "pattern": "^[1-9]\\d*$",
-            "description": "Max iterations",
-            "info": "请输入正整数，如 200"
+            "description": "Max optimization iterations",
+            "info": "Please enter a positive integer, e.g. 200"
         },
         {
             "max": 0.01,
-            "min": 1e-8,
-            "help": "Optimization convergence tolerance. Stops when cost function change is below this threshold.",
+            "min": 1e-10,
+            "help": "Convergence tolerance for COBYLA optimization. The optimizer stops when the cost function change falls below this threshold.",
             "name": "tolerance",
-            "value": "1e-6",
+            "value": "1e-8",
             "pattern": "^\\d+(\\.\\d+)?[eE]?-?\\d*$",
             "description": "Convergence tolerance",
-            "info": "请输入浮点数，如 1e-6"
+            "info": "Please enter a float, e.g. 1e-8"
         }
     ]
 }

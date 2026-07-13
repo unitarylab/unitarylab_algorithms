@@ -1,0 +1,38 @@
+{
+    "title": "Superposition State Preparation",
+    "description": "Sparse superposition state preparation prepares target states with non-zero amplitudes on a selected subset of computational basis states.",
+    "tags": [
+        "State Preparation",
+        "Sparse Superposition",
+        "Basis Permutation"
+    ],
+    "tab": "State Preparation",
+    "params": [
+        {
+            "help": "Psi is the target quantum state vector. This method is intended for sparse states. The vector must be non-zero, one-dimensional, and have length less than or equal to 2**target_qubits.",
+            "name": "Psi",
+            "value": "[1.0, 0.0, 0.0, 1.0]",
+            "pattern": "",
+            "description": "Sparse target state vector",
+            "info": "请输入稀疏非零一维态向量，长度不超过 2^target_qubits（如 [1.0, 0.0, 0.0, 1.0]）"
+        },
+        {
+            "max": 8,
+            "min": 1,
+            "help": "Number of target qubits used to prepare Psi. The Hilbert-space dimension is 2**target_qubits.",
+            "name": "target_qubits",
+            "value": "2",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Number of target qubits",
+            "info": "请输入正整数，且 2^target_qubits 不小于 Psi 的长度"
+        },
+        {
+            "help": "Allowed state-preparation error tolerance. It must be positive.",
+            "name": "target_error",
+            "value": "1e-9",
+            "pattern": "^(?:[1-9]\\d*(?:\\.\\d+)?|0\\.\\d*[1-9]\\d*)(?:[eE]-?\\d+)?$",
+            "description": "Target error tolerance",
+            "info": "请输入正数误差阈值（如 1e-9）"
+        }
+    ]
+}

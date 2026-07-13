@@ -1,0 +1,43 @@
+{
+    "title": "AQC",
+    "description": "Discrete adiabatic quantum linear system solver (QLSP). Solves Ax = b via a Trotterized discrete adiabatic evolution with system qubits and ancillary qubits.",
+    "tags": [
+        "Linear Solver",
+        "Adiabatic Evolution",
+        "QLSP",
+        "Trotterization"
+    ],
+    "tab": "Linear Algebra",
+    "params": [
+        {
+            "max": 6,
+            "min": 1,
+            "help": "Number of system qubits n, determining the linear system dimension N = 2^n. Larger values increase circuit depth significantly (n > 6 is impractical).",
+            "name": "n",
+            "value": "2",
+            "pattern": "^[1-6]$",
+            "description": "System qubits (n)",
+            "info": "请输入 1-6 的整数，系统量子比特数，矩阵维度 N=2^n"
+        },
+        {
+            "max": 500,
+            "min": 0,
+            "help": "Number of discrete adiabatic evolution steps. Set to 0 for auto-selection based on condition number (T ≈ 10·κ). Larger values improve accuracy at the cost of circuit depth. Must be even.",
+            "name": "T",
+            "value": "0",
+            "pattern": "^\\d+$",
+            "description": "Adiabatic steps (0=auto)",
+            "info": "请输入非负整数，0 表示自动选择。步数越多精度越高，但线路深度越大"
+        },
+        {
+            "max": 5.0,
+            "min": 1.01,
+            "help": "Adiabatic schedule parameter p controlling the evolution rate. Must be > 1. Default 1.4 provides a good balance between accuracy and speed.",
+            "name": "p",
+            "value": "1.4",
+            "pattern": "^\\d+(\\.\\d+)?$",
+            "description": "Schedule parameter (p)",
+            "info": "请输入 >1 的浮点数，默认 1.4。控制绝热演化速率"
+        }
+    ]
+}

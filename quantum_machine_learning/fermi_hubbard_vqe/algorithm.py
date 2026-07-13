@@ -63,6 +63,9 @@ class FermiHubbardVQEAlgorithm(BaseAlgorithm):
         max_iter: int = 1000,
         seed: int = 7,
         measure_shots: int = 10000,
+        backend: str = "torch",
+        device: str = "cpu",
+        dtype = np.complex128,
     ) -> Dict[str, Any]:
         """Execute the standard Fermi-Hubbard VQE workflow."""
         parsed = _load_params(params)
@@ -110,6 +113,9 @@ class FermiHubbardVQEAlgorithm(BaseAlgorithm):
             max_iter=max_iter,
             seed=seed,
             algo_dir=self.algo_dir,
+            backend=backend,
+            device=device,
+            dtype=dtype,
         )
         vqe_time = time.time() - vqe_start
 

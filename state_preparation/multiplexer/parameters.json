@@ -1,0 +1,38 @@
+{
+    "title": "Multiplexer State Preparation",
+    "description": "Multiplexer state preparation builds a recursive amplitude-splitting circuit to prepare a target quantum state vector.",
+    "tags": [
+        "State Preparation",
+        "Multiplexer",
+        "Amplitude Encoding"
+    ],
+    "tab": "State Preparation",
+    "params": [
+        {
+            "help": "Psi is the target quantum state vector. It must be a non-zero one-dimensional vector with length less than or equal to 2**target_qubits; shorter vectors are padded with zeros.",
+            "name": "Psi",
+            "value": "[1.0, 0.0, 0.0, 1.0]",
+            "pattern": "",
+            "description": "Target state vector",
+            "info": "请输入非零一维态向量，长度不超过 2^target_qubits（如 [1.0, 0.0, 0.0, 1.0]）"
+        },
+        {
+            "max": 8,
+            "min": 1,
+            "help": "Number of target qubits used to prepare Psi. The Hilbert-space dimension is 2**target_qubits.",
+            "name": "target_qubits",
+            "value": "2",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Number of target qubits",
+            "info": "请输入正整数，且 2^target_qubits 不小于 Psi 的长度"
+        },
+        {
+            "help": "Allowed state-preparation error tolerance. It must be positive.",
+            "name": "target_error",
+            "value": "1e-6",
+            "pattern": "^(?:[1-9]\\d*(?:\\.\\d+)?|0\\.\\d*[1-9]\\d*)(?:[eE]-?\\d+)?$",
+            "description": "Target error tolerance",
+            "info": "请输入正数误差阈值（如 1e-6）"
+        }
+    ]
+}

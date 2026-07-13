@@ -79,7 +79,8 @@ class _TrackingVQEAlgorithm(VQEAlgorithm):
         self.history.append(float(energy))
         if math.isfinite(energy) and energy < self.best_energy:
             self.best_energy = float(energy)
-            self.best_parameters = np.asarray(parameters_flat, dtype=float).copy()
+            self.best_parameters = np.asarray(
+                parameters_flat, dtype=float).copy()
         return float(energy)
 
 
@@ -90,6 +91,9 @@ def run_pauli_vqe(
     max_iter: int = 150,
     seed: int = 7,
     algo_dir: str | None = None,
+    backend: str = "torch",
+    device: str = "cpu",
+    dtype=np.complex128,
 ) -> PauliVQEResult:
     """Run VQE for a Pauli Hamiltonian expression and return core results."""
     _validate_positive_integer("layers", layers)
@@ -111,7 +115,8 @@ def run_pauli_vqe(
         number_of_qubits,
     )
 
-    roundtrip = _bit_reverse_hamiltonian(unitarylab_hamiltonian, number_of_qubits)
+    roundtrip = _bit_reverse_hamiltonian(
+        unitarylab_hamiltonian, number_of_qubits)
     roundtrip_error = float(np.max(np.abs(roundtrip - pauli_hamiltonian)))
     if roundtrip_error >= _ENDIAN_TOLERANCE:
         raise ValueError(
@@ -136,7 +141,8 @@ def run_pauli_vqe(
             layers=layers,
             max_iter=max_iter,
             seed=seed,
-            hamiltonian=np.asarray(unitarylab_hamiltonian, dtype=np.complex128),
+            hamiltonian=np.asarray(
+                unitarylab_hamiltonian, dtype=np.complex128),
         )
         if official_result.get("status") != "ok":
             raise RuntimeError("VQEAlgorithm.run() did not report success")
@@ -144,7 +150,8 @@ def run_pauli_vqe(
     if algorithm.evaluations <= 0:
         raise RuntimeError("VQE performed no objective-function evaluations")
     if algorithm.best_parameters is None or not math.isfinite(algorithm.best_energy):
-        raise RuntimeError("could not obtain lowest-energy parameters from VQE")
+        raise RuntimeError(
+            "could not obtain lowest-energy parameters from VQE")
 
     official_exact_energy = float(official_result["Exact Energy"])
     if abs(official_exact_energy - exact_energy) >= _SPECTRUM_TOLERANCE:
@@ -159,8 +166,9 @@ def run_pauli_vqe(
     )
     optimized_state = np.asarray(
         optimized_circuit.execute(
-            device="cpu",
-            dtype=np.complex128,
+            backend=backend,
+            device=device,
+            dtype=dtype,
         ).state
     )
     circuit_energy = expectation_value(optimized_state, unitarylab_hamiltonian)

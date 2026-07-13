@@ -15,6 +15,7 @@ This module provides quantum algorithms including:
     - Amplitude Estimation Algorithm
     - Quantum Phase Estimation Algorithm
 - Linear Algebra algorithms
+    - AQC Algorithm
     - HHL Algorithm
     - LCU Algorithm
     - QFT Algorithm
@@ -29,6 +30,7 @@ This module provides quantum algorithms including:
     - Cartan Algorithm
 - Quantum Machine Learning algorithms
     - VQE Algorithm
+    - Fermi-Hubbard VQE Algorithm
     - QAOA Algorithm
     - QCBM Algorithm
     - VQC Algorithm
@@ -37,14 +39,20 @@ This module provides quantum algorithms including:
     - Heat Equation Algorithm
     - Advection Equation Algorithm
     - Heat 2D Equation Algorithm
+- State Preparation algorithms
+    - Mottonen Algorithm
+    - Multiplexer Algorithm
+    - MPS Algorithm
+    - Pauli Algorithm
+    - Superposition Algorithm
 """
 
 from importlib.metadata import version, PackageNotFoundError
 
 try:
-    __version__ = version("unitarylab")
+    __version__ = version("unitarylab_algorithms")
 except PackageNotFoundError:
-    __version__ = "1.1.3"
+    __version__ = "1.1.4"
 
 
 from .cryptology import *
@@ -53,6 +61,7 @@ from .linear_algebra import *
 from .hamiltonian_simulation import *
 from .quantum_machine_learning import *
 from .schrodingerization import *
+from .state_preparation import *
 
 __all__ = [
     "DiscreteLogAlgorithm",
@@ -72,6 +81,7 @@ __all__ = [
     "QSPHSAlgorithm",
     "CartanDecompositionAlgorithm",
 
+    "AQCAlgorithm",
     "HHLAlgorithm",
     "LCUAlgorithm",
     "QFTAlgorithm",
@@ -80,6 +90,7 @@ __all__ = [
     "VQLSAlgorithm",
 
     "VQEAlgorithm",
+    "FermiHubbardVQEAlgorithm",
     "QAOAAlgorithm",
     "CVQNNAlgorithm",
     "QCBMAlgorithm",
@@ -88,4 +99,10 @@ __all__ = [
     "HeatEquationAlgorithm",
     "AdvectionEquationAlgorithm",
     "Heat2dEquationAlgorithm",
+
+    "MottonenAlgorithm",
+    "MultiplexerAlgorithm",
+    "MPSAlgorithm",
+    "PauliAlgorithm",
+    "SuperpositionAlgorithm",
 ]
