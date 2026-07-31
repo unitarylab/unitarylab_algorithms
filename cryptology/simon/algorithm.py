@@ -71,7 +71,10 @@ class SimonAlgorithm(BaseAlgorithm):
         
         start_time = time.time()
         re_state = qc.execute(backend=backend, device=device, dtype=dtype)
-        state_basis_dict = re_state.calculate_state(range(n))
+        state_basis_dict = re_state.marginal_probabilities(
+            qubits=range(n),
+            threshold=1e-5,
+        )
         end_time = time.time()
         comp_time = end_time - start_time
 

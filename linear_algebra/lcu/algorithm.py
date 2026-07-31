@@ -109,7 +109,10 @@ class LCUAlgorithm(BaseAlgorithm):
 
         self.log(f"Stage 4/5: Classical post-processing (extracting LCU success probability)")
         
-        anc_probs = raw_result._phase_probabilities_from_state(anc_qubits, endian="little", threshold=0.0)
+        anc_probs = raw_result.marginal_probabilities(
+            qubits=anc_qubits,
+            threshold=0.0,
+        )
         
         zero_state_str = "0" * n_anc 
         success_prob = float(anc_probs.get(zero_state_str, 0.0))

@@ -80,7 +80,10 @@ class QPEAlgorithm(BaseAlgorithm):
         self.log(f"Stage 4: Executing classical post-processing")
         
         phase_qubits = list(range(d))
-        phase_probs = final_state._phase_probabilities_from_state(phase_qubits, endian="little", threshold=1e-8)
+        phase_probs = final_state.marginal_probabilities(
+            qubits=phase_qubits,
+            threshold=1e-8,
+        )
         
         sorted_phases = sorted(phase_probs.items(), key=lambda item: item[1], reverse=True)
         best_bits_str = sorted_phases[0][0]

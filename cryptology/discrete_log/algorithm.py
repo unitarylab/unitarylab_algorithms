@@ -105,7 +105,10 @@ class DiscreteLogAlgorithm(BaseAlgorithm):
         
         start_time = time.time()
         res_vec = qc.execute(backend=backend, device=device, dtype=dtype)
-        probs_dict = res_vec.calculate_state(range(2 * n_count))
+        probs_dict = res_vec.marginal_probabilities(
+            qubits=range(2 * n_count),
+            threshold=1e-5,
+        )
         end_time = time.time()
         comp_time = end_time - start_time
 
@@ -147,10 +150,14 @@ class DiscreteLogAlgorithm(BaseAlgorithm):
 
     def _classical_post_processing(self, probs, g, y, P, n, N_size):
         """Classical post-processing: extract period via continued fractions and solve congruence equations."""
-        sorted_probs = sorted(probs.items(), key=lambda x: x[1]['prob'], reverse=True)
+        sorted_probs = sorted(
+            probs.items(),
+            key=lambda item: item[1],
+            reverse=True,
+        )
         
-        for bitstring, data in sorted_probs:
-            if data['prob'] < 0.02: continue
+        for bitstring, probability in sorted_probs:
+            if probability < 0.02: continue
             
             v_bin, u_bin = bitstring[:n], bitstring[n:]
             u, v = int(u_bin, 2), int(v_bin, 2)

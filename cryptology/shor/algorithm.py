@@ -130,7 +130,7 @@ class ShorAlgorithm(BaseAlgorithm):
             
             start_time = time.time()
             result = qc.execute(backend=backend, device=device, dtype=dtype)
-            measure_bin = result.measure(range(n_count), endian='little')
+            measure_bin = result.measure(range(n_count))
             measure_int = int(measure_bin, 2)
             end_time = time.time()
             comp_time = end_time - start_time

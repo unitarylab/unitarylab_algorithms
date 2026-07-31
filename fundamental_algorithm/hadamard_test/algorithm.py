@@ -121,7 +121,10 @@ class HadamardTestAlgorithm(BaseAlgorithm):
             state = circ.execute(backend=backend, device=device, dtype=dtype)
             
             # Read ancilla qubit (qubit 0) measurement probabilities
-            anc_probs = state._phase_probabilities_from_state([0], endian="little", threshold=0.0)
+            anc_probs = state.marginal_probabilities(
+                qubits=[0],
+                threshold=0.0,
+            )
             p0_exact = float(anc_probs.get("0", 0.0))
             
             # Add shot noise simulation
@@ -260,4 +263,3 @@ if __name__ == "__main__":
     Psi = [1, 2] # [PARAM]
     shots = 0 # [PARAM]
     test(U, Psi, shots)
-
