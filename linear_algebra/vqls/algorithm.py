@@ -533,14 +533,20 @@ class VQLSAlgorithm(BaseAlgorithm):
     def __init__(self, text_mode: str = "plain", algo_dir: str = None):
         if algo_dir is None:
             _this = os.path.abspath(__file__)
-            _this_dir = os.path.dirname(_this)
-            _repo = os.path.dirname(
-                os.path.dirname(os.path.dirname(_this_dir)))
-            algo_dir = os.path.join(_repo, "results",
-                                    os.path.basename(_this_dir))
+            _directory = os.path.dirname(_this)
+            algo_dir = os.path.join(
+                os.getcwd(),
+                "results",
+                os.path.basename(os.path.dirname(_directory)),
+                os.path.basename(_directory),
+            )
         os.makedirs(algo_dir, exist_ok=True)
-        super().__init__(name="VQLS Algorithm", prefix="VQLS",
-                         text_mode=text_mode, algo_dir=algo_dir)
+        super().__init__(
+            name="VQLS Algorithm",
+            prefix="VQLS",
+            text_mode=text_mode,
+            algo_dir=algo_dir,
+        )
 
     def run(
         self,

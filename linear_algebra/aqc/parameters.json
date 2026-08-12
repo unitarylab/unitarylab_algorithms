@@ -20,14 +20,14 @@
             "info": "请输入 1-6 的整数，系统量子比特数，矩阵维度 N=2^n"
         },
         {
-            "max": 500,
+            "max": 2000,
             "min": 0,
-            "help": "Number of discrete adiabatic evolution steps. Set to 0 for auto-selection based on condition number (T ≈ 10·κ). Larger values improve accuracy at the cost of circuit depth. Must be even.",
+            "help": "Number of discrete adiabatic evolution steps. Set to 0 for auto-selection based on condition number (T ≈ 10·κ). An explicit value must be even and no smaller than the recommended value calculated for n. Supported range: 0-2000.",
             "name": "T",
             "value": "0",
-            "pattern": "^\\d+$",
+            "pattern": "^(0|[2468]|[1-9]\\d*[02468])$",
             "description": "Adiabatic steps (0=auto)",
-            "info": "请输入非负整数，0 表示自动选择。步数越多精度越高，但线路深度越大"
+            "info": "请输入 0 或不超过 2000 的正偶数。0 表示按 T≈10·κ 自动选择；显式值不得低于当前 n 对应的推荐步数"
         },
         {
             "max": 5.0,
