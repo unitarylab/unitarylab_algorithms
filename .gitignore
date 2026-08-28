@@ -4,3 +4,5 @@ __pycache__/
 results/
 delete_pycache.py
 run_all_algorithms_test.sh
+
+doc/

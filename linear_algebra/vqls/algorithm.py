@@ -35,18 +35,6 @@ for _d in (_repo_root, _algorithms_dir):
     if _d not in sys.path:
         sys.path.insert(0, _d)
 
-# Import project core components
-try:
-    from unitarylab.transpiler.unroll import Unroll
-    from unitarylab.transpiler.basis import DEFAULT_BASIS
-except (ModuleNotFoundError, ImportError):
-    # pip-installed unitarylab lacks transpiler → use local repo copy
-    for _mod in list(sys.modules):
-        if _mod == 'unitarylab' or _mod.startswith('unitarylab.'):
-            del sys.modules[_mod]
-    from unitarylab.transpiler.unroll import Unroll
-    from unitarylab.transpiler.basis import DEFAULT_BASIS
-
 try:
     from ...algo_base import BaseAlgorithm
 except ImportError:
@@ -99,19 +87,6 @@ def _ancilla_expval_z(state: np.ndarray, ancilla_idx: int) -> float:
     return float(signs @ probs)
 
 
-def _decompose_unitary(qc: Circuit) -> Circuit:
-    """Decompose ``unitary`` gates into primitive gates (CX, RY, RZ, H).
-
-    Uses unitarylab transpiler: ZYZ for 1-qubit, QSD for 2-qubit.
-    For n>2 qubits, decomposition is not implemented; returns unchanged.
-    """
-    unroller = Unroll(gates_to_unroll="unitary", basis=DEFAULT_BASIS)
-    try:
-        return unroller.run(qc)
-    except NotImplementedError:
-        return qc
-
-
 # ============================================================================
 # 2. U_b circuit
 # ============================================================================
@@ -158,7 +133,6 @@ def _build_Ub(b_state: np.ndarray, n_qubits: int,
     reg = Register("q", n_qubits)
     qc = Circuit(reg, name=name)
     qc.unitary(matrix=mat, target=list(range(n_qubits)))
-    qc = _decompose_unitary(qc)
     return qc
 
 
