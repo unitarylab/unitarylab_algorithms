@@ -1,0 +1,130 @@
+{
+    "title": "2D Transverse-Field Ising Dynamics",
+    "description": "Tensor-network simulation of an open-boundary 2D transverse-field Ising model using first-, second-, or fourth-order Trotter-Suzuki evolution.",
+    "tags": [
+        "Hamiltonian Simulation",
+        "Ising Model",
+        "Tensor Network",
+        "Quantum Dynamics"
+    ],
+    "tab": "Quantum Machine Learning",
+    "params": [
+        {
+            "max": 11,
+            "min": 1,
+            "help": "Number of lattice rows. A 1x1 lattice is not supported because it has no nearest-neighbor edge.",
+            "name": "rows",
+            "value": "6",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Lattice rows",
+            "info": "请输入晶格行数，如 6；不支持 1×1 晶格"
+        },
+        {
+            "max": 11,
+            "min": 1,
+            "help": "Number of lattice columns. A 1x1 lattice is not supported because it has no nearest-neighbor edge.",
+            "name": "cols",
+            "value": "6",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Lattice columns",
+            "info": "请输入晶格列数，如 6；不支持 1×1 晶格"
+        },
+        {
+            "help": "Nearest-neighbor Ising coupling J in H = -J sum(ZZ) - h sum(X).",
+            "name": "coupling_J",
+            "value": "1.0",
+            "pattern": "^-?\\d+(\\.\\d+)?([eE][+-]?\\d+)?$",
+            "description": "Ising coupling J",
+            "info": "请输入有限数值，如 1.0"
+        },
+        {
+            "help": "Transverse field h in H = -J sum(ZZ) - h sum(X).",
+            "name": "field_h",
+            "value": "3.0",
+            "pattern": "^-?\\d+(\\.\\d+)?([eE][+-]?\\d+)?$",
+            "description": "Transverse field h",
+            "info": "请输入有限数值，如 3.0"
+        },
+        {
+            "min": 0.000001,
+            "help": "Duration of each Trotter step.",
+            "name": "time_step",
+            "value": "0.025",
+            "pattern": "^\\d+(\\.\\d+)?([eE][+-]?\\d+)?$",
+            "description": "Trotter time step",
+            "info": "请输入正数，如 0.025"
+        },
+        {
+            "max": 1000,
+            "min": 0,
+            "help": "Number of Trotter evolution steps. Zero returns the initial-state observables.",
+            "name": "trotter_steps",
+            "value": "8",
+            "pattern": "^\\d+$",
+            "description": "Number of Trotter steps",
+            "info": "请输入非负整数，如 8"
+        },
+        {
+            "max": 4,
+            "min": 1,
+            "help": "Trotter-Suzuki order. Supported values are 1, 2, and 4.",
+            "name": "trotter_order",
+            "value": "2",
+            "pattern": "^(1|2|4)$",
+            "description": "Trotter order",
+            "info": "请输入 1、2 或 4"
+        },
+        {
+            "max": 1024,
+            "min": 1,
+            "help": "Maximum TensorNet bond dimension.",
+            "name": "max_bond",
+            "value": "32",
+            "pattern": "^[1-9]\\d*$",
+            "description": "Maximum bond dimension",
+            "info": "请输入正整数，如 32"
+        },
+        {
+            "min": 0,
+            "help": "TensorNet singular-value truncation cutoff.",
+            "name": "cutoff",
+            "value": "1e-12",
+            "pattern": "^\\d+(\\.\\d+)?([eE][+-]?\\d+)?$",
+            "description": "TensorNet cutoff",
+            "info": "请输入非负数，如 1e-12"
+        },
+        {
+            "help": "TensorNet routing strategy passed to UnitaryLab.",
+            "name": "routing",
+            "value": "auto",
+            "pattern": "^\\S+$",
+            "description": "TensorNet routing strategy",
+            "info": "请输入路由策略，如 auto"
+        },
+        {
+            "help": "Deterministic execution and sampling seed.",
+            "name": "seed",
+            "value": "7",
+            "pattern": "^-?\\d+$",
+            "description": "Random seed",
+            "info": "请输入整数，如 7"
+        },
+        {
+            "min": 0,
+            "help": "Number of final-state samples. Zero disables sampling.",
+            "name": "sample_shots",
+            "value": "0",
+            "pattern": "^\\d+$",
+            "description": "Sampling shots",
+            "info": "请输入非负整数；0 表示不采样"
+        },
+        {
+            "help": "Local-configuration output mode: none, final, all, or gif.",
+            "name": "local_configuration_mode",
+            "value": "gif",
+            "pattern": "^(none|final|all|gif)$",
+            "description": "Local configuration output mode",
+            "info": "请输入 none、final、all 或 gif"
+        }
+    ]
+}

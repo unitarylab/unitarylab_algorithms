@@ -52,12 +52,13 @@ from importlib.metadata import version, PackageNotFoundError
 try:
     __version__ = version("unitarylab_algorithms")
 except PackageNotFoundError:
-    __version__ = "1.1.7"
+    __version__ = "1.1.10"
 
 
 from .cryptology import *
 from .fundamental_algorithm import *
 from .linear_algebra import *
+from .quantum_chemistry import *
 from .hamiltonian_simulation import *
 from .quantum_machine_learning import *
 from .schrodingerization import *
@@ -80,6 +81,8 @@ __all__ = [
     "TaylorAlgorithm",
     "QSPHSAlgorithm",
     "CartanDecompositionAlgorithm",
+
+    "MolecularDMRGAlgorithm",
 
     "AQCAlgorithm",
     "HHLAlgorithm",

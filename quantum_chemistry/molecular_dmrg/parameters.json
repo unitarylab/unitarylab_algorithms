@@ -1,0 +1,224 @@
+{
+  "title": "Molecular DMRG",
+  "description": "Build an active-space molecular Hamiltonian, solve it with TenPy DMRG, construct a UnitaryLab preparation circuit, and export grouped measurement QASM.",
+  "tags": ["DMRG", "Molecular Hamiltonian", "State Preparation"],
+  "tab": "Quantum Chemistry",
+  "params": [
+    {
+      "name": "xyz_file",
+      "type": "select",
+      "description": "Bundled molecular structure",
+      "value": "H2",
+      "options": [
+        {"label": "H2", "value": "H2"},
+        {"label": "LiH", "value": "LiH"},
+        {"label": "CH4", "value": "CH4"},
+        {"label": "CO", "value": "CO"},
+        {"label": "CO2", "value": "CO2"},
+        {"label": "C6H6", "value": "C6H6"},
+        {"label": "H2O", "value": "H2O"},
+        {"label": "HF", "value": "HF"},
+        {"label": "N2", "value": "N2"},
+        {"label": "NH3", "value": "NH3"},
+        {"label": "O2", "value": "O2"}
+      ],
+      "help": "Select a bundled molecule. Python callers may also pass an XYZ filename or path.",
+      "tip_info": "Default: H2. A name without an extension is resolved in the bundled molecules directory."
+    },
+    {
+      "name": "basis",
+      "type": "select",
+      "description": "Atomic-orbital basis",
+      "value": "sto-3g",
+      "options": [
+        {"label": "STO-3G", "value": "sto-3g"},
+        {"label": "3-21G", "value": "3-21g"},
+        {"label": "6-31G", "value": "6-31g"},
+        {"label": "CC-PVDZ", "value": "cc-pvdz"},
+        {"label": "CC-PVTZ", "value": "cc-pvtz"},
+        {"label": "DEF2-SVP", "value": "def2-svp"},
+        {"label": "DEF2-TZVP", "value": "def2-tzvp"}
+      ],
+      "help": "Select the PySCF basis used to build the active-space Hamiltonian."
+    },
+    {
+      "name": "charge",
+      "type": "int",
+      "description": "Molecular charge",
+      "value": 0,
+      "multipleOf": 1,
+      "positive": true,
+      "negative": true,
+      "zero": true,
+      "help": "Electron count compatibility is checked against multiplicity."
+    },
+    {
+      "name": "multiplicity",
+      "type": "int",
+      "description": "Spin multiplicity",
+      "value": 1,
+      "min": 1,
+      "multipleOf": 1,
+      "positive": true,
+      "negative": false,
+      "zero": false
+    },
+    {
+      "name": "active_occupied_orbitals",
+      "type": "int",
+      "description": "Maximum active occupied orbitals",
+      "value": 3,
+      "min": 0,
+      "multipleOf": 1,
+      "positive": true,
+      "negative": false,
+      "zero": true
+    },
+    {
+      "name": "active_virtual_orbitals",
+      "type": "int",
+      "description": "Maximum active virtual orbitals",
+      "value": 3,
+      "min": 0,
+      "multipleOf": 1,
+      "positive": true,
+      "negative": false,
+      "zero": true
+    },
+    {
+      "name": "max_iterations",
+      "type": "int",
+      "description": "L-BFGS-B iterations",
+      "value": 100,
+      "min": 1,
+      "multipleOf": 1,
+      "positive": true,
+      "negative": false,
+      "zero": false,
+      "help": "Maximum L-BFGS-B iterations for each local CVD gate optimization."
+    },
+    {
+      "name": "cvd_restarts",
+      "type": "int",
+      "description": "CVD optimizer restarts",
+      "value": 3,
+      "min": 1,
+      "multipleOf": 1,
+      "positive": true,
+      "negative": false,
+      "zero": false
+    },
+    {
+      "name": "cvd_init_scale",
+      "type": "float",
+      "description": "CVD initialization scale",
+      "value": 0.5,
+      "min": 0,
+      "finite": true,
+      "positive": true,
+      "negative": false,
+      "zero": true
+    },
+    {
+      "name": "chi0",
+      "type": "int",
+      "description": "Initial bond dimension",
+      "value": 20,
+      "min": 1,
+      "multipleOf": 1,
+      "positive": true,
+      "negative": false,
+      "zero": false
+    },
+    {
+      "name": "nsweeps",
+      "type": "int",
+      "description": "Maximum DMRG sweeps",
+      "value": 100,
+      "min": 1,
+      "multipleOf": 1,
+      "positive": true,
+      "negative": false,
+      "zero": false
+    },
+    {
+      "name": "maxdim",
+      "type": "int",
+      "description": "Maximum bond dimension",
+      "value": 100,
+      "min": 1,
+      "multipleOf": 1,
+      "positive": true,
+      "negative": false,
+      "zero": false
+    },
+    {
+      "name": "cutoff",
+      "type": "float",
+      "description": "DMRG truncation cutoff",
+      "value": 1e-8,
+      "min": 0,
+      "exclusiveMin": true,
+      "finite": true,
+      "positive": true,
+      "negative": false,
+      "zero": false
+    },
+    {
+      "name": "shots",
+      "type": "int",
+      "description": "Shots per QWC group",
+      "value": 10000,
+      "min": 0,
+      "multipleOf": 1,
+      "positive": true,
+      "negative": false,
+      "zero": true,
+      "help": "Use 0 to skip sampling while still computing exact energy and exporting QASM."
+    },
+    {
+      "name": "seed",
+      "type": "int",
+      "description": "Random seed",
+      "value": 2077,
+      "min": 0,
+      "multipleOf": 1,
+      "positive": true,
+      "negative": false,
+      "zero": true
+    },
+    {
+      "name": "backend",
+      "type": "select",
+      "description": "UnitaryLab simulation backend",
+      "value": "torch",
+      "options": [
+        {"label": "PyTorch", "value": "torch"},
+        {"label": "NumPy", "value": "numpy"},
+        {"label": "C++", "value": "cpp"},
+        {"label": "Tensor network", "value": "tensornet"}
+      ]
+    },
+    {
+      "name": "device",
+      "type": "select",
+      "description": "UnitaryLab simulation device",
+      "value": "cpu",
+      "options": [
+        {"label": "CPU", "value": "cpu"},
+        {"label": "GPU", "value": "gpu"}
+      ],
+      "help": "GPU is available only for backends that support it."
+    },
+    {
+      "name": "dtype",
+      "type": "select",
+      "description": "UnitaryLab simulation data type",
+      "value": "complex128",
+      "options": [
+        {"label": "Complex128", "value": "complex128"},
+        {"label": "Complex64", "value": "complex64"}
+      ]
+    }
+  ]
+}
