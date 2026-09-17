@@ -1,0 +1,14 @@
+{
+  "title": "Hidden Shift",
+  "description": "Recover a hidden shift of a Boolean bent function with a quantum circuit.",
+  "tags": ["Quantum Search", "Hidden Shift", "Oracle"],
+  "tab": "Search",
+  "params": [
+    {"name": "qubits", "value": "6", "description": "Number of qubits", "help": "A positive even integer; ignored when shift is supplied.", "pattern": "^[2-9][0-9]*$", "min": 2, "max": 20, "info": "请输入正偶数。"},
+    {"name": "shift", "value": "", "description": "Hidden binary shift", "help": "Leave empty to generate it from seed; otherwise use an even-length binary string.", "pattern": "^([01]{2})*$", "info": "留空则随机生成，或输入偶数长度的01串。"},
+    {"name": "shots", "value": "100", "description": "Sampling shots", "help": "Number of final-state samples.", "pattern": "^[1-9][0-9]*$", "min": 1, "max": 100000, "info": "请输入正整数。"},
+    {"name": "seed", "value": "41", "description": "Random seed", "help": "Non-negative random seed.", "pattern": "^[0-9]+$", "min": 0, "info": "请输入非负整数。"},
+    {"name": "backend", "value": "numpy", "description": "Simulation backend", "help": "UnitaryLab numpy or torch backend.", "pattern": "^(numpy|torch)$", "info": "可选 numpy 或 torch。"},
+    {"name": "measurement_mode", "value": "sample", "description": "Measurement mode", "help": "Sample one evolved state or repeatedly execute a measured circuit.", "pattern": "^(sample|execute)$", "info": "可选 sample 或 execute。"}
+  ]
+}

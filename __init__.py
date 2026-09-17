@@ -28,6 +28,8 @@ This module provides quantum algorithms including:
     - Taylor Series Algorithm
     - QSP Algorithm
     - Cartan Algorithm
+- Quantum Chemistry algorithms
+    - Molecular DMRG Algorithm
 - Quantum Machine Learning algorithms
     - VQE Algorithm
     - Fermi-Hubbard VQE Algorithm
@@ -35,6 +37,7 @@ This module provides quantum algorithms including:
     - QCBM Algorithm
     - VQC Algorithm
     - CVQNN Algorithm
+    - Ising Algorithm
 - Schrödingerization algorithms
     - Heat Equation Algorithm
     - Advection Equation Algorithm
@@ -45,6 +48,9 @@ This module provides quantum algorithms including:
     - MPS Algorithm
     - Pauli Algorithm
     - Superposition Algorithm
+- Search algorithms
+    - Glued Trees Algorithm
+    - Hidden Shift Algorithm
 """
 
 from importlib.metadata import version, PackageNotFoundError
@@ -52,7 +58,7 @@ from importlib.metadata import version, PackageNotFoundError
 try:
     __version__ = version("unitarylab_algorithms")
 except PackageNotFoundError:
-    __version__ = "1.1.10"
+    __version__ = "1.1.11"
 
 
 from .cryptology import *
@@ -63,12 +69,15 @@ from .hamiltonian_simulation import *
 from .quantum_machine_learning import *
 from .schrodingerization import *
 from .state_preparation import *
+from .search import *
 
 __all__ = [
+    # Cryptology
     "DiscreteLogAlgorithm",
     "ShorAlgorithm",
     "SimonAlgorithm",
 
+    # Fundamental Algorithms
     "HadamardTransformAlgorithm",
     "HadamardTestAlgorithm",
     "AmplitudeAmplificationAlgorithm",
@@ -76,14 +85,14 @@ __all__ = [
     "GroverAlgorithm",
     "QPEAlgorithm",
 
+    # Hamiltonian Simulation
     "TrotterAlgorithm",
     "QDriftAlgorithm",
     "TaylorAlgorithm",
     "QSPHSAlgorithm",
     "CartanDecompositionAlgorithm",
 
-    "MolecularDMRGAlgorithm",
-
+    # Linear Algebra
     "AQCAlgorithm",
     "HHLAlgorithm",
     "LCUAlgorithm",
@@ -92,20 +101,31 @@ __all__ = [
     "QSVTLinearSolverAlgorithm",
     "VQLSAlgorithm",
 
+    # Quantum Chemistry
+    "MolecularDMRGAlgorithm",
+
+    # Quantum Machine Learning
     "VQEAlgorithm",
-    "FermiHubbardVQEAlgorithm",
     "QAOAAlgorithm",
     "CVQNNAlgorithm",
     "QCBMAlgorithm",
     "VQCAlgorithm",
+    "FermiHubbardVQEAlgorithm",
+    "IsingAlgorithm",
 
+    # Schrödingerization
     "HeatEquationAlgorithm",
     "AdvectionEquationAlgorithm",
     "Heat2dEquationAlgorithm",
 
+    # state preparation
     "MottonenAlgorithm",
     "MultiplexerAlgorithm",
     "MPSAlgorithm",
     "PauliAlgorithm",
     "SuperpositionAlgorithm",
+
+    # search
+    "GluedTreesAlgorithm",
+    "HiddenShiftAlgorithm",
 ]

@@ -1,0 +1,16 @@
+{
+  "title": "Glued Trees",
+  "description": "Coupled-oscillator quantum walk for finding the exit of a glued-trees graph.",
+  "tags": ["Quantum Search", "Quantum Walk", "Hamiltonian Simulation"],
+  "tab": "Search",
+  "params": [
+    {"name": "qubits", "value": "6", "description": "Number of qubits", "help": "Dense demonstration size from 4 through 8.", "pattern": "^[4-8]$", "min": 4, "max": 8, "info": "请输入4到8。"},
+    {"name": "seed", "value": "0", "description": "Graph and sampling seed", "help": "Non-negative random seed.", "pattern": "^[0-9]+$", "min": 0, "info": "请输入非负整数。"},
+    {"name": "shots", "value": "8192", "description": "Shots per time point", "help": "Final-state samples for every evolution time.", "pattern": "^[1-9][0-9]*$", "min": 1, "info": "请输入正整数。"},
+    {"name": "repetitions", "value": "10", "description": "Trotter repetitions", "help": "Fixed Suzuki-Trotter steps per time point.", "pattern": "^[1-9][0-9]*$", "min": 1, "info": "请输入正整数。"},
+    {"name": "order", "value": "1", "description": "Suzuki order", "help": "First- or second-order product formula.", "pattern": "^[12]$", "min": 1, "max": 2, "info": "请输入1或2。"},
+    {"name": "max_terms", "value": "", "description": "Maximum Pauli terms", "help": "Leave empty for the complete decomposition.", "pattern": "^$|^[1-9][0-9]*$", "info": "留空保留全部项，或输入正整数。"},
+    {"name": "backend", "value": "numpy", "description": "Simulation backend", "help": "UnitaryLab numpy or torch backend.", "pattern": "^(numpy|torch)$", "info": "可选 numpy 或 torch。"},
+    {"name": "times", "value": "", "description": "Evolution times", "help": "Comma-separated values; empty selects the original default scan.", "pattern": "^$|^-?[0-9]+(\\.[0-9]+)?(\\s*,\\s*-?[0-9]+(\\.[0-9]+)?)*$", "info": "留空使用默认扫描，或输入逗号分隔的数值。"}
+  ]
+}

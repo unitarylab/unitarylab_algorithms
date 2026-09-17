@@ -8,16 +8,20 @@
 </p>
 
 <p>
-  <img src="https://img.shields.io/badge/Python-3.x-3b82f6?style=flat-square&logo=python&logoColor=white" alt="Python 3.x"/>
+  <img src="https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12-3b82f6?style=flat-square&logo=python&logoColor=white" alt="Python 3.10, 3.11, and 3.12"/>
   <img src="https://img.shields.io/badge/UnitaryLab-required-7c3aed?style=flat-square" alt="UnitaryLab required"/>
-  <img src="https://img.shields.io/badge/Quantum_Algorithms-35-f59e0b?style=flat-square" alt="35 Quantum Algorithms"/>
-  <img src="https://img.shields.io/badge/Categories-7-22c55e?style=flat-square" alt="7 Categories"/>
+  <img src="https://img.shields.io/badge/Quantum_Algorithms-39-f59e0b?style=flat-square" alt="39 Quantum Algorithms"/>
+  <img src="https://img.shields.io/badge/Categories-9-22c55e?style=flat-square" alt="9 Categories"/>
 </p>
 
 <p>
-  <a href="#english">English</a>
+  <a href="https://unitarylab.com/">Website / 官网</a>
   &middot;
-  <a href="#chinese">中文</a>
+  <a href="https://docs.unitarylab.com/en/docs/unitarylab-algorithms-user-manual/">Technical Documentation</a>
+  &middot;
+  <a href="https://docs.unitarylab.com/zh/docs/unitarylab-algorithms-user-manual/">技术文档</a>
+  &middot;
+  <a href="https://pypi.org/project/unitarylab-algorithms/">PyPI</a>
 </p>
 
 </div>
@@ -30,27 +34,9 @@
 
 ### What is this?
 
-**UnitaryLab Algorithms** is a collection of independent quantum algorithm implementations maintained by [UnitaryLab](https://unitarylab.com/). It provides ready-to-run algorithm modules, parameter configurations for execution, and algorithm descriptions in both Chinese and English, making it suitable for learning, demonstrating, and integrating with the UnitaryLab quantum simulator.
+**UnitaryLab Algorithms** is a collection of independent quantum algorithm implementations maintained by [UnitaryLab](https://unitarylab.com/), with a companion [Quantum Skill](https://github.com/unitarylab/quantum-skills) library to guide learning and usage. It provides ready-to-run algorithm modules, parameter configurations for execution, and algorithm descriptions in both Chinese and English, making it suitable for learning, demonstrating, and integrating with the UnitaryLab quantum simulator.
 
-The library currently contains **35 algorithms / equation-solving modules** across **7 categories**:
-
-- Cryptology
-- Fundamental quantum algorithms
-- Hamiltonian simulation
-- Linear algebra
-- Quantum machine learning
-- Schrodingerization equation solving
-- State preparation
-
----
-
-### Key Features
-
-- **Run-ready algorithm modules** — Each standard algorithm exposes an `algorithm.py` implementation with a class-based API and a local `test(...)` entry point.
-- **Web-friendly parameter schemas** — `parameters.json` files describe names, defaults, validation rules, and UI-facing help text.
-- **Bilingual documentation** — Most algorithm folders include both `README_en.md` and `README_zh.md`.
-- **Unified result format** — `BaseAlgorithm` handles input logging, runtime logs, output summaries, circuit export, and result text files.
-- **Equation solver configuration** — Schrodingerization modules use `setup.json` to describe equations, boundary conditions, discretization, initial conditions, and solution methods.
+The library currently contains **39 algorithms / equation-solving modules** across **9 categories**.
 
 ---
 
@@ -62,51 +48,26 @@ The library currently contains **35 algorithms / equation-solving modules** acro
 | **Fundamental Algorithms** | Hadamard Transform, Hadamard Test, Amplitude Amplification, Amplitude Estimation, Grover, QPE |
 | **Hamiltonian Simulation** | Suzuki-Trotter, qDrift, Taylor Series, QSP-based Hamiltonian Simulation, Cartan Decomposition |
 | **Linear Algebra** | AQC, HHL, LCU, QFT, QSP, QSVT Linear Solver, VQLS |
-| **Quantum Machine Learning** | VQE, Fermi-Hubbard VQE, QAOA, QCBM, VQC, CVQNN |
+| **Quantum Chemistry** | Molecular DMRG |
+| **Quantum Machine Learning** | VQE, Fermi-Hubbard VQE, QAOA, QCBM, VQC, CVQNN, Ising |
 | **Schrodingerization** | 1D Heat Equation, 2D Heat Equation, 1D Advection Equation |
 | **State Preparation** | MPS, Multiplexer, Mottonen, Pauli, Superposition |
-
----
-
-### Repository Structure
-
-```text
-unitarylab_algorithms/
-|
-+-- README.md
-+-- __init__.py
-+-- algo_base.py                  # Shared base class for logs, result formatting, and exports
-+-- template.py                   # Template for adding a new algorithm
-|
-+-- cryptology/                   # Discrete logarithm, Shor, Simon
-+-- fundamental_algorithm/        # Hadamard, AA, AE, Grover, QPE
-+-- hamiltonian_simulation/       # Trotter, qDrift, Taylor, QSP, Cartan
-+-- linear_algebra/               # AQC, HHL, LCU, QFT, QSP, QSVT-QLSA, VQLS
-+-- quantum_machine_learning/     # VQE, Fermi-Hubbard VQE, QAOA, QCBM, VQC, CVQNN
-+-- schrodingerization/           # Heat/advection equation solvers
-+-- state_preparation/            # MPS, Multiplexer, Mottonen, Pauli, Superposition
-```
-
-Standard algorithm folders usually contain:
-
-```text
-algorithm.py       # Main implementation
-parameters.json    # parameter schema
-README_en.md       # English algorithm notes
-README_zh.md       # Chinese algorithm notes
-__init__.py
-```
-
-Schrodingerization folders use `setup.json` instead of `parameters.json` for richer equation configuration.
+| **Quantum Search** | Glued Trees, Hidden Shift |
 
 ---
 
 ### Installation
 
-Install the UnitaryLab simulator dependency:
+Install the UnitaryLab simulator dependency (Python 3.10–3.12):
 
 ```bash
 pip install unitarylab
+```
+
+To use the quantum chemistry module, install the chemistry extra (currently supported on Linux and macOS):
+
+```bash
+pip install "unitarylab[chemistry]"
 ```
 
 Install this algorithm package:
@@ -156,7 +117,7 @@ Typical outputs include:
 
 | Field | Meaning |
 |-------|---------|
-| `status` | Execution status, usually `ok` on success |
+| `status` | Execution status: `ok` on success, `failed` on failure |
 | `circuit_path` | Path to the exported circuit SVG |
 | `plot` | List of generated output files |
 | `circuit` | The constructed quantum circuit object |
@@ -189,27 +150,9 @@ This project is licensed under the MIT license. For details, please refer to the
 
 ### 这是什么？
 
-**UnitaryLab Algorithms** 是由 [UnitaryLab](https://unitarylab.com/) 维护的独立量子算法实现集合。它提供可直接运行的算法模块、用于执行的参数配置，以及中英文算法说明，适合量子算法学习、演示和与 UnitaryLab 量子模拟器集成。
+**UnitaryLab Algorithms** 是由 [UnitaryLab](https://unitarylab.com/) 维护的独立量子算法实现集合，可结合配套的 [Quantum Skill](https://github.com/unitarylab/quantum-skills) 技能库学习和使用算法。它提供可直接运行的算法模块、用于执行的参数配置，以及中英文算法说明，适合量子算法学习、演示和与 UnitaryLab 量子模拟器集成。
 
-当前库包含 **35 个算法/方程求解模块**，覆盖 **7 个方向**：
-
-- 密码学
-- 基础量子算法
-- 哈密顿量模拟
-- 线性代数
-- 量子机器学习
-- Schrodingerization 方程求解
-- 量子态制备
-
----
-
-### 核心特性
-
-- **可直接运行的算法模块** — 每个标准算法都提供 `algorithm.py`，包含类式 API 和本地 `test(...)` 入口。
-- **适配网页端的参数配置** — `parameters.json` 描述参数名、默认值、校验规则和界面说明。
-- **中英文文档** — 大多数算法目录同时包含 `README_en.md` 和 `README_zh.md`。
-- **统一结果格式** — `BaseAlgorithm` 封装输入日志、运行日志、输出摘要、线路图导出和结果文本保存。
-- **方程求解配置** — Schrodingerization 模块通过 `setup.json` 描述方程、边界条件、离散格式、初值条件和求解方法。
+当前库包含 **39 个算法/方程求解模块**，覆盖 **9 个方向**。
 
 ---
 
@@ -221,51 +164,26 @@ This project is licensed under the MIT license. For details, please refer to the
 | **基础量子算法** | Hadamard 变换、Hadamard 测试、振幅放大、振幅估计、Grover、QPE |
 | **哈密顿量模拟** | Suzuki-Trotter、qDrift、Taylor 级数、基于 QSP 的哈密顿量模拟、Cartan 分解 |
 | **线性代数** | AQC、HHL、LCU、QFT、QSP、QSVT 线性求解器、VQLS |
-| **量子机器学习** | VQE、Fermi-Hubbard VQE、QAOA、QCBM、VQC、CVQNN |
+| **量子化学** | 分子 DMRG |
+| **量子机器学习** | VQE、Fermi-Hubbard VQE、QAOA、QCBM、VQC、CVQNN、Ising |
 | **Schrodingerization** | 一维热方程、二维热方程、一维对流方程 |
 | **量子态制备** | MPS、Multiplexer、Mottonen、Pauli、Superposition |
-
----
-
-### 仓库结构
-
-```text
-unitarylab_algorithms/
-|
-+-- README.md
-+-- __init__.py
-+-- algo_base.py                  # 通用算法基类，负责日志、结果格式化和文件导出
-+-- template.py                   # 新算法开发模板
-|
-+-- cryptology/                   # 离散对数、Shor、Simon
-+-- fundamental_algorithm/        # Hadamard、振幅放大/估计、Grover、QPE
-+-- hamiltonian_simulation/       # Trotter、qDrift、Taylor、QSP、Cartan
-+-- linear_algebra/               # AQC、HHL、LCU、QFT、QSP、QSVT-QLSA、VQLS
-+-- quantum_machine_learning/     # VQE、Fermi-Hubbard VQE、QAOA、QCBM、VQC、CVQNN
-+-- schrodingerization/           # 热方程/对流方程求解
-+-- state_preparation/            # MPS、Multiplexer、Mottonen、Pauli、Superposition
-```
-
-标准算法目录通常包含：
-
-```text
-algorithm.py       # 算法主实现
-parameters.json    # 参数配置
-README_en.md       # 英文算法说明
-README_zh.md       # 中文算法说明
-__init__.py
-```
-
-Schrodingerization 目录使用 `setup.json` 代替 `parameters.json`，用于描述更完整的方程配置。
+| **量子搜索** | Glued Trees、Hidden Shift |
 
 ---
 
 ### 安装
 
-安装 UnitaryLab 模拟器依赖：
+安装 UnitaryLab 模拟器依赖（Python 3.10–3.12）：
 
 ```bash
 pip install unitarylab
+```
+
+如需使用量子化学模块，请安装 chemistry 可选依赖（目前支持 Linux 和 macOS）：
+
+```bash
+pip install "unitarylab[chemistry]"
 ```
 
 安装算法库：
@@ -315,7 +233,7 @@ results/<category>/<algorithm>/
 
 | 字段 | 含义 |
 |------|------|
-| `status` | 执行状态，成功时通常为 `ok` |
+| `status` | 执行状态，成功时为 `ok`，失败时为 `failed` |
 | `circuit_path` | 导出的线路图 SVG 路径 |
 | `plot` | 生成的输出文件列表 |
 | `circuit` | 构造出的量子线路对象 |

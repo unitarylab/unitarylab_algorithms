@@ -3,7 +3,9 @@ Quantum Cryptology Algorithm
 =========================
 
 This module provides quantum algorithms including:
-- dlg: Discrete Logarithm Problem (DLP) algorithm
+- Discrete Logarithm Problem (DLP) algorithm
+- Shor's algorithm
+- Simon's algorithm
 """
 
 from .discrete_log import DiscreteLogAlgorithm

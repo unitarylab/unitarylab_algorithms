@@ -9,7 +9,6 @@ from .equation_heat import HeatEquationAlgorithm
 from .equation_advection import AdvectionEquationAlgorithm
 from .equation_heat2d import Heat2dEquationAlgorithm
 
-
 from .base import BaseAlgorithm, create_algorithm_logger
 
 __all__ = [
