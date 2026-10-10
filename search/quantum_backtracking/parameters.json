@@ -1,0 +1,16 @@
+{
+  "title": "Quantum Backtracking",
+  "description": "Solve binary constraint trees with quantum-walk reflections and phase estimation.",
+  "tags": ["Quantum Search", "Backtracking", "Quantum Walk", "QPE"],
+  "tab": "Search",
+  "params": [
+    {"name": "problem_json", "value": "", "description": "Problem JSON", "help": "Empty uses the built-in prefix example; supports binary_cnf and prefix_constraints.", "pattern": ".*", "info": "留空使用内置示例，或输入问题JSON。"},
+    {"name": "phase_bits", "value": "3", "description": "QPE phase qubits", "help": "Phase-register precision.", "pattern": "^[1-9][0-9]*$", "min": 1, "max": 8, "info": "请输入正整数；规模会随之快速增大。"},
+    {"name": "shots", "value": "128", "description": "QPE sampling shots", "help": "Shots used for zero-phase detection.", "pattern": "^[1-9][0-9]*$", "min": 1, "info": "请输入正整数。"},
+    {"name": "seed", "value": "7", "description": "Sampling seed", "help": "Random seed.", "pattern": "^[0-9]+$", "min": 0, "info": "请输入非负整数。"},
+    {"name": "threshold", "value": "0.375", "description": "Detection threshold", "help": "Zero-phase frequency threshold strictly between 0 and 1.", "pattern": "^0?\\.[0-9]+$", "min": 0.000001, "max": 0.999999, "info": "请输入0与1之间的小数。"},
+    {"name": "backend", "value": "numpy", "description": "Simulation backend", "help": "Forwarded to every predicate and QPE execution; original default is numpy. Alternative backends have not been run-validated.", "pattern": "^(numpy|torch|cpp)$", "info": "默认 numpy；其他后端本次未运行验证。"},
+    {"name": "device", "value": "cpu", "description": "Execution device", "help": "Backend-dependent: numpy=cpu, torch/cpp=cpu or gpu. No automatic fallback.", "pattern": "^(cpu|gpu)$", "info": "设备需与后端匹配；默认 cpu。"},
+    {"name": "dtype", "value": "complex128", "description": "Execution precision", "help": "Circuit execution precision; does not change all NumPy intermediate arrays. GPU complex128 depends on backend/device support.", "pattern": "^(complex64|complex128)$", "info": "默认 complex128；不支持的组合由执行后端报错。"}
+  ]
+}

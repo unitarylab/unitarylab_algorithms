@@ -10,7 +10,7 @@
 <p>
   <img src="https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12-3b82f6?style=flat-square&logo=python&logoColor=white" alt="Python 3.10, 3.11, and 3.12"/>
   <img src="https://img.shields.io/badge/UnitaryLab-required-7c3aed?style=flat-square" alt="UnitaryLab required"/>
-  <img src="https://img.shields.io/badge/Quantum_Algorithms-39-f59e0b?style=flat-square" alt="39 Quantum Algorithms"/>
+  <img src="https://img.shields.io/badge/Quantum_Algorithms-41-f59e0b?style=flat-square" alt="41 Quantum Algorithms"/>
   <img src="https://img.shields.io/badge/Categories-9-22c55e?style=flat-square" alt="9 Categories"/>
 </p>
 
@@ -36,7 +36,7 @@
 
 **UnitaryLab Algorithms** is a collection of independent quantum algorithm implementations maintained by [UnitaryLab](https://unitarylab.com/), with a companion [Quantum Skill](https://github.com/unitarylab/quantum-skills) library to guide learning and usage. It provides ready-to-run algorithm modules, parameter configurations for execution, and algorithm descriptions in both Chinese and English, making it suitable for learning, demonstrating, and integrating with the UnitaryLab quantum simulator.
 
-The library currently contains **39 algorithms / equation-solving modules** across **9 categories**.
+The library currently contains **41 algorithms / equation-solving modules** across **9 categories**.
 
 ---
 
@@ -52,7 +52,7 @@ The library currently contains **39 algorithms / equation-solving modules** acro
 | **Quantum Machine Learning** | VQE, Fermi-Hubbard VQE, QAOA, QCBM, VQC, CVQNN, Ising |
 | **Schrodingerization** | 1D Heat Equation, 2D Heat Equation, 1D Advection Equation |
 | **State Preparation** | MPS, Multiplexer, Mottonen, Pauli, Superposition |
-| **Quantum Search** | Glued Trees, Hidden Shift |
+| **Quantum Search** | Glued Trees, Hidden Shift, Quantum Walk Search, Quantum Backtracking |
 
 ---
 
@@ -152,7 +152,7 @@ This project is licensed under the MIT license. For details, please refer to the
 
 **UnitaryLab Algorithms** 是由 [UnitaryLab](https://unitarylab.com/) 维护的独立量子算法实现集合，可结合配套的 [Quantum Skill](https://github.com/unitarylab/quantum-skills) 技能库学习和使用算法。它提供可直接运行的算法模块、用于执行的参数配置，以及中英文算法说明，适合量子算法学习、演示和与 UnitaryLab 量子模拟器集成。
 
-当前库包含 **39 个算法/方程求解模块**，覆盖 **9 个方向**。
+当前库包含 **41 个算法/方程求解模块**，覆盖 **9 个方向**。
 
 ---
 
@@ -168,7 +168,7 @@ This project is licensed under the MIT license. For details, please refer to the
 | **量子机器学习** | VQE、Fermi-Hubbard VQE、QAOA、QCBM、VQC、CVQNN、Ising |
 | **Schrodingerization** | 一维热方程、二维热方程、一维对流方程 |
 | **量子态制备** | MPS、Multiplexer、Mottonen、Pauli、Superposition |
-| **量子搜索** | Glued Trees、Hidden Shift |
+| **量子搜索** | Glued Trees、Hidden Shift、Quantum Walk Search、Quantum Backtracking |
 
 ---
 

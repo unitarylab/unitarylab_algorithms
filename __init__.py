@@ -51,6 +51,8 @@ This module provides quantum algorithms including:
 - Search algorithms
     - Glued Trees Algorithm
     - Hidden Shift Algorithm
+    - Quantum Walk Search Algorithm
+    - Quantum Backtracking Algorithm
 """
 
 from importlib.metadata import version, PackageNotFoundError
@@ -58,7 +60,7 @@ from importlib.metadata import version, PackageNotFoundError
 try:
     __version__ = version("unitarylab_algorithms")
 except PackageNotFoundError:
-    __version__ = "1.1.11"
+    __version__ = "1.1.12"
 
 
 from .cryptology import *
@@ -128,4 +130,6 @@ __all__ = [
     # search
     "GluedTreesAlgorithm",
     "HiddenShiftAlgorithm",
+    "QuantumWalkSearchAlgorithm",
+    "QuantumBacktrackingAlgorithm",
 ]

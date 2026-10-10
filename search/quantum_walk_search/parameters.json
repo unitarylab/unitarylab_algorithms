@@ -1,0 +1,22 @@
+{
+  "title": "Quantum Walk Search",
+  "description": "Search marked vertices with continuous-time quantum-walk Hamiltonian evolution.",
+  "tags": ["Quantum Search", "Quantum Walk", "Hamiltonian Simulation"],
+  "tab": "Search",
+  "params": [
+    {"name": "num_vertices", "value": "8", "description": "Number of vertices", "help": "Built-in graph size.", "pattern": "^([2-9]|[12][0-9]|3[0-2])$", "min": 2, "max": 32, "info": "请输入2到32之间的整数。"},
+    {"name": "marked", "value": "2,5", "description": "Marked vertices", "help": "Comma-separated zero-based vertex indices.", "pattern": "^[0-9]+(\\s*,\\s*[0-9]+)*$", "info": "请输入逗号分隔的顶点编号。"},
+    {"name": "graph_type", "value": "complete", "description": "Built-in graph type", "help": "complete, cycle, path, or star.", "pattern": "^(complete|cycle|path|star)$", "info": "可选 complete、cycle、path 或 star。"},
+    {"name": "graph_json", "value": "", "description": "Custom graph JSON", "help": "Optional adjacency matrix or edge-list JSON; overrides graph_type.", "pattern": ".*", "info": "可留空，或输入邻接矩阵/边列表JSON。"},
+    {"name": "gamma", "value": "", "description": "Walk coupling", "help": "Empty selects the spectral default.", "pattern": "^$|^[0-9]+(\\.[0-9]+)?$", "info": "留空自动选择，或输入正数。"},
+    {"name": "evolution_time", "value": "", "description": "Evolution time", "help": "Empty performs a small exact spectral scan.", "pattern": "^$|^[0-9]+(\\.[0-9]+)?$", "info": "留空自动扫描，或输入非负数。"},
+    {"name": "method", "value": "trotter", "description": "Hamiltonian simulation method", "help": "A method supported by UnitaryLab hamiltonian_simulation.", "pattern": "^[a-zA-Z0-9_-]+$", "info": "默认使用 trotter。"},
+    {"name": "target_error", "value": "0.0001", "description": "Target simulation error", "help": "Positive simulator parameter; not a guaranteed achieved error bound.", "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?([eE]-?[0-9]+)?$", "info": "请输入正数。"},
+    {"name": "simulation_steps", "value": "8", "description": "Simulation steps", "help": "Trotter or qDrift steps.", "pattern": "^[1-9][0-9]*$", "min": 1, "info": "请输入正整数。"},
+    {"name": "shots", "value": "128", "description": "Sampling shots", "help": "Number of vertex samples.", "pattern": "^[1-9][0-9]*$", "min": 1, "info": "请输入正整数。"},
+    {"name": "seed", "value": "7", "description": "Sampling seed", "help": "Random seed.", "pattern": "^[0-9]+$", "min": 0, "info": "请输入非负整数。"},
+    {"name": "backend", "value": "numpy", "description": "Execution backend", "help": "Forwarded to Hamiltonian simulation and circuit execution; default numpy.", "pattern": "^(numpy|torch|cpp)$", "info": "可选 numpy、torch 或 cpp，取决于已安装模拟器。"},
+    {"name": "device", "value": "cpu", "description": "Execution device", "help": "cpu by default; gpu requires a supported backend and device.", "pattern": "^(cpu|gpu)$", "info": "numpy 仅支持 cpu；gpu 取决于后端和硬件。"},
+    {"name": "dtype", "value": "complex128", "description": "Execution dtype", "help": "Circuit execution precision; spectral reference retains original NumPy precision.", "pattern": "^(complex64|complex128)$", "info": "可选 complex64 或 complex128；默认 complex128。"}
+  ]
+}
