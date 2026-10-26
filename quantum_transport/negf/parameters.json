@@ -1,0 +1,61 @@
+{
+  "title": "NEGF",
+  "description": "Solve lead-injection equations for a square-lattice device with the built-in UnitaryLab SDK QSVT solver, then compute transmission, local density of states, and bond current.",
+  "tags": ["NEGF", "Quantum Transport", "QSVT"],
+  "tab": "Quantum Transport",
+  "params": [
+    {
+      "name": "L",
+      "type": "int",
+      "description": "Device length in lattice sites",
+      "value": 4,
+      "min": 2,
+      "multipleOf": 1,
+      "positive": true,
+      "negative": false,
+      "zero": false,
+      "help": "Number of scattering-region sites along x. The matrix dimension is L * W."
+    },
+    {
+      "name": "W",
+      "type": "int",
+      "description": "Device and lead width in lattice sites",
+      "value": 4,
+      "min": 2,
+      "multipleOf": 1,
+      "positive": true,
+      "negative": false,
+      "zero": false,
+      "help": "Number of sites along y. ENERGY is computed from the midpoint of the first two transverse subband thresholds for this width."
+    },
+    {
+      "name": "a",
+      "type": "float",
+      "description": "Lattice constant",
+      "value": 1.0,
+      "help": "Use a positive lattice constant for the intended square-lattice model."
+    },
+    {
+      "name": "t",
+      "type": "float",
+      "description": "Hopping energy scale (eV)",
+      "value": 1.0,
+      "help": "Use a positive hopping energy scale for the intended model. The onsite energy is 4 * t and nearest-neighbor hopping is -t."
+    },
+    {
+      "name": "inverse_tolerance",
+      "type": "float",
+      "description": "Reciprocal polynomial relative-error tolerance",
+      "value": 0.002,
+      "min": 0,
+      "max": 1,
+      "exclusiveMin": true,
+      "exclusiveMax": true,
+      "finite": true,
+      "positive": true,
+      "negative": false,
+      "zero": false,
+      "help": "Must satisfy 0 < inverse_tolerance < 1. This calibrates the SDK epsilon against the reciprocal polynomial relative error and does not guarantee the final linear-system residual."
+    }
+  ]
+}
